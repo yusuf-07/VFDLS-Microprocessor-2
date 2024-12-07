@@ -23,7 +23,7 @@
 #define SYSTICK_ENABLE             0x01
 #define SYSTICK_CLK_SRC_SYSTEM     0x04
 #define SYSTICK_INT_DISABLE        0x00
-#define SYSTICK_MAX_RELOAD_VALUE   (0xFFFFFF-1)
+#define SYSTICK_MAX_RELOAD_VALUE   ((0xFFFFFF)-1)
 
 #define _delay_sys_1us             (1/1000)
 #define _delay_sys_1ms             1

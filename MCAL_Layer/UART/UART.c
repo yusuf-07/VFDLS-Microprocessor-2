@@ -1,28 +1,46 @@
-/*
- * UART.c
- *
- *  Created on: Dec 7, 2024
- *      Author: Rawan Waleed
- */
+/***
+==================================================================================
+* @file     : UART.c
+* @author   : Rawan Waleed
+* @version  : v1.0
+* @brief    : UART Driver Source File
+* @details  : Implements UART initialization, data transmission, and reception
+==================================================================================
+***/
+
 #include "UART.h"
 
-// A function to set up the Tx and Rx pins settings in the GPIO register
+/*** ===================== Private Function Section Start ===================== ***/
+
+/***
+* @brief    : Set up the Tx and Rx pins in the GPIO register for UART0
+* @param    : None
+* @return   : None
+***/
 static void GPIO_SetupUART0Pins(void)
 {
     /* Enable clock for PORTA and wait for clock to start */
     SYSCTL_RCGCGPIO_REG |= 0x01;
-    while(GET_BIT(SYSCTL_RCGCGPIO_REG, 0) == 0);
+    while(GET_BIT(SYSCTL_PRGPIO_REG, 0) == 0);
 
-    GPIO_PORTA_AMSEL_REG &= 0xFC;      /* Disable Analog on PA0 and PA1*/
+    GPIO_PORTA_AMSEL_REG &= 0xFC;      /* Disable Analog on PA0 and PA1 */
     GPIO_PORTA_DIR_REG   &= 0xFE;      /* Configure PA0 as input pin */
     GPIO_PORTA_DIR_REG   |= 0x02;      /* Configure PA1 as output pin */
     GPIO_PORTA_AFSEL_REG |= 0x03;      /* Enable alternative function on PA0 and PA1 */
     GPIO_PORTA_DEN_REG   |= 0x03;      /* Enable Digital I/O on PA0 and PA1 */
 
-    GPIO_PORTA_PCTL_REG  = (GPIO_PORTA_PCTL_REG & 0xFFFFFF00) | 0x00000011;   /configuring PA0 and PA1 as UART using mode 1/
+    GPIO_PORTA_PCTL_REG  = (GPIO_PORTA_PCTL_REG & 0xFFFFFF00) | 0x00000011;   /* Configure PA0 and PA1 as UART using mode 1 */
 }
 
-//Initializing the UART
+/*** ===================== Private Function Section End ======================= ***/
+
+/*** ===================== Public Function Section Start ===================== ***/
+
+/***
+* @brief    : Initializes UART0 for communication
+* @param    : None
+* @return   : None
+***/
 void UART0_Init(void)
 {
     GPIO_SetupUART0Pins();             /* Configure GPIO pins for UART0 */
@@ -35,23 +53,40 @@ void UART0_Init(void)
     UART0_CC_REG = 0;                 /* Configure UART0 clock source */
 
     /* Configure baud rate */
-    UART0_IBRD_REG = 104;            /* Set integer part of baud rate divisor*/
-    UART0_FBRD_REG = 11;             /* Set fractional part of baud rate divisor*/
+    UART0_IBRD_REG = 104;            /* Set integer part of baud rate divisor */
+    UART0_FBRD_REG = 11;             /* Set fractional part of baud rate divisor */
 
-    UART0_LCRH_REG = (UART_DATA_8BITS << UART_LCRH_WLEN_BITS_POS);                   /* set the word length to 8 bits*/
-    UART0_CTL_REG = UART_CTL_UARTEN_MASK | UART_CTRL_TXE_MASK | UART_CTRL_RXE_MASK;  /* Enable UART0 Tx and Rx*/
+    UART0_LCRH_REG = (UART_DATA_8BITS << UART_LCRH_WLEN_BITS_POS);  /* Set word length to 8 bits */
+    UART0_CTL_REG = UART_CTL_UARTEN_MASK | UART_CTRL_TXE_MASK | UART_CTRL_RXE_MASK;  /* Enable UART0 Tx and Rx */
 }
 
-//function for sending
+/***
+* @brief    : Sends a byte of data over UART0
+* @param    : data - The byte to be sent
+* @return   : None
+***/
 void UART0_SendByte(unsigned char data)
 {
-    while(UART0_FR_REG & UART_FR_TXFE_MASK);     /Wait until the TX FIFO is not full/
-    UART0_DR_REG = data;                         /Write the byte to the Data Register/
+    while(UART0_FR_REG & UART_FR_TXFE_MASK);  /* Wait until the TX FIFO is not full */
+    UART0_DR_REG = data;                      /* Write the byte to the Data Register */
 }
 
-//function for receiving
+/***
+* @brief    : Receives a byte of data from UART0
+* @param    : None
+* @return   : The received byte
+***/
 unsigned char UART0_ReceiveByte(void)
 {
-    while(UART0_FR_REG & UART_FR_RXFE_MASK);   /* Wait until the RX FIFO is not empty*/
-    return UART0_DR_REG;                       /* Read the byte from the Data Register*/
+    while(UART0_FR_REG & UART_FR_RXFE_MASK);  /* Wait until the RX FIFO is not empty */
+    return UART0_DR_REG;                      /* Read the byte from the Data Register */
 }
+
+/*** ===================== Public Function Section End ======================= ***/
+
+/**
+*******************************************************
+User        Date        Brief
+*******************************************************
+Rawan       07Dec24     Created UART Source File
+**/
