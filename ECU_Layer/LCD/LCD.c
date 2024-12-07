@@ -6,8 +6,8 @@
  */
 
 #include "LCD.h"
-]
 
+static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
 
 /**
  * @brief
@@ -37,14 +37,20 @@ void LCD_4BITS_INIT(void){
     GPIO_PORTE_DATA_REG  &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Clear bit 1, 2 and 3 in Data register */
 
     //LCD 4-bit Initialization sequence
-    Delay_MS(50);
+    SysTick_DelayMs(_delay_sys_50ms);
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    Delay_MS(50);
+    SysTick_DelayMs(_delay_sys_50ms);
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    Delay_MS(50);
+    SysTick_DelayMs(_delay_sys_50ms);
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    LCD_4BITS_send_command(LCD_CLEAR);
+    LCD_4BITS_send_command(LCD_CURSOR_HOME);
+    LCD_4BITS_send_command(LCD_INCREMENT_SHIFT_OFF);
     LCD_4BITS_send_command(LCD_DISPLAY_ON_UNDERLINE_OFF_CURSOR_OFF);
-    LCD_4BITS_send_command(g)
+    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    //0x80-<row1, col 1
+    LCD_4BITS_send_command(LCD_DDRAM_START);
+
 }
 
 /**
@@ -55,7 +61,29 @@ void LCD_4BITS_INIT(void){
  *          (E_NOT_OK) : Function failed to execute
  */
 void LCD_4BITS_send_command(uint8 command){
+    /*To send command:
+     * 1. R/W Pin = 0 PE2
+     * 2. RS pin = 0 PE1
+     * 3. Send command through data lines PD4->PD7
+     * 4. Send enable signal on E pin
+     */
+    GPIO_PORTE_DATA_REG &= ~(1<<RW_PIN); //RW = 0 TO WRITE
+    GPIO_PORTE_DATA_REG &= ~(1<<RS_PIN); //RS = 0 FOR INSTRUCTION
 
+    //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
+    GPIO_PORTD_DATA_REG = (GPIO_PORTD_DATA_REG & 0x0F) | (command >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
+
+    //we must send enable signal after each send command (Falling Edge)
+    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
+    SysTick_DelayMs( _delay_sys_2ms);
+    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+
+    GPIO_PORTD_DATA_REG = ((GPIO_PORTD_DATA_REG & 0x0F) | (command & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+
+    //we must send enable signal after each send command (Falling Edge)
+     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
+     SysTick_DelayMs( _delay_sys_2ms);
+     GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
 }
 
 /**
@@ -66,7 +94,30 @@ void LCD_4BITS_send_command(uint8 command){
  *          (E_NOT_OK) : Function failed to execute
  */
 void LCD_4BITS_send_char_data(uint8 data){
+    /*To write data:
+     * 1. R/W Pin = 0
+     * 2. RS pin = 1
+     * 3. Send data through data lines
+     * 4. Send enable signal on E pin
+     */
 
+    GPIO_PORTE_DATA_REG &= ~(1<<RW_PIN); //RW = 0 TO WRITE
+    GPIO_PORTE_DATA_REG |= (1<<RS_PIN); //RS = 1 FOR INSTRUCTION
+
+    //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
+    GPIO_PORTD_DATA_REG = (GPIO_PORTD_DATA_REG & 0x0F) | (data >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
+
+    //we must send enable signal after each send command (Falling Edge)
+    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
+    SysTick_DelayMs( _delay_sys_2ms);
+    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+
+    GPIO_PORTD_DATA_REG = ((GPIO_PORTD_DATA_REG & 0x0F) | (data & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+
+    //we must send enable signal after each send command (Falling Edge)
+    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
+    SysTick_DelayMs( _delay_sys_2ms);
+    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
 }
 
 /**
@@ -112,4 +163,25 @@ Std_ReturnType LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 co
             ret = E_NOT_OK;
         }
         return ret;
+}
+
+/**
+ * @brief
+ * @param col:
+ *        row:
+ */
+static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column){
+    column--;
+    switch(row){
+    case ROW1:
+        LCD_4BITS_send_command((LCD_DDRAM_START + ROW1_START_ADD) + column);
+        break;
+    case ROW2:
+        LCD_4BITS_send_command((LCD_DDRAM_START + ROW2_START_ADD) + column);
+        break;
+    default:
+        row = 0;
+        column = 0;
+        break;
+    }
 }

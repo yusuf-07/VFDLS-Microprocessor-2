@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Sat Dec  7 01:51:27 2024
+>> Linked Sat Dec  7 22:12:45 2024
 
 OUTPUT FILE NAME:   <Vehicle_Fault_Detection_and_Logging_System.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 0000026d

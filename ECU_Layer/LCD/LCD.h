@@ -13,6 +13,7 @@
 #include "tm4c123gh6pm_registers.h"
 #include "Common_functions.h"
 #include <string.h>
+#include "MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.h"
 
 /*------------------Macros Declarations------------------*/
 #define RS_PIN      1
@@ -63,6 +64,11 @@
 
 #define ROW1    1
 #define ROW2    2
+
+#define ROW1_START_ADD  0X00
+#define ROW1_END_ADD    0x0F
+#define ROW2_START_ADD  0x40
+#define ROW2_END_ADD    0x4F
 
 /*@brief Address Set -> CGRAM*/
 #define LCD_CGRAM_START     0x40 //0100 0000
