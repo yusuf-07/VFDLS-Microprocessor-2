@@ -130,7 +130,8 @@ void LCD_4BITS_send_char_data(uint8 data){
  *          (E_NOT_OK) : Function failed to execute
  */
 void LCD_4BITS_send_data_position(uint8 row, uint8 col, uint8 data){
-
+    LCD_4BITS_SET_CURSOR(row, col);
+    LCD_4BITS_send_char_data(data);
 }
 
 /**
@@ -144,6 +145,13 @@ Std_ReturnType LCD_4BITS_send_string(uint8 *string){
     Std_ReturnType ret = E_OK;
     if(NULL == string){
         ret = E_NOT_OK;
+    }
+    else{
+        //while there is a value true implement the function until NULL termination (while(False)
+         while (*string){
+         //string++ to point to second character
+         LCD_4BITS_send_char_data(*string++);
+         }
     }
     return ret;
 }
@@ -161,6 +169,10 @@ Std_ReturnType LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 co
     Std_ReturnType ret = E_OK;
         if(NULL == string){
             ret = E_NOT_OK;
+        }
+        else{
+            LCD_4BITS_SET_CURSOR(row, col);
+            LCD_4BITS_send_string(string);
         }
         return ret;
 }
