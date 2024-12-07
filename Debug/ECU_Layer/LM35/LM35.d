@@ -2,17 +2,17 @@
 
 ECU_Layer/LM35/LM35.obj: ../ECU_Layer/LM35/LM35.c
 ECU_Layer/LM35/LM35.obj: ../ECU_Layer/LM35/LM35.h
-ECU_Layer/LM35/LM35.obj: D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/MCAL_Layer/MCAL_STD_TYPES.h
-ECU_Layer/LM35/LM35.obj: D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/common_macros.h
-ECU_Layer/LM35/LM35.obj: D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/tm4c123gh6pm_registers.h
+ECU_Layer/LM35/LM35.obj: Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/MCAL_Layer/MCAL_STD_TYPES.h
+ECU_Layer/LM35/LM35.obj: Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/common_macros.h
+ECU_Layer/LM35/LM35.obj: Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/tm4c123gh6pm_registers.h
 
 ../ECU_Layer/LM35/LM35.c:
 
 ../ECU_Layer/LM35/LM35.h:
 
-D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/MCAL_Layer/MCAL_STD_TYPES.h:
+Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/MCAL_Layer/MCAL_STD_TYPES.h:
 
-D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/common_macros.h:
+Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/common_macros.h:
 
-D:/Senior\ 2/semester\ 1/Micro-2/UART\ lab/Vehicle_Fault_Detection_and_Logging_System/tm4c123gh6pm_registers.h:
+Y:/1-\ My\ Work/CUFE/9-\ Ninth\ Semester/CMPN211\ -\ Microprocessor\ Systems-II/VFDLS\ -\ Project/GitHub/VFDLS-Microprocessor-2/tm4c123gh6pm_registers.h:
 

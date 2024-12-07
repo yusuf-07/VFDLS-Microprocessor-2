@@ -1,25 +1,41 @@
-/*
- * SYSTICK_TIMER.h
- *
- *  Created on: Dec 7, 2024
- *      Author: Maria George
- */
+/***
+==================================================================================
+* @file     : SYSTICK_TIMER.h
+* @author   : Yusuf Abulfotouh
+* @version  : v1.0
+* @brief    : SysTick Timer Driver Header File
+* @details  : Provides macros and function prototypes for SysTick Timer operations
+==================================================================================
+***/
 
-#ifndef MCAL_LAYER_SYSTICK_TIMER_SYSTICK_TIMER_H_
-#define MCAL_LAYER_SYSTICK_TIMER_SYSTICK_TIMER_H_
+#ifndef SYSTICK_H_
+#define SYSTICK_H_
 
-/*-----------------------Includes-----------------------*/
-#include "MCAL_Layer/MCAL_STD_TYPES.h"
+/*** ===================== Include Section Start =========================== ***/
+#include "tm4c123gh6pm_registers.h"
+#include "common_macros.h"
+/*** ===================== Include Section End ============================= ***/
 
-/*------------------Macros Declarations------------------*/
+/*** ====================== Macros Section Start =========================== ***/
+/* SysTick Configuration Macros */
+#define SYSTICK_DISABLE            0
+#define SYSTICK_ENABLE             0x01
+#define SYSTICK_CLK_SRC_SYSTEM     0x04
+#define SYSTICK_INT_DISABLE        0x00
+#define SYSTICK_MAX_RELOAD_VALUE   0xFFFFFF
+/*** ====================== Macros Section End ============================= ***/
 
-/*-------------Macros Functions Declarations-------------*/
 
+/*** ================= Global Declaration Section Start ==================== ***/
+void SysTick_Init(uint32_t reload_value);
+void SysTick_DelayMs(uint32_t delay_in_ms);
+/*** ================= Global Declaration Section End ====================== ***/
 
-/*-----------------Data Type Declarations-----------------*/
+#endif /* SYSTICK_H_ */
 
-/*-----------------Functions Declarations-----------------*/
-
-
-
-#endif /* MCAL_LAYER_SYSTICK_TIMER_SYSTICK_TIMER_H_ */
+/**
+*******************************************************
+User        Date        Brief
+*******************************************************
+Yusuf       07Dec24     Created SysTick Header File
+**/
