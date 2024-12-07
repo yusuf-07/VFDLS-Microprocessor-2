@@ -37,9 +37,6 @@
 #define UART_FR_RXFE_MASK            0x00000010   /* Receive FIFO Empty */
 /*** ====================== Macros Section End ============================= ***/
 
-/*** ================= Global Declaration Section Start ==================== ***/
-/* No global variables required for this header file */
-/*** ================= Global Declaration Section End ====================== ***/
 
 /*** ================= Functions Declaration Section Start ================= ***/
 /* Function to initialize UART0 */

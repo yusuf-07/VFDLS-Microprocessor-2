@@ -10,7 +10,7 @@
 
 #include "UART.h"
 
-/*** ===================== Private Function Section Start ===================== ***/
+/*** ===================== Local Function Section Start ===================== ***/
 
 /***
 * @brief    : Set up the Tx and Rx pins in the GPIO register for UART0
@@ -32,9 +32,9 @@ static void GPIO_SetupUART0Pins(void)
     GPIO_PORTA_PCTL_REG  = (GPIO_PORTA_PCTL_REG & 0xFFFFFF00) | 0x00000011;   /* Configure PA0 and PA1 as UART using mode 1 */
 }
 
-/*** ===================== Private Function Section End ======================= ***/
+/*** ===================== Local Function Section End ======================= ***/
 
-/*** ===================== Public Function Section Start ===================== ***/
+/*** ===================== Global Function Section Start ===================== ***/
 
 /***
 * @brief    : Initializes UART0 for communication
@@ -82,7 +82,7 @@ unsigned char UART0_ReceiveByte(void)
     return UART0_DR_REG;                      /* Read the byte from the Data Register */
 }
 
-/*** ===================== Public Function Section End ======================= ***/
+/*** ===================== Global Function Section End ======================= ***/
 
 /**
 *******************************************************
