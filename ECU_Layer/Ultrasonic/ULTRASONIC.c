@@ -8,7 +8,7 @@
 ==================================================================================
 ***/
 
-#include "ultrasonic.h"
+#include "ECU_Layer/Ultrasonic/ULTRASONIC.h"
 
 /*** ===================== Global Variables Section Start ====================== ***/
 volatile uint32 pulse_start = 0;
@@ -57,10 +57,10 @@ static void Ultrasonic_EnableInterrupts(void)
     __asm("CPSIE I");
 
     /* 2. NVIC Interrupt Enable */
-    NVIC_EN0_R |= (1 << 1); /* Interrupt number 1 for GPIO Port B */
+    NVIC_EN0_REG |= (1 << 1); /* Interrupt number 1 for GPIO Port B */
 
     /* 3. NVIC Priority */
-    NVIC_PRI0_R = (NVIC_PRI0_R & 0xFFFFFF1F) | (2 << 5); /* Priority level 2 for GPIO Port B */
+    NVIC_PRI0_REG = (NVIC_PRI0_REG & 0xFFFFFF1F) | (2 << 5); /* Priority level 2 for GPIO Port B */
 
     /* 4. Module Interrupt Enable (MIE) */
     GPIO_PORTB_IM_REG |= (1 << ULTRASONIC_ECHO_PIN);

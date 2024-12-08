@@ -4,6 +4,7 @@
 "./ECU_Layer/LCD/LCD.obj"
 "./ECU_Layer/LM35/LM35.obj"
 "./ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj"
+"./ECU_Layer/Ultrasonic/ULTRASONIC.obj"
 "./MCAL_Layer/ADC/ADC.obj"
 "./MCAL_Layer/EEPROM/EEPROM.obj"
 "./MCAL_Layer/GPIO/GPIO.obj"

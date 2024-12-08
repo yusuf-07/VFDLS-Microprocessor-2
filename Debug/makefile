@@ -16,6 +16,7 @@ ORDERED_OBJS += \
 "./ECU_Layer/LCD/LCD.obj" \
 "./ECU_Layer/LM35/LM35.obj" \
 "./ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj" \
+"./ECU_Layer/Ultrasonic/ULTRASONIC.obj" \
 "./MCAL_Layer/ADC/ADC.obj" \
 "./MCAL_Layer/EEPROM/EEPROM.obj" \
 "./MCAL_Layer/GPIO/GPIO.obj" \
@@ -38,6 +39,7 @@ RMDIR := RMDIR /S/Q
 -include ECU_Layer/LCD/subdir_vars.mk
 -include ECU_Layer/LM35/subdir_vars.mk
 -include ECU_Layer/PUSH_BUTTONS/subdir_vars.mk
+-include ECU_Layer/Ultrasonic/subdir_vars.mk
 -include MCAL_Layer/ADC/subdir_vars.mk
 -include MCAL_Layer/EEPROM/subdir_vars.mk
 -include MCAL_Layer/GPIO/subdir_vars.mk
@@ -49,6 +51,7 @@ RMDIR := RMDIR /S/Q
 -include ECU_Layer/LCD/subdir_rules.mk
 -include ECU_Layer/LM35/subdir_rules.mk
 -include ECU_Layer/PUSH_BUTTONS/subdir_rules.mk
+-include ECU_Layer/Ultrasonic/subdir_rules.mk
 -include MCAL_Layer/ADC/subdir_rules.mk
 -include MCAL_Layer/EEPROM/subdir_rules.mk
 -include MCAL_Layer/GPIO/subdir_rules.mk
@@ -151,29 +154,29 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-VFDLS\ -\ Micro\ Project.out 
+VFDLS-Microprocessor-2.out 
 
 EXE_OUTPUTS__QUOTED += \
-"VFDLS - Micro Project.out" 
+"VFDLS-Microprocessor-2.out" 
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "VFDLS - Micro Project.out"
+	@$(MAKE) --no-print-directory -Onone "VFDLS-Microprocessor-2.out"
 
 # Tool invocations
-VFDLS\ -\ Micro\ Project.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+VFDLS-Microprocessor-2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"VFDLS - Micro Project.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="VFDLS - Micro Project_linkInfo.xml" --rom_model -o "VFDLS - Micro Project.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"VFDLS-Microprocessor-2.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="VFDLS-Microprocessor-2_linkInfo.xml" --rom_model -o "VFDLS-Microprocessor-2.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "tm4c123gh6pm_startup_ccs.obj" "ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "ECU_Layer\LCD\LCD.obj" "ECU_Layer\LM35\LM35.obj" "ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "MCAL_Layer\ADC\ADC.obj" "MCAL_Layer\EEPROM\EEPROM.obj" "MCAL_Layer\GPIO\GPIO.obj" "MCAL_Layer\INTERRUPT\INTERRUPT.obj" "MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "MCAL_Layer\UART\UART.obj" 
-	-$(RM) "main.d" "tm4c123gh6pm_startup_ccs.d" "ECU_Layer\DC_MOTOR\DC_MOTOR.d" "ECU_Layer\LCD\LCD.d" "ECU_Layer\LM35\LM35.d" "ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "MCAL_Layer\ADC\ADC.d" "MCAL_Layer\EEPROM\EEPROM.d" "MCAL_Layer\GPIO\GPIO.d" "MCAL_Layer\INTERRUPT\INTERRUPT.d" "MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "MCAL_Layer\UART\UART.d" 
+	-$(RM) "main.obj" "tm4c123gh6pm_startup_ccs.obj" "ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "ECU_Layer\LCD\LCD.obj" "ECU_Layer\LM35\LM35.obj" "ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "ECU_Layer\Ultrasonic\ULTRASONIC.obj" "MCAL_Layer\ADC\ADC.obj" "MCAL_Layer\EEPROM\EEPROM.obj" "MCAL_Layer\GPIO\GPIO.obj" "MCAL_Layer\INTERRUPT\INTERRUPT.obj" "MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "MCAL_Layer\UART\UART.obj" 
+	-$(RM) "main.d" "tm4c123gh6pm_startup_ccs.d" "ECU_Layer\DC_MOTOR\DC_MOTOR.d" "ECU_Layer\LCD\LCD.d" "ECU_Layer\LM35\LM35.d" "ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "ECU_Layer\Ultrasonic\ULTRASONIC.d" "MCAL_Layer\ADC\ADC.d" "MCAL_Layer\EEPROM\EEPROM.d" "MCAL_Layer\GPIO\GPIO.d" "MCAL_Layer\INTERRUPT\INTERRUPT.d" "MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "MCAL_Layer\UART\UART.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

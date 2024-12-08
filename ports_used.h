@@ -21,10 +21,10 @@
 
 /*** ====================== LCD =========================== ***/
 /***
+ * Port D Pin 3 for Data Line
  * Port D Pin 4 for Data Line
  * Port D Pin 5 for Data Line
  * Port D Pin 6 for Data Line
- * Port D Pin 7 for Data Line
  * Port E Pin 1 for Rs
  * Port E Pin 2 for R/W
  * Port E Pin 3 for Enable
@@ -34,6 +34,16 @@
 /***
  * Port A Pin 0 for Rx
  * Port A Pin 1 for Tx
+ ***/
+
+/*** ====================== DC_MOTOR ========================== ***/
+/***
+ * Port B Pin 2 for IN1
+ * Port B Pin 3 for IN2
+ * Port B Pin 4 for IN3
+ * Port B Pin 5 for IN4
+ * Port B Pin 6 for ENA
+ * Port B Pin 7 for ENB
  ***/
 
 

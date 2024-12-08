@@ -19,10 +19,10 @@
 #define RS_PIN      1
 #define RW_PIN      2
 #define ENABLE_PIN  3
-#define Data_PIN0   4
-#define Data_PIN1   5
-#define Data_PIN2   6
-#define Data_PIN3   7
+#define Data_PIN0   3
+#define Data_PIN1   4
+#define Data_PIN2   5
+#define Data_PIN3   6
 
 /*-------------Macros Functions Declarations-------------*/
 /*-------------Macros Functions Declarations-------------*/

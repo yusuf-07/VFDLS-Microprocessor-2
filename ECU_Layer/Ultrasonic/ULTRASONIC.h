@@ -15,8 +15,8 @@
 /*** ===================== Include Section Start =========================== ***/
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
-#include "MCAL_STD_TYPES.h"
-#include "SYSTICK_TIMER.h"
+#include "MCAL_Layer/MCAL_STD_TYPES.h"
+#include "MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.h"
 /*** ===================== Include Section End ============================= ***/
 
 /*** ====================== Macros Section Start =========================== ***/

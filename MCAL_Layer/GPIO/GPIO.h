@@ -12,7 +12,7 @@
 #define GPIO_H_
 
 /*** ===================== Include Section Start =========================== ***/
-#include "MCAL_STD_TYPES.h"
+#include "MCAL_Layer/MCAL_STD_TYPES.h"
 #include "common_macros.h"
 #include "tm4c123gh6pm_registers.h"
 /*** ===================== Include Section End ============================= ***/

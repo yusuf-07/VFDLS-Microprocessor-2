@@ -116,6 +116,7 @@ ECU_Layer/DC_MOTOR \
 ECU_Layer/LCD \
 ECU_Layer/LM35 \
 ECU_Layer/PUSH_BUTTONS \
+ECU_Layer/Ultrasonic \
 MCAL_Layer/ADC \
 MCAL_Layer/EEPROM \
 MCAL_Layer/GPIO \
