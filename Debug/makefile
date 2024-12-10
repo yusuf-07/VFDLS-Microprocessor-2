@@ -154,21 +154,21 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-VFDLS-Microprocessor-2.out 
+Vehicle_Fault_Detection_and_Logging_System.out 
 
 EXE_OUTPUTS__QUOTED += \
-"VFDLS-Microprocessor-2.out" 
+"Vehicle_Fault_Detection_and_Logging_System.out" 
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "VFDLS-Microprocessor-2.out"
+	@$(MAKE) --no-print-directory -Onone "Vehicle_Fault_Detection_and_Logging_System.out"
 
 # Tool invocations
-VFDLS-Microprocessor-2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+Vehicle_Fault_Detection_and_Logging_System.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"VFDLS-Microprocessor-2.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="VFDLS-Microprocessor-2_linkInfo.xml" --rom_model -o "VFDLS-Microprocessor-2.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Vehicle_Fault_Detection_and_Logging_System.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Vehicle_Fault_Detection_and_Logging_System_linkInfo.xml" --rom_model -o "Vehicle_Fault_Detection_and_Logging_System.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

@@ -29,6 +29,9 @@
 
 /* Fault Codes */
 #define ULTRASONIC_FAULT_CODE      "P001"
+
+/* Enable Exceptions ... This Macro enable IRQ interrupts, Programmable Systems Exceptions and Faults by clearing the I-bit in the PRIMASK. */
+#define Enable_Exceptions()    __asm(" CPSIE I ")
 /*** ====================== Macros Section End ============================= ***/
 
 /*** ================= Global Declaration Section Start ==================== ***/

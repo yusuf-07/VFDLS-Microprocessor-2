@@ -2,7 +2,7 @@
 ==================================================================================
 * @file     : UART.h
 * @author   : Rawan Waleed
-* @version  : v1.0
+* @version  : v1.1
 * @brief    : UART Driver Header File
 * @details  : Provides macros and function prototypes for UART operations
 ==================================================================================
@@ -45,8 +45,15 @@ void UART0_Init(void);
 /* Function to send a byte of data */
 void UART0_SendByte(unsigned char data);
 
+/* Function to send a string of data */
+void UART0_SendString(unsigned char *pData);
+
 /* Function to receive a byte of data */
 unsigned char UART0_ReceiveByte(void);
+
+/* Function to receive a string of data */
+void UART0_ReceiveString(unsigned char *pData);
+
 /*** ================= Functions Declaration Section End ==================== ***/
 
 #endif /* MCAL_LAYER_UART_UART_H_ */
@@ -56,4 +63,5 @@ unsigned char UART0_ReceiveByte(void);
 User        Date        Brief
 *******************************************************
 Rawan       07Dec24     Created UART Header File
+Rawan       10Dec24     Added functions declarations
 **/

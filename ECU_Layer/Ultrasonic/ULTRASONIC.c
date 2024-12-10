@@ -54,7 +54,7 @@ static void GPIO_SetupUltrasonicPins(void)
 static void Ultrasonic_EnableInterrupts(void)
 {
     /* 1. Global Interrupt Enable (I-bit) */
-    __asm("CPSIE I");
+    Enable_Exceptions();
 
     /* 2. NVIC Interrupt Enable */
     NVIC_EN0_REG |= (1 << 1); /* Interrupt number 1 for GPIO Port B */

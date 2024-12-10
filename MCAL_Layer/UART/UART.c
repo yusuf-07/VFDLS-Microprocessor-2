@@ -2,7 +2,7 @@
 ==================================================================================
 * @file     : UART.c
 * @author   : Rawan Waleed
-* @version  : v1.0
+* @version  : v1.1
 * @brief    : UART Driver Source File
 * @details  : Implements UART initialization, data transmission, and reception
 ==================================================================================
@@ -72,6 +72,23 @@ void UART0_SendByte(unsigned char data)
 }
 
 /***
+* @brief    : Sends a string of data over UART0
+* @param    : pData - Pointer to the null-terminated string to be sent
+* @return   : None
+***/
+void UART0_SendString(unsigned char *pData)
+{
+    unsigned long uCounter = 0;
+
+    /*Transmit the whole string*/
+    while(pData[uCounter] != '\0'){                /*loop until the null terminator*/
+        while(UART0_FR_REG & UART_FR_TXFE_MASK);   /* Wait until the TX FIFO is not full */
+        UART0_DR_REG = pData[uCounter];            /* send the current character */
+        uCounter++;                                /*Move to the next character*/
+    }
+}
+
+/***
 * @brief    : Receives a byte of data from UART0
 * @param    : None
 * @return   : The received byte
@@ -82,6 +99,23 @@ unsigned char UART0_ReceiveByte(void)
     return UART0_DR_REG;                      /* Read the byte from the Data Register */
 }
 
+/***
+* @brief    : Receives a string of data over UART0 until a newline character is encountered
+* @param    : pData - Pointer to the buffer where the received string will be stored
+* @return   : None
+***/
+void UART0_ReceiveString(unsigned char *pData)
+{
+    unsigned long uCounter = 0;
+
+    while(pData[uCounter] != '\n'){               /*receive the entire string until terminates by a new line  (\n)*/
+    pData[uCounter] = UART0_ReceiveByte();        /* Wait until the RX FIFO is not empty and read the received character*/
+    uCounter++;                                   /* Move to the next character */
+    }
+
+    pData[uCounter] = '\0';                       /*the string is then null terminated*/
+}
+
 /*** ===================== Global Function Section End ======================= ***/
 
 /**
@@ -89,4 +123,5 @@ unsigned char UART0_ReceiveByte(void)
 User        Date        Brief
 *******************************************************
 Rawan       07Dec24     Created UART Source File
+Rawan       10Dec24     Updated UART driver to send and receives strings
 **/
