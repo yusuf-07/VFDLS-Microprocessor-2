@@ -29,8 +29,8 @@
 
 /* UART Control Register Masks */
 #define UART_CTL_UARTEN_MASK         0x00000001   /* UART Enable */
-#define UART_CTRL_TXE_MASK           0x00000100   /* Transmit Enable */
-#define UART_CTRL_RXE_MASK           0x00000200   /* Receive Enable */
+#define UART_CTL_TXE_MASK           0x00000100   /* Transmit Enable */
+#define UART_CTL_RXE_MASK           0x00000200   /* Receive Enable */
 
 /* UART Flag Register Masks */
 #define UART_FR_TXFE_MASK            0x00000080   /* Transmit FIFO Empty */
@@ -48,11 +48,17 @@ void UART0_SendByte(unsigned char data);
 /* Function to send a string of data */
 void UART0_SendString(unsigned char *pData);
 
+/* Function to send a specific number of bytes */
+void UART0_SendData(unsigned char *pData, unsigned long uSize);
+
 /* Function to receive a byte of data */
 unsigned char UART0_ReceiveByte(void);
 
 /* Function to receive a string of data */
 void UART0_ReceiveString(unsigned char *pData);
+
+/* Function to receive a specific number of bytes */
+void UART0_ReceiveData(unsigned char *pData, unsigned long uSize);
 
 /*** ================= Functions Declaration Section End ==================== ***/
 
