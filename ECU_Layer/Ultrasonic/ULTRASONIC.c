@@ -56,17 +56,21 @@ static void Ultrasonic_EnableInterrupts(void)
     /* 1. Global Interrupt Enable (I-bit) */
     Enable_Exceptions();
 
-    /* 2. NVIC Interrupt Enable */
-    NVIC_EN0_REG |= (1 << 1); /* Interrupt number 1 for GPIO Port B */
+    /* Set GPIO PORTB priority as 2 by set Bit number 13, 14 and 15 with value 2 */
+   NVIC_PRI0_REG = (NVIC_PRI0_REG & ~GPIO_PORTB_PRIORITY_MASK) | (GPIO_PORTB_INTERRUPT_PRIORITY<<GPIO_PORTB_PRIORITY_BITS_POS);
+   NVIC_EN0_REG         |= 0x00000002;   /* Enable NVIC Interrupt for GPIO PORTF by set bit number 1 in EN0 Register */
 
-    /* 3. NVIC Priority */
-    NVIC_PRI0_REG = (NVIC_PRI0_REG & 0xFFFFFF1F) | (2 << 5); /* Priority level 2 for GPIO Port B */
-
-    /* 4. Module Interrupt Enable (MIE) */
-    GPIO_PORTB_IM_REG |= (1 << ULTRASONIC_ECHO_PIN);
-
-    /* 5. Module Interrupt Flag (MIF) */
-    GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN);
+//    /* 2. NVIC Interrupt Enable */
+//    NVIC_EN0_REG |= (1 << 1); /* Interrupt number 1 for GPIO Port B */
+//
+//    /* 3. NVIC Priority */
+//    NVIC_PRI0_REG = (NVIC_PRI0_REG & 0xFFFFFF1F) | (2 << 5); /* Priority level 2 for GPIO Port B */
+//
+//    /* 4. Module Interrupt Enable (MIE) */
+//    GPIO_PORTB_IM_REG |= (1 << ULTRASONIC_ECHO_PIN);
+//
+//    /* 5. Module Interrupt Flag (MIF) */
+//    GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN);
 }
 
 /***
@@ -74,27 +78,27 @@ static void Ultrasonic_EnableInterrupts(void)
 * @param    : None
 * @return   : None
 ***/
-void GPIOPortB_Handler(void)
-{
-    if (edge_detected == 0)
-    {
-        pulse_start = SYSTICK_CURRENT_REG;             /* Capture rising edge time */
-        GPIO_PORTB_IEV_REG &= ~(1 << ULTRASONIC_ECHO_PIN); /* Switch to Falling Edge */
-        edge_detected = 1;
-    }
-    else
-    {
-        pulse_end = SYSTICK_CURRENT_REG;              /* Capture falling edge time */
-        GPIO_PORTB_IEV_REG |= (1 << ULTRASONIC_ECHO_PIN);  /* Switch to Rising Edge */
-        edge_detected = 0;
-
-        /* Calculate distance in cm */
-        uint32 pulse_width = pulse_start - pulse_end;
-        measured_distance = (pulse_width * 0.034) / 2; /* Speed of sound = 0.034 cm/us */
-    }
-
-    GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN); /* Clear interrupt flag */
-}
+//void GPIOPortB_Handler(void)
+//{
+//    if (edge_detected == 0)
+//    {
+//        pulse_start = SYSTICK_CURRENT_REG;             /* Capture rising edge time */
+//        GPIO_PORTB_IEV_REG &= ~(1 << ULTRASONIC_ECHO_PIN); /* Switch to Falling Edge */
+//        edge_detected = 1;
+//    }
+//    else
+//    {
+//        pulse_end = SYSTICK_CURRENT_REG;              /* Capture falling edge time */
+//        GPIO_PORTB_IEV_REG |= (1 << ULTRASONIC_ECHO_PIN);  /* Switch to Rising Edge */
+//        edge_detected = 0;
+//
+//        /* Calculate distance in cm */
+//        uint32 pulse_width = pulse_start - pulse_end;
+//        measured_distance = (pulse_width * 0.034) / 2; /* Speed of sound = 0.034 cm/us */
+//    }
+//
+//    GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN); /* Clear interrupt flag */
+//}
 
 /*** ===================== Private Function Section End ======================= ***/
 

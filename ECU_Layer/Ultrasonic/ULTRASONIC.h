@@ -27,6 +27,11 @@
 #define ULTRASONIC_ECHO_PORT      GPIO_PORTB_DATA_REG
 #define ULTRASONIC_ECHO_PIN       6
 
+/*interrupt configuration macros for portB*/
+#define GPIO_PORTB_PRIORITY_MASK          0x0000E000
+#define GPIO_PORTB_PRIORITY_BITS_POS      13
+#define GPIO_PORTB_INTERRUPT_PRIORITY     2
+
 /* Fault Codes */
 #define ULTRASONIC_FAULT_CODE      "P001"
 
@@ -38,6 +43,8 @@
 void Ultrasonic_Init(void);
 uint32 Ultrasonic_GetDistance(void);
 /*** ================= Global Declaration Section End ====================== ***/
+
+
 
 #endif /* ULTRASONIC_H_ */
 

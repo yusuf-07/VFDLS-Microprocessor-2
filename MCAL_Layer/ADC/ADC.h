@@ -1,8 +1,8 @@
 /*
  * ADC.h
  *
- *  Created on: Dec 7, 2024
- *      Author: Maria George
+ *  Created on: Dec 14, 2024
+ *      Author: Rawan Waleed
  */
 
 #ifndef MCAL_LAYER_ADC_ADC_H_
@@ -11,6 +11,8 @@
 /*-----------------------Includes-----------------------*/
 #include "MCAL_Layer/MCAL_STD_TYPES.h"
 #include "ADC_TYPES.h"
+#include "tm4c123gh6pm_registers.h"
+#include "common_macros.h"
 
 /*------------------Macros Declarations------------------*/
 

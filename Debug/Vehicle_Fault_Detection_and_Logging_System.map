@@ -1,17 +1,17 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Thu Dec 12 01:41:47 2024
+>> Linked Sat Dec 14 23:59:04 2024
 
 OUTPUT FILE NAME:   <Vehicle_Fault_Detection_and_Logging_System.out>
-ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 0000026d
+ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000d69
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  000002b0  0003fd50  R  X
+  FLASH                 00000000   00040000  00000db7  0003f249  R  X
   SRAM                  20000000   00008000  00000200  00007e00  RW X
 
 
@@ -19,9 +19,10 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    000002b0   000002b0    r-x
+00000000    00000000    00000db7   00000db7    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00000044   00000044    r-x .text
+  0000026c    0000026c    00000b3c   00000b3c    r-x .text
+  00000da8    00000da8    0000000f   0000000f    r-- .const
 20000000    20000000    00000200   00000000    rw-
   20000000    20000000    00000200   00000000    rw- .stack
 
@@ -34,12 +35,22 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
 
-.text      0    0000026c    00000044     
-                  0000026c    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
-                  00000298    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
-                  000002a4    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  000002a8    00000004                                   : exit.c.obj (.text:abort:abort)
-                  000002ac    00000004     main.obj (.text)
+.text      0    0000026c    00000b3c     
+                  0000026c    000002f8     LCD.obj (.text)
+                  00000564    00000228     PUSH_BUTTONS.obj (.text)
+                  0000078c    000001cc     DC_MOTOR.obj (.text)
+                  00000958    000001b0     UART.obj (.text)
+                  00000b08    000000e0     INTERRUPT.obj (.text)
+                  00000be8    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  00000c84    00000078     main.obj (.text)
+                  00000cfc    0000006c     SYSTICK_TIMER.obj (.text)
+                  00000d68    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
+                  00000d94    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00000da0    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00000da4    00000004                                   : exit.c.obj (.text:abort:abort)
+
+.const     0    00000da8    0000000f     
+                  00000da8    0000000f     main.obj (.const:.string:$P$T0$1)
 
 .cinit     0    00000000    00000000     UNINITIALIZED
 
@@ -59,73 +70,172 @@ MODULE SUMMARY
        ------                         ----   -------   -------
     .\
        tm4c123gh6pm_startup_ccs.obj   12     620       0      
-       main.obj                       4      0         0      
+       main.obj                       120    15        0      
     +--+------------------------------+------+---------+---------+
-       Total:                         16     620       0      
+       Total:                         132    635       0      
+                                                              
+    .\ECU_Layer\DC_MOTOR\
+       DC_MOTOR.obj                   460    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         460    0         0      
+                                                              
+    .\ECU_Layer\LCD\
+       LCD.obj                        760    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         760    0         0      
+                                                              
+    .\ECU_Layer\PUSH_BUTTONS\
+       PUSH_BUTTONS.obj               552    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         552    0         0      
+                                                              
+    .\MCAL_Layer\INTERRUPT\
+       INTERRUPT.obj                  224    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         224    0         0      
+                                                              
+    .\MCAL_Layer\SYSTICK_TIMER\
+       SYSTICK_TIMER.obj              108    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         108    0         0      
+                                                              
+    .\MCAL_Layer\UART\
+       UART.obj                       432    0         0      
+    +--+------------------------------+------+---------+---------+
+       Total:                         432    0         0      
                                                               
     C:\ti\ccs1281\ccs\tools\compiler\ti-cgt-arm_20.2.7.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+       memcpy_t2.asm.obj              156    0         0      
        boot_cortex_m.c.obj            44     0         0      
        exit.c.obj                     4      0         0      
        pre_init.c.obj                 4      0         0      
     +--+------------------------------+------+---------+---------+
-       Total:                         52     0         0      
+       Total:                         208    0         0      
                                                               
        Stack:                         0      0         512    
     +--+------------------------------+------+---------+---------+
-       Grand Total:                   68     620       512    
+       Grand Total:                   2876   635       512    
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
-address   name                   
--------   ----                   
-000002a9  C$$EXIT                
-00000299  ResetISR               
-20000200  __STACK_END            
-00000200  __STACK_SIZE           
-20000200  __STACK_TOP            
-ffffffff  __TI_pprof_out_hndl    
-ffffffff  __TI_prof_data_size    
-ffffffff  __TI_prof_data_start   
-00000000  __TI_static_base__     
-ffffffff  __binit__              
-ffffffff  __c_args__             
-UNDEFED   __mpu_init             
-20000000  __stack                
-20000000  __start___llvm_prf_cnts
-20000000  __stop___llvm_prf_cnts 
-0000026d  _c_int00_noinit_noargs 
-000002a5  _system_pre_init       
-000002a9  abort                  
-ffffffff  binit                  
-00000000  g_pfnVectors           
-000002ad  main                   
+address   name                          
+-------   ----                          
+00000da5  C$$EXIT                       
+0000078d  DC_MOTORA_INIT                
+000007eb  DC_MOTORA_START               
+00000849  DC_MOTORA_STOP                
+0000085f  DC_MOTORB_INIT                
+000008bd  DC_MOTORB_START               
+0000091b  DC_MOTORB_STOP                
+00000b09  GPIOPortA_Handler             
+00000b0b  GPIOPortB_Handler             
+00000b71  GPIOPortC_Handler             
+00000b73  GPIOPortD_Handler             
+00000b75  GPIOPortE_Handler             
+00000b77  GPIOPortF_Handler             
+0000026d  LCD_4BITS_INIT                
+000003d7  LCD_4BITS_send_char_data      
+0000035d  LCD_4BITS_send_command        
+00000451  LCD_4BITS_send_data_position  
+00000475  LCD_4BITS_send_string         
+000004a5  LCD_4BITS_send_string_position
+00000565  PUSH_BUTTONS_INIT             
+000006ab  PUSH_BUTTON_STATUS            
+00000d95  ResetISR                      
+00000d1f  SysTick_DelayMs               
+00000d3f  SysTick_DelayUs               
+00000cfd  SysTick_Init                  
+000009af  UART0_Init                    
+00000a59  UART0_ReceiveByte             
+00000aa1  UART0_ReceiveData             
+00000a69  UART0_ReceiveString           
+000009ef  UART0_SendByte                
+00000a31  UART0_SendData                
+00000a0b  UART0_SendString              
+20000200  __STACK_END                   
+00000200  __STACK_SIZE                  
+20000200  __STACK_TOP                   
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+00000000  __TI_static_base__            
+00000be9  __aeabi_memcpy                
+00000be9  __aeabi_memcpy4               
+00000be9  __aeabi_memcpy8               
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+UNDEFED   __mpu_init                    
+20000000  __stack                       
+20000000  __start___llvm_prf_cnts       
+20000000  __stop___llvm_prf_cnts        
+00000d69  _c_int00_noinit_noargs        
+00000da1  _system_pre_init              
+00000da5  abort                         
+ffffffff  binit                         
+00000000  g_pfnVectors                  
+00000c85  main                          
+00000be9  memcpy                        
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
 
-address   name                   
--------   ----                   
-00000000  __TI_static_base__     
-00000000  g_pfnVectors           
-00000200  __STACK_SIZE           
-0000026d  _c_int00_noinit_noargs 
-00000299  ResetISR               
-000002a5  _system_pre_init       
-000002a9  C$$EXIT                
-000002a9  abort                  
-000002ad  main                   
-20000000  __stack                
-20000000  __start___llvm_prf_cnts
-20000000  __stop___llvm_prf_cnts 
-20000200  __STACK_END            
-20000200  __STACK_TOP            
-ffffffff  __TI_pprof_out_hndl    
-ffffffff  __TI_prof_data_size    
-ffffffff  __TI_prof_data_start   
-ffffffff  __binit__              
-ffffffff  __c_args__             
-ffffffff  binit                  
-UNDEFED   __mpu_init             
+address   name                          
+-------   ----                          
+00000000  __TI_static_base__            
+00000000  g_pfnVectors                  
+00000200  __STACK_SIZE                  
+0000026d  LCD_4BITS_INIT                
+0000035d  LCD_4BITS_send_command        
+000003d7  LCD_4BITS_send_char_data      
+00000451  LCD_4BITS_send_data_position  
+00000475  LCD_4BITS_send_string         
+000004a5  LCD_4BITS_send_string_position
+00000565  PUSH_BUTTONS_INIT             
+000006ab  PUSH_BUTTON_STATUS            
+0000078d  DC_MOTORA_INIT                
+000007eb  DC_MOTORA_START               
+00000849  DC_MOTORA_STOP                
+0000085f  DC_MOTORB_INIT                
+000008bd  DC_MOTORB_START               
+0000091b  DC_MOTORB_STOP                
+000009af  UART0_Init                    
+000009ef  UART0_SendByte                
+00000a0b  UART0_SendString              
+00000a31  UART0_SendData                
+00000a59  UART0_ReceiveByte             
+00000a69  UART0_ReceiveString           
+00000aa1  UART0_ReceiveData             
+00000b09  GPIOPortA_Handler             
+00000b0b  GPIOPortB_Handler             
+00000b71  GPIOPortC_Handler             
+00000b73  GPIOPortD_Handler             
+00000b75  GPIOPortE_Handler             
+00000b77  GPIOPortF_Handler             
+00000be9  __aeabi_memcpy                
+00000be9  __aeabi_memcpy4               
+00000be9  __aeabi_memcpy8               
+00000be9  memcpy                        
+00000c85  main                          
+00000cfd  SysTick_Init                  
+00000d1f  SysTick_DelayMs               
+00000d3f  SysTick_DelayUs               
+00000d69  _c_int00_noinit_noargs        
+00000d95  ResetISR                      
+00000da1  _system_pre_init              
+00000da5  C$$EXIT                       
+00000da5  abort                         
+20000000  __stack                       
+20000000  __start___llvm_prf_cnts       
+20000000  __stop___llvm_prf_cnts        
+20000200  __STACK_END                   
+20000200  __STACK_TOP                   
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+ffffffff  binit                         
+UNDEFED   __mpu_init                    
 
-[21 symbols]
+[55 symbols]

@@ -21,10 +21,10 @@
 
 /*** ====================== LCD =========================== ***/
 /***
- * Port D Pin 3 for Data Line
- * Port D Pin 4 for Data Line
- * Port D Pin 5 for Data Line
- * Port D Pin 6 for Data Line
+ * Port A Pin 3 for Data Line
+ * Port A Pin 4 for Data Line
+ * Port A Pin 5 for Data Line
+ * Port A Pin 6 for Data Line
  * Port E Pin 1 for Rs
  * Port E Pin 2 for R/W
  * Port E Pin 3 for Enable
@@ -44,6 +44,13 @@
  * Port B Pin 5 for IN4
  * Port B Pin 6 for ENA
  * Port B Pin 7 for ENB
+ ***/
+
+/*** ====================== Ultrasonic ========================== ***/
+/***
+ * Port B Pin 5 for Trigger
+ * Port B Pin 6 for Echo
+
  ***/
 
 

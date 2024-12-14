@@ -8,22 +8,31 @@
 #include "LCD.h"
 
 static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
-
+/* ====================== LCD =========================== */
+/*
+ * Port A Pin 3 for Data Line
+ * Port A Pin 4 for Data Line
+ * Port A Pin 5 for Data Line
+ * Port A Pin 6 for Data Line
+ * Port E Pin 1 for Rs
+ * Port E Pin 2 for R/W
+ * Port E Pin 3 for Enable
+ */
 /**
  * @brief To initialize the LCD
  */
 void LCD_4BITS_INIT(void){
-    //Enable clock for PortD and PortE
-    SYSCTL_RCGCGPIO_REG |= ((1<<3) | (1<<4));
-    while (!(SYSCTL_PRGPIO_REG & ((1<<3) | (1<<4))));
+    //Enable clock for PortA and PortE
+    SYSCTL_RCGCGPIO_REG |= ((1<<0) | (1<<4));
+    while (!(SYSCTL_PRGPIO_REG & ((1<<0) | (1<<4))));
 
-    //Data lines->PD3-PD6
-    GPIO_PORTD_AMSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable Analog on PD3, PD4, PD5 and PD6 */
-    GPIO_PORTD_PCTL_REG  &= 0x0000FFFF;                                                                 /* Clear PMCx bits for PD3, PD4, PD5 and PD6 to use it as GPIO pin */
-    GPIO_PORTD_DIR_REG   |= ((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));        /* Configure PD3, PD4, PD5 and PD6 as output pin */
-    GPIO_PORTD_AFSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable alternative function on PD3, PD4, PD5 and PD6 */
-    GPIO_PORTD_DEN_REG   |= ((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));        /* Enable Digital I/O on PD3, PD5, PD5 and PD6 */
-    GPIO_PORTD_DATA_REG  &= ~(((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3)));     /* Clear bit 3, 4, 5 and 6 in Data register */
+    //Data lines->PA3-PA6
+    GPIO_PORTA_AMSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable Analog on PA3, PA4, PA5 and PA6 */
+    GPIO_PORTA_PCTL_REG  &= 0xF0000FFF;                                                                 /* Clear PMCx bits for PA3, PA4, PA5 and PA6 to use it as GPIO pin */
+    GPIO_PORTA_DIR_REG   |= ((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));        /* Configure PA3, PA4, PA5 and PA6 as output pin */
+    GPIO_PORTA_AFSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable alternative function on PA3, PA4, PA5 and PA6 */
+    GPIO_PORTA_DEN_REG   |= ((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));        /* Enable Digital I/O on PA3, PA5, PA5 and PA6 */
+    GPIO_PORTA_DATA_REG  &= ~(((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3)));     /* Clear bit 3, 4, 5 and 6 in Data register */
 
     //RS->PE1, R/W->PE2,ENABLE->PE3,
     GPIO_PORTE_AMSEL_REG &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Disable Analog on PE1, PE2 and PE3 */
@@ -34,20 +43,36 @@ void LCD_4BITS_INIT(void){
     GPIO_PORTE_DATA_REG  &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Clear bit 1, 2 and 3 in Data register */
 
     //LCD 4-bit Initialization sequence
-    SysTick_DelayMs(20);
-    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    SysTick_DelayMs(5);
-    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    SysTick_DelayUs(150);
-    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    LCD_4BITS_send_command(LCD_CLEAR);
-    LCD_4BITS_send_command(LCD_CURSOR_HOME);
-    LCD_4BITS_send_command(LCD_INCREMENT_SHIFT_OFF);
-    LCD_4BITS_send_command(LCD_DISPLAY_ON_UNDERLINE_OFF_CURSOR_OFF);
-    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    // Wait for more than 40 ms after VDD rises to 4.5 V
+    SysTick_DelayMs(50); // Wait for 50 ms
+
+    // Function Set: 4-bit mode
+    LCD_4BITS_send_command(0x33); // Send 0x33 (8-bit mode, prepare for 4-bit)
+    SysTick_DelayUs(40); // Wait for more than 37 탎
+
+    LCD_4BITS_send_command(0x33); // Send 0x33 again
+    SysTick_DelayUs(40); // Wait for more than 37 탎
+
+    LCD_4BITS_send_command(0x33); // Send 0x33 again
+    SysTick_DelayUs(40); // Wait for more than 37 탎
+
+    // Function Set: 4-bit mode, 2 lines, 5x8 dots
+    LCD_4BITS_send_command(0x28); // Send 0x28
+    SysTick_DelayUs(40); // Wait for more than 37 탎
+
+    // Display Control: Turn on display, cursor off
+    LCD_4BITS_send_command(0x0C); // Display ON, Cursor OFF
+    SysTick_DelayUs(40); // Wait for more than 37 탎
+
+    // Clear Display
+    LCD_4BITS_send_command(0x01); // Clear display
+    SysTick_DelayMs(2); // Wait for more than 1.53 ms
+
+    // Entry Mode Set: Increment cursor, no display shift
+    LCD_4BITS_send_command(0x06); // Entry mode set
+    SysTick_DelayUs(40); // Wait for more than 37 탎
     //0x80-<row1, col 1
     LCD_4BITS_send_command(LCD_DDRAM_START);
-
 }
 
 /**
@@ -55,9 +80,9 @@ void LCD_4BITS_INIT(void){
  *   To send command:
      * 1. R/W Pin = 0 PE2
      * 2. RS pin = 0 PE1
-     * 3. Send command through data lines PD4->PD7
+     * 3. Send command through data lines PA3->PA6
      * 4. Send enable signal on E pin
- * @param command: The command neededd to be sent
+ * @param command: The command needed to be sent
  */
 void LCD_4BITS_send_command(uint8 command){
 
@@ -65,14 +90,14 @@ void LCD_4BITS_send_command(uint8 command){
     GPIO_PORTE_DATA_REG &= ~(1<<RS_PIN); //RS = 0 FOR INSTRUCTION
 
     //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
-    GPIO_PORTD_DATA_REG = (GPIO_PORTD_DATA_REG & 0x0F) | (command >> 4); //the command must be shifted by 4 to get high nibble 4 bits high into low and make sure to clear lower nibble 4 bit firstly
+    GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | (command >> 4); //the command must be shifted by 4 to get high nibble 4 bits high into low and make sure to clear lower nibble 4 bit firstly
 
     //we must send enable signal after each send command (Falling Edge)
     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
     SysTick_DelayMs(2);
     GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
 
-    GPIO_PORTD_DATA_REG = ((GPIO_PORTD_DATA_REG & 0x0F) | (command & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+    GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (command & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
 
     //we must send enable signal after each send command (Falling Edge)
      GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
@@ -95,14 +120,14 @@ void LCD_4BITS_send_char_data(uint8 data){
     GPIO_PORTE_DATA_REG |= (1<<RS_PIN); //RS = 1 FOR INSTRUCTION
 
     //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
-    GPIO_PORTD_DATA_REG = (GPIO_PORTD_DATA_REG & 0x0F) | (data >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
+    GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | (data >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
 
     //we must send enable signal after each send command (Falling Edge)
     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
     SysTick_DelayMs( 2);
     GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
 
-    GPIO_PORTD_DATA_REG = ((GPIO_PORTD_DATA_REG & 0x0F) | (data & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+    GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (data & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
 
     //we must send enable signal after each send command (Falling Edge)
     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
@@ -188,11 +213,11 @@ static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column){
     }
 }
 
-/*** ================ Sub-program Details Section End ====================== ***/
+/* ================ Sub-program Details Section End ====================== */
 
 /**
-*******************************************************
+*******************
 User        Date        Brief
-*******************************************************
+*******************
 Maria       07Dec24     Created LCD source file
 **/

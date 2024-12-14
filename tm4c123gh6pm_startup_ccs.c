@@ -33,6 +33,12 @@ void ResetISR(void);
 static void NmiSR(void);
 static void FaultISR(void);
 static void IntDefaultHandler(void);
+extern void GPIOPortA_Handler(void);
+extern void GPIOPortB_Handler(void);
+extern void GPIOPortC_Handler(void);
+extern void GPIOPortD_Handler(void);
+extern void GPIOPortE_Handler(void);
+extern void GPIOPortF_Handler(void);
 
 //*****************************************************************************
 //
@@ -83,11 +89,11 @@ void (* const g_pfnVectors[])(void) =
     0,                                      // Reserved
     IntDefaultHandler,                      // The PendSV handler
     IntDefaultHandler,                      // The SysTick handler
-    IntDefaultHandler,                      // GPIO Port A
-    IntDefaultHandler,                      // GPIO Port B
-    IntDefaultHandler,                      // GPIO Port C
-    IntDefaultHandler,                      // GPIO Port D
-    IntDefaultHandler,                      // GPIO Port E
+    GPIOPortA_Handler,                      // GPIO Port A
+    GPIOPortB_Handler,                      // GPIO Port B
+    GPIOPortC_Handler,                      // GPIO Port C
+    GPIOPortD_Handler,                      // GPIO Port D
+    GPIOPortE_Handler,                      // GPIO Port E
     IntDefaultHandler,                      // UART0 Rx and Tx
     IntDefaultHandler,                      // UART1 Rx and Tx
     IntDefaultHandler,                      // SSI0 Rx and Tx
@@ -113,7 +119,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // Analog Comparator 2
     IntDefaultHandler,                      // System Control (PLL, OSC, BO)
     IntDefaultHandler,                      // FLASH Control
-    IntDefaultHandler,                      // GPIO Port F
+    GPIOPortF_Handler,                      // GPIO Port F
     IntDefaultHandler,                      // GPIO Port G
     IntDefaultHandler,                      // GPIO Port H
     IntDefaultHandler,                      // UART2 Rx and Tx

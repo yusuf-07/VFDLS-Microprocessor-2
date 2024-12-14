@@ -15,6 +15,7 @@
 #include "MCAL_Layer/MCAL_STD_TYPES.h"
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
+
 /*** ===================== Include Section End ============================= ***/
 
 /*** ====================== Macros Section Start =========================== ***/
@@ -23,10 +24,10 @@
 #define PB_RELEASED 0x01
 
 /* Button Identifiers */
-#define PB_SW0   0x00  /* SW1 - PF4 */
-#define PB_SW1   0x01  /* SW2 - PF0 */
-#define PB_SW2   0x02  /* PB0 - PB0 */
-#define PB_SW3   0x03  /* PB1 - PB1 */
+#define PB_SW0   0x00  /* SW1 - PF4 */   /* used for Motor A counterclockwise*/
+#define PB_SW1   0x01  /* SW2 - PF0 */   /* used for Motor A clockwise*/
+#define PB_SW2   0x02  /* PB0 - PB0 */   /* used for Motor B counterclockwise*/
+#define PB_SW3   0x03  /* PB1 - PB1 */   /* used for Motor B clockwise*/
 
 /*interrupts related macros*/
 /* Enable Exceptions ... This Macro enable IRQ interrupts, Programmable Systems Exceptions and Faults by clearing the I-bit in the PRIMASK. */
