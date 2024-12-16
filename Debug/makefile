@@ -11,19 +11,19 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./tm4c123gh6pm_startup_ccs.obj" \
-"./1.MCAL_Layer/ADC/ADC.obj" \
-"./1.MCAL_Layer/EEPROM/EEPROM.obj" \
-"./1.MCAL_Layer/GPIO/GPIO.obj" \
-"./1.MCAL_Layer/INTERRUPT/INTERRUPT.obj" \
-"./1.MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.obj" \
-"./1.MCAL_Layer/UART/UART.obj" \
-"./2.ECU_Layer/DC_MOTOR/DC_MOTOR.obj" \
-"./2.ECU_Layer/LCD/LCD.obj" \
-"./2.ECU_Layer/LM35/LM35.obj" \
-"./2.ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj" \
-"./2.ECU_Layer/Ultrasonic/ULTRASONIC.obj" \
-"./3.APP Layer/Testcases.obj" \
-"./3.APP Layer/main.obj" \
+"./3_APP_Layer/Testcases.obj" \
+"./3_APP_Layer/main.obj" \
+"./_1_MCAL_Layer/ADC/ADC.obj" \
+"./_1_MCAL_Layer/EEPROM/EEPROM.obj" \
+"./_1_MCAL_Layer/GPIO/GPIO.obj" \
+"./_1_MCAL_Layer/INTERRUPT/INTERRUPT.obj" \
+"./_1_MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.obj" \
+"./_1_MCAL_Layer/UART/UART.obj" \
+"./_2_ECU_Layer/DC_MOTOR/DC_MOTOR.obj" \
+"./_2_ECU_Layer/LCD/LCD.obj" \
+"./_2_ECU_Layer/LM35/LM35.obj" \
+"./_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj" \
+"./_2_ECU_Layer/Ultrasonic/ULTRASONIC.obj" \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -36,31 +36,31 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
--include 1.MCAL_Layer/ADC/subdir_vars.mk
--include 1.MCAL_Layer/EEPROM/subdir_vars.mk
--include 1.MCAL_Layer/GPIO/subdir_vars.mk
--include 1.MCAL_Layer/INTERRUPT/subdir_vars.mk
--include 1.MCAL_Layer/SYSTICK_TIMER/subdir_vars.mk
--include 1.MCAL_Layer/UART/subdir_vars.mk
--include 2.ECU_Layer/DC_MOTOR/subdir_vars.mk
--include 2.ECU_Layer/LCD/subdir_vars.mk
--include 2.ECU_Layer/LM35/subdir_vars.mk
--include 2.ECU_Layer/PUSH_BUTTONS/subdir_vars.mk
--include 2.ECU_Layer/Ultrasonic/subdir_vars.mk
--include 3.APP\ Layer/subdir_vars.mk
+-include 3_APP_Layer/subdir_vars.mk
+-include _1_MCAL_Layer/ADC/subdir_vars.mk
+-include _1_MCAL_Layer/EEPROM/subdir_vars.mk
+-include _1_MCAL_Layer/GPIO/subdir_vars.mk
+-include _1_MCAL_Layer/INTERRUPT/subdir_vars.mk
+-include _1_MCAL_Layer/SYSTICK_TIMER/subdir_vars.mk
+-include _1_MCAL_Layer/UART/subdir_vars.mk
+-include _2_ECU_Layer/DC_MOTOR/subdir_vars.mk
+-include _2_ECU_Layer/LCD/subdir_vars.mk
+-include _2_ECU_Layer/LM35/subdir_vars.mk
+-include _2_ECU_Layer/PUSH_BUTTONS/subdir_vars.mk
+-include _2_ECU_Layer/Ultrasonic/subdir_vars.mk
 -include subdir_rules.mk
--include 1.MCAL_Layer/ADC/subdir_rules.mk
--include 1.MCAL_Layer/EEPROM/subdir_rules.mk
--include 1.MCAL_Layer/GPIO/subdir_rules.mk
--include 1.MCAL_Layer/INTERRUPT/subdir_rules.mk
--include 1.MCAL_Layer/SYSTICK_TIMER/subdir_rules.mk
--include 1.MCAL_Layer/UART/subdir_rules.mk
--include 2.ECU_Layer/DC_MOTOR/subdir_rules.mk
--include 2.ECU_Layer/LCD/subdir_rules.mk
--include 2.ECU_Layer/LM35/subdir_rules.mk
--include 2.ECU_Layer/PUSH_BUTTONS/subdir_rules.mk
--include 2.ECU_Layer/Ultrasonic/subdir_rules.mk
--include 3.APP\ Layer/subdir_rules.mk
+-include 3_APP_Layer/subdir_rules.mk
+-include _1_MCAL_Layer/ADC/subdir_rules.mk
+-include _1_MCAL_Layer/EEPROM/subdir_rules.mk
+-include _1_MCAL_Layer/GPIO/subdir_rules.mk
+-include _1_MCAL_Layer/INTERRUPT/subdir_rules.mk
+-include _1_MCAL_Layer/SYSTICK_TIMER/subdir_rules.mk
+-include _1_MCAL_Layer/UART/subdir_rules.mk
+-include _2_ECU_Layer/DC_MOTOR/subdir_rules.mk
+-include _2_ECU_Layer/LCD/subdir_rules.mk
+-include _2_ECU_Layer/LM35/subdir_rules.mk
+-include _2_ECU_Layer/PUSH_BUTTONS/subdir_rules.mk
+-include _2_ECU_Layer/Ultrasonic/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -157,29 +157,29 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-Vehicle_Fault_Detection_and_Logging_System.out 
+VFDLS\ -\ Micro\ Project.out 
 
 EXE_OUTPUTS__QUOTED += \
-"Vehicle_Fault_Detection_and_Logging_System.out" 
+"VFDLS - Micro Project.out" 
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "Vehicle_Fault_Detection_and_Logging_System.out"
+	@$(MAKE) --no-print-directory -Onone "VFDLS - Micro Project.out"
 
 # Tool invocations
-Vehicle_Fault_Detection_and_Logging_System.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+VFDLS\ -\ Micro\ Project.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Vehicle_Fault_Detection_and_Logging_System.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Vehicle_Fault_Detection_and_Logging_System_linkInfo.xml" --rom_model -o "Vehicle_Fault_Detection_and_Logging_System.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"VFDLS - Micro Project.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="VFDLS - Micro Project_linkInfo.xml" --rom_model -o "VFDLS - Micro Project.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "1.MCAL_Layer\ADC\ADC.obj" "1.MCAL_Layer\EEPROM\EEPROM.obj" "1.MCAL_Layer\GPIO\GPIO.obj" "1.MCAL_Layer\INTERRUPT\INTERRUPT.obj" "1.MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "1.MCAL_Layer\UART\UART.obj" "2.ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "2.ECU_Layer\LCD\LCD.obj" "2.ECU_Layer\LM35\LM35.obj" "2.ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "2.ECU_Layer\Ultrasonic\ULTRASONIC.obj" "3.APP Layer\Testcases.obj" "3.APP Layer\main.obj" 
-	-$(RM) "tm4c123gh6pm_startup_ccs.d" "1.MCAL_Layer\ADC\ADC.d" "1.MCAL_Layer\EEPROM\EEPROM.d" "1.MCAL_Layer\GPIO\GPIO.d" "1.MCAL_Layer\INTERRUPT\INTERRUPT.d" "1.MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "1.MCAL_Layer\UART\UART.d" "2.ECU_Layer\DC_MOTOR\DC_MOTOR.d" "2.ECU_Layer\LCD\LCD.d" "2.ECU_Layer\LM35\LM35.d" "2.ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "2.ECU_Layer\Ultrasonic\ULTRASONIC.d" "3.APP Layer\Testcases.d" "3.APP Layer\main.d" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "3_APP_Layer\Testcases.obj" "3_APP_Layer\main.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.d" "3_APP_Layer\Testcases.d" "3_APP_Layer\main.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

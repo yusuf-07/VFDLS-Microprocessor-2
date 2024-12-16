@@ -112,16 +112,16 @@ PDE_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
-1.MCAL_Layer/ADC \
-1.MCAL_Layer/EEPROM \
-1.MCAL_Layer/GPIO \
-1.MCAL_Layer/INTERRUPT \
-1.MCAL_Layer/SYSTICK_TIMER \
-1.MCAL_Layer/UART \
-2.ECU_Layer/DC_MOTOR \
-2.ECU_Layer/LCD \
-2.ECU_Layer/LM35 \
-2.ECU_Layer/PUSH_BUTTONS \
-2.ECU_Layer/Ultrasonic \
-3.APP\ Layer \
+3_APP_Layer \
+_1_MCAL_Layer/ADC \
+_1_MCAL_Layer/EEPROM \
+_1_MCAL_Layer/GPIO \
+_1_MCAL_Layer/INTERRUPT \
+_1_MCAL_Layer/SYSTICK_TIMER \
+_1_MCAL_Layer/UART \
+_2_ECU_Layer/DC_MOTOR \
+_2_ECU_Layer/LCD \
+_2_ECU_Layer/LM35 \
+_2_ECU_Layer/PUSH_BUTTONS \
+_2_ECU_Layer/Ultrasonic \
 
