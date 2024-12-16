@@ -112,7 +112,6 @@ PDE_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
-3_APP_Layer \
 _1_MCAL_Layer/ADC \
 _1_MCAL_Layer/EEPROM \
 _1_MCAL_Layer/GPIO \
@@ -124,4 +123,5 @@ _2_ECU_Layer/LCD \
 _2_ECU_Layer/LM35 \
 _2_ECU_Layer/PUSH_BUTTONS \
 _2_ECU_Layer/Ultrasonic \
+_3_APP_Layer \
 

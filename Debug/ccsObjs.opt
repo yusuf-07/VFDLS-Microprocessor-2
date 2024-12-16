@@ -1,6 +1,4 @@
 "./tm4c123gh6pm_startup_ccs.obj"
-"./3_APP_Layer/Testcases.obj"
-"./3_APP_Layer/main.obj"
 "./_1_MCAL_Layer/ADC/ADC.obj"
 "./_1_MCAL_Layer/EEPROM/EEPROM.obj"
 "./_1_MCAL_Layer/GPIO/GPIO.obj"
@@ -12,5 +10,7 @@
 "./_2_ECU_Layer/LM35/LM35.obj"
 "./_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj"
 "./_2_ECU_Layer/Ultrasonic/ULTRASONIC.obj"
+"./_3_APP_Layer/Testcases.obj"
+"./_3_APP_Layer/main.obj"
 "../tm4c123gh6pm.cmd"
 -llibc.a

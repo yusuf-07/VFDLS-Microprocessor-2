@@ -16,6 +16,13 @@
 #include <stdio.h>
 /*** ===================== Include Section End ============================= ***/
 
+/*** ===================== Global Variables Section Start ====================== ***/
+extern volatile uint32 pulse_start;
+extern volatile uint32 pulse_end;
+extern volatile uint8 edge_detected;
+extern volatile uint32 measured_distance;
+/*** ===================== Global Variables Section End ======================== ***/
+
 /*** ===================== Public Function Section Start ===================== ***/
 
 /***
