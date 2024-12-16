@@ -9,8 +9,8 @@
 #define 2_ECU_LAYER_LCD_LCD_H_
 
 /*-----------------------Includes-----------------------*/
-#include <1.MCAL_Layer/MCAL_STD_TYPES.h>
-#include <1.MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.h>
+#include "1.MCAL_Layer/MCAL_STD_TYPES.h"
+#include "1.MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.h"
 #include "tm4c123gh6pm_registers.h"
 #include "Common_functions.h"
 #include <string.h>

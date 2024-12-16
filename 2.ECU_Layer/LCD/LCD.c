@@ -5,7 +5,7 @@
  *      Author: Maria George
  */
 
-#include <2.ECU_Layer/LCD/LCD.h>
+#include "2.ECU_Layer/LCD/LCD.h"
 
 static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
 /* ====================== LCD =========================== */

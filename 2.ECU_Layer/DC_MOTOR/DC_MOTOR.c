@@ -10,7 +10,7 @@
 ***/
 
 /*** ===================== Include Section Start =========================== ***/
-#include <2.ECU_Layer/DC_MOTOR/DC_MOTOR.h>
+#include "2.ECU_Layer/DC_MOTOR/DC_MOTOR.h"
 /*** ===================== Include Section End ============================= ***/
 
 /*** ================ Sub-program Details Section Start ==================== ***/

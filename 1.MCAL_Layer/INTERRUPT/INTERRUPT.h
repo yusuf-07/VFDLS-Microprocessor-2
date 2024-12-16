@@ -12,12 +12,12 @@
 #define 1_MCAL_LAYER_INTERRUPT_INTERRUPT_H_
 
 /*** ===================== Include Section Start =========================== ***/
-#include <1.MCAL_Layer/MCAL_STD_TYPES.h>
+#include "1.MCAL_Layer/MCAL_STD_TYPES.h"
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
-#include <2.ECU_Layer/Ultrasonic/ULTRASONIC.h>
-#include <2.ECU_Layer/DC_MOTOR/DC_MOTOR_TYPES.h>
-#include <2.ECU_Layer/DC_MOTOR/DC_MOTOR.h>
+#include "2.ECU_Layer/Ultrasonic/ULTRASONIC.h"
+#include "2.ECU_Layer/DC_MOTOR/DC_MOTOR_TYPES.h"
+#include "2.ECU_Layer/DC_MOTOR/DC_MOTOR.h"
 /*** ===================== Include Section End ============================= ***/
 
 /*** ====================== Macros Section Start =========================== ***/

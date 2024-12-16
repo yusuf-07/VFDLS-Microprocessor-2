@@ -5,12 +5,11 @@
  *      Author: Rawan Waleed
  */
 
-#ifndef 1_MCAL_LAYER_ADC_ADC_H_
-#define 1_MCAL_LAYER_ADC_ADC_H_
+#ifndef MCAL_LAYER_ADC_ADC_H_
+#define MCAL_LAYER_ADC_ADC_H_
 
 /*-----------------------Includes-----------------------*/
-#include <1.MCAL_Layer/ADC/ADC_TYPES.h>
-#include <1.MCAL_Layer/MCAL_STD_TYPES.h>
+#include "1.MCAL_Layer/MCAL_STD_TYPES.h"
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
 
@@ -24,7 +23,7 @@
 
 /*-----------------Functions Declarations-----------------*/
 
-void ADC_INIT(void);
-void ADC_READ_CHANNEL(adc_channelId_t channel);
+void ADC0_Init(void);
+uint32 ADC0_ReadSeq3(void);
 
-#endif /* 1_MCAL_LAYER_ADC_ADC_H_ */
+#endif /* MCAL_LAYER_ADC_ADC_H_ */

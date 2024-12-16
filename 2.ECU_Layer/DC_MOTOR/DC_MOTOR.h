@@ -12,8 +12,8 @@
 #define 2_ECU_LAYER_DC_MOTOR_DC_MOTOR_H_
 
 /*** ===================== Include Section Start =========================== ***/
-#include <1.MCAL_Layer/MCAL_STD_TYPES.h>
-#include <2.ECU_Layer/DC_MOTOR/DC_MOTOR_TYPES.h>
+#include "1.MCAL_Layer/MCAL_STD_TYPES.h"
+#include "2.ECU_Layer/DC_MOTOR/DC_MOTOR_TYPES.h"
 
 /*** ===================== Include Section End ============================= ***/
 

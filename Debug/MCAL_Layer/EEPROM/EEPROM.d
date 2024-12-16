@@ -1,6 +1,0 @@
-# FIXED
-
-MCAL_Layer/EEPROM/EEPROM.obj: ../MCAL_Layer/EEPROM/EEPROM.c
-
-../MCAL_Layer/EEPROM/EEPROM.c:
-

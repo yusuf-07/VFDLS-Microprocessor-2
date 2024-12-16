@@ -8,7 +8,7 @@
 ==================================================================================
 ***/
 
-#include <1.MCAL_Layer/GPIO/GPIO.h>
+#include "1.MCAL_Layer/GPIO/GPIO.h"
 
 /*** ===================== Private Variables Section Start ================= ***/
 static volatile unsigned long * const DEN[6]   = {&GPIO_PORTA_DEN_REG,
