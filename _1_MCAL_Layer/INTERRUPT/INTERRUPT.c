@@ -39,43 +39,43 @@ void GPIOPortA_Handler(void)
 ***/
 void GPIOPortB_Handler(void)
 {
-    if(GET_BIT(GPIO_PORTB_RIS_REG,ULTRASONIC_ECHO_PIN) == 1)
-    {
-        if (edge_detected == 0)
-        {
-            pulse_start = SYSTICK_CURRENT_REG;             /* Capture rising edge time */
-            GPIO_PORTB_IEV_REG &= ~(1 << ULTRASONIC_ECHO_PIN); /* Switch to Falling Edge */
-            edge_detected = 1;
-        }
-        else
-        {
-            pulse_end = SYSTICK_CURRENT_REG;              /* Capture falling edge time */
-            GPIO_PORTB_IEV_REG |= (1 << ULTRASONIC_ECHO_PIN);  /* Switch to Rising Edge */
-            edge_detected = 0;
-
-            /* Calculate distance in cm */
-            uint32 pulse_width = pulse_start - pulse_end;
-            measured_distance = (pulse_width * 0.034) / 2; /* Speed of sound = 0.034 cm/us */
-        }
-
-        GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN); /* Clear interrupt flag */
-    }
-    else if(GET_BIT(GPIO_PORTB_RIS_REG,0) == 1){             /* check if SW2 on PB0  is pressed*/
-
-        DC_MOTORB_START(DIR_CCW);                            /* Start Motor B counterclockwise*/
-
-        while(GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORB_STOP();                                    /* Stop Motor B */
-        GPIO_PORTB_ICR_REG |= (1 << 0);                      /* Clear interrupt flag */
-    }
-    else if(GET_BIT(GPIO_PORTB_RIS_REG,1) == 1){             /* check if SW3 on PB1  is pressed*/
-
-        DC_MOTORB_START(DIR_CW);                            /* Start Motor B clockwise*/
-
-        while(GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORB_STOP();                                    /* Stop Motor B */
-        GPIO_PORTB_ICR_REG |= (1 << 1);                      /* Clear interrupt flag */
-    }
+//    if(GET_BIT(GPIO_PORTB_RIS_REG,ULTRASONIC_ECHO_PIN) == 1)
+//    {
+//        if (edge_detected == 0)
+//        {
+//            pulse_start = SYSTICK_CURRENT_REG;             /* Capture rising edge time */
+//            GPIO_PORTB_IEV_REG &= ~(1 << ULTRASONIC_ECHO_PIN); /* Switch to Falling Edge */
+//            edge_detected = 1;
+//        }
+//        else
+//        {
+//            pulse_end = SYSTICK_CURRENT_REG;              /* Capture falling edge time */
+//            GPIO_PORTB_IEV_REG |= (1 << ULTRASONIC_ECHO_PIN);  /* Switch to Rising Edge */
+//            edge_detected = 0;
+//
+//            /* Calculate distance in cm */
+//            uint32 pulse_width = pulse_start - pulse_end;
+//            measured_distance = (pulse_width * 0.034) / 2; /* Speed of sound = 0.034 cm/us */
+//        }
+//
+//        GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN); /* Clear interrupt flag */
+//    }
+//    else if(GET_BIT(GPIO_PORTB_RIS_REG,0) == 1){             /* check if SW2 on PB0  is pressed*/
+//
+//        DC_MOTORB_START(DIR_CCW);                            /* Start Motor B counterclockwise*/
+//
+//        while(GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0);         /* Busy-waiting until the switch is released */
+//        DC_MOTORB_STOP();                                    /* Stop Motor B */
+//        GPIO_PORTB_ICR_REG |= (1 << 0);                      /* Clear interrupt flag */
+//    }
+//    else if(GET_BIT(GPIO_PORTB_RIS_REG,1) == 1){             /* check if SW3 on PB1  is pressed*/
+//
+//        DC_MOTORB_START(DIR_CW);                            /* Start Motor B clockwise*/
+//
+//        while(GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0);         /* Busy-waiting until the switch is released */
+//        DC_MOTORB_STOP();                                    /* Stop Motor B */
+//        GPIO_PORTB_ICR_REG |= (1 << 1);                      /* Clear interrupt flag */
+//    }
 }
 
 /***

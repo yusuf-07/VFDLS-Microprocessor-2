@@ -30,11 +30,11 @@ void GPIO_SetupPE0AnalogPin(void)
 
 void ADC0_Init(void)
 {
-    GPIO_SetupPE2AnalogPin();                      /* Initialize PE0 as Ain3 */
+    GPIO_SetupPE0AnalogPin();                      /* Initialize PE0 as Ain3 */
 
     SYSCTL_RCGCADC_REG |= (1<<0);                  /* Enable clock for ADC0 */
     while(GET_BIT(SYSCTL_PRADC_REG,0) == 0);       /* Wait until ADC0 clock is activated and it is ready for access*/
-    SYSCTL_RCGC0_REG &= ~0x00000300;               /* Set the Sample Rate for ADC0 to 125K Samples per second by clearing bit 8 and 9 */
+    SYSCTL_RCGCADC_REG &= ~0x00000300;               /* Set the Sample Rate for ADC0 to 125K Samples per second by clearing bit 8 and 9 */
 
     ADC0_SSPRI_REG   = 0x0123;                     /* Set priority for all four Sequencers and Sequencer 3 is the highest priority */
     ADC0_ACTSS_REG  &= ~(1<<3);                    /* Disable Sample Sequencer 3 */
