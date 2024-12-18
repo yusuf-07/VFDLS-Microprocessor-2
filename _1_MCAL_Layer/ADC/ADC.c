@@ -14,11 +14,11 @@ void GPIO_SetupPE0AnalogPin(void)
     SYSCTL_RCGCGPIO_REG  |= (1<<4);               /* Enable clock for GPIO PORTE */
     while(GET_BIT(SYSCTL_PRGPIO_REG,4) == 0);     /* Wait until GPIO PORTE clock is activated and it is ready for access*/
 
-    GPIO_PORTA_DIR_REG   &= ~(1<<0);              /* Configure PE0 as input pin */
-    GPIO_PORTA_AMSEL_REG |= (1<<0);               /* Enable Analog at PE0 */
-    GPIO_PORTA_AFSEL_REG |= (1<<0);               /* Enable alternative function at PE0 */
-    GPIO_PORTA_PCTL_REG  &= 0xFFFFFFF0;           /* Set PMCx bits for PE0 with value 0 to use as analog pin */
-    GPIO_PORTA_DEN_REG   &= ~(1<<0);              /* Disable Digital at PE0 */
+    GPIO_PORTE_DIR_REG   &= ~(1<<0);              /* Configure PE0 as input pin */
+    GPIO_PORTE_AMSEL_REG |= (1<<0);               /* Enable Analog at PE0 */
+    GPIO_PORTE_AFSEL_REG |= (1<<0);               /* Enable alternative function at PE0 */
+    GPIO_PORTE_PCTL_REG  &= 0xFFFFFFF0;           /* Set PMCx bits for PE0 with value 0 to use as analog pin */
+    GPIO_PORTE_DEN_REG   &= ~(1<<0);              /* Disable Digital at PE0 */
 }
 /*** ===================== Local Function Section End ======================= ***/
 
