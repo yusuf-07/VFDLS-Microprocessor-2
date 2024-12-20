@@ -47,6 +47,17 @@ typedef enum {
     LOW,
     HIGH
 } GPIO_Logic_t;
+
+typedef enum {
+    GPIO_AF_DEF            = 0x0,
+    GPIO_AF_UART           = 0x1,
+    GPIO_AF_I2C            = 0x3,
+    GPIO_AF_SSI            = 0x2,
+    GPIO_AF_TIMER          = 0x7,
+    GPIO_AF_PWM            = 0x4,
+    GPIO_AF_CAN            = 0x8,
+    GPIO_AF_ADC            = 0xF
+} GPIO_AltFunction_t;
 /*** ====================== Enum Section End ============================= ***/
 
 /*** ================= Global Declaration Section Start ==================== ***/

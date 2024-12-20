@@ -33,7 +33,7 @@ extern volatile uint32 measured_distance;
 void Test_LED_Output(void)
 {
     /* Initialize PF1 as Digital Output (LED) */
-    GPIO_Init(GPIO_PORTF, 1, GPIO_DIGITAL, GPIO_OUTPUT, 0);
+    GPIO_Init(GPIO_PORTF, 1, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF);
 
     /* Turn LED ON */
     GPIO_DigitalWrite(GPIO_PORTF, 1, HIGH);
@@ -52,7 +52,7 @@ void Test_LED_Output(void)
 void Test_PushButton_Input(void)
 {
     /* Initialize PF4 as Digital Input with Pull-Up (Push Button) */
-    GPIO_Init(GPIO_PORTF, 4, GPIO_DIGITAL, GPIO_INPUT, 0);
+    GPIO_Init(GPIO_PORTF, 4, GPIO_DIGITAL, GPIO_INPUT, GPIO_AF_DEF);
     GPIO_PullConfig(GPIO_PORTF, 4, GPIO_PULL_UP);
 
     while (1)
@@ -77,8 +77,8 @@ void Test_PushButton_Input(void)
 void Test_LED_Toggle_With_Button(void)
 {
     /* Initialize PF1 as Output (LED) and PF4 as Input (Button) */
-    GPIO_Init(GPIO_PORTF, 1, GPIO_DIGITAL, GPIO_OUTPUT, 0);
-    GPIO_Init(GPIO_PORTF, 4, GPIO_DIGITAL, GPIO_INPUT, 0);
+    GPIO_Init(GPIO_PORTF, 1, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF);
+    GPIO_Init(GPIO_PORTF, 4, GPIO_DIGITAL, GPIO_INPUT, GPIO_AF_DEF);
     GPIO_PullConfig(GPIO_PORTF, 4, GPIO_PULL_UP);
 
     while (1)
@@ -244,6 +244,49 @@ void Test_LCD_RealTime_Distance(void)
         LCD_4BITS_send_string_position(distance_text, ROW1, 1);
 
         /* Short Delay to Update */
+        SysTick_DelayMs(500);
+    }
+}
+void Test_Ultrasonic_LED_Indication(void)
+{
+    /* Initialize Ultrasonic and GPIO for LEDs */
+    Ultrasonic_Init();
+    GPIO_Init(GPIO_PORTF, 1, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF); /* Red LED */
+    GPIO_Init(GPIO_PORTF, 2, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF); /* Blue LED */
+    GPIO_Init(GPIO_PORTF, 3, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF); /* Green LED */
+
+    while (1)
+    {
+        /* Measure Distance */
+        uint32 distance = Ultrasonic_GetDistance();
+
+        /* Determine LED State Based on Distance */
+        if (distance < 5) //white
+        {
+            GPIO_DigitalWrite(GPIO_PORTF, 1, HIGH); /* Red LED ON */
+            GPIO_DigitalWrite(GPIO_PORTF, 2, HIGH); /* Blue LED ON */
+            GPIO_DigitalWrite(GPIO_PORTF, 3, HIGH); /* Green LED ON */
+        }
+        else if (distance >= 5 && distance <= 20) //red
+        {
+            GPIO_DigitalWrite(GPIO_PORTF, 1, HIGH); /* Red LED ON */
+            GPIO_DigitalWrite(GPIO_PORTF, 2, LOW);  /* Blue LED OFF */
+            GPIO_DigitalWrite(GPIO_PORTF, 3, LOW);  /* Green LED OFF */
+        }
+        else if (distance > 20 && distance <= 100) //blue
+        {
+            GPIO_DigitalWrite(GPIO_PORTF, 1, LOW);  /* Red LED OFF */
+            GPIO_DigitalWrite(GPIO_PORTF, 2, HIGH); /* Blue LED ON */
+            GPIO_DigitalWrite(GPIO_PORTF, 3, LOW);  /* Green LED OFF */
+        }
+        else //green
+        {
+            GPIO_DigitalWrite(GPIO_PORTF, 1, LOW);  /* Red LED OFF */
+            GPIO_DigitalWrite(GPIO_PORTF, 2, LOW);  /* Blue LED OFF */
+            GPIO_DigitalWrite(GPIO_PORTF, 3, HIGH); /* Green LED ON */
+        }
+
+        /* Add Delay for Stability */
         SysTick_DelayMs(500);
     }
 }

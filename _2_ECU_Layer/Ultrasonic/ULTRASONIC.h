@@ -23,10 +23,10 @@
 
 /*** ====================== Macros Section Start =========================== ***/
 /* Ultrasonic Pin Definitions */
-#define ULTRASONIC_TRIGGER_PORT   GPIO_PORTB_DATA_REG
+#define ULTRASONIC_TRIGGER_PORT   GPIO_PORTC_DATA_REG
 #define ULTRASONIC_TRIGGER_PIN    5
 
-#define ULTRASONIC_ECHO_PORT      GPIO_PORTB_DATA_REG
+#define ULTRASONIC_ECHO_PORT      GPIO_PORTC_DATA_REG
 #define ULTRASONIC_ECHO_PIN       6
 
 /* Interrupt Configuration for Port B */
