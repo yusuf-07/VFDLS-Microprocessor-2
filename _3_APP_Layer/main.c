@@ -52,25 +52,25 @@
 //}
 
 // Function prototypes
-void test_LCD_with_push_buttons(void);
-//
-int main(void)
-{
-    DC_MOTORA_INIT();
-    DC_MOTORB_INIT();
-    PUSH_BUTTONS_INIT();
-//    // Initialize LCD and Push Buttons
-//    LCD_4BITS_INIT();
+//void test_LCD_with_push_buttons(void);
+////
+//int main(void)
+//{
+//    DC_MOTORA_INIT();
+//    DC_MOTORB_INIT();
 //    PUSH_BUTTONS_INIT();
+////    // Initialize LCD and Push Buttons
+////    LCD_4BITS_INIT();
+////    PUSH_BUTTONS_INIT();
+////
+////    // Start testing LCD with push buttons
+////    test_LCD_with_push_buttons();
 //
-//    // Start testing LCD with push buttons
-//    test_LCD_with_push_buttons();
-
-    while(1)
-    {
-        // Continuous checking in the main loop
-    }
-}
+//    while(1)
+//    {
+//        // Continuous checking in the main loop
+//    }
+//}
 //
 // Function to test LCD functionality with Push Buttons
 //void test_LCD_with_push_buttons(void)
@@ -146,6 +146,40 @@ int main(void)
 //    UART0_SendByte((temperature % 10) + '0');   // Ones digit
 //    UART0_SendString(" C#");
 //}
+
+
+
+int main(void) {
+    // Initialize UART for terminal communication
+    UART0_Init();
+
+    // Initialize EEPROM
+    if (EEPROM_INIT() == E_OK) {
+        UART0_SendString((unsigned char *)"EEPROM Initialized Successfully!\n");
+    } else {
+        UART0_SendString((unsigned char *)"EEPROM Initialization Failed!\n");
+        while (1); // Halt execution if EEPROM initialization fails
+    }
+
+    // Log fault codes into EEPROM
+    UART0_SendString((unsigned char *)"Logging Fault Codes...\n");
+
+    Log_Fault("P001"); // Log fault code "P001"
+    Log_Fault("P002"); // Log fault code "P002"
+
+    UART0_SendString((unsigned char *)"Fault Codes Logged!\n");
+
+    // Retrieve fault codes from EEPROM
+    UART0_SendString((unsigned char *)"Retrieving Fault Codes...\n");
+    Retrieve_Faults();
+
+    // Loop indefinitely
+    while (1) {
+        // Optionally add a delay or additional functionality here
+    }
+
+    return 0;
+}
 /*** ===================== Public Function Section End ======================= ***/
 
 /***

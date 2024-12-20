@@ -498,5 +498,33 @@ ADC0 Registers
 #define ADC0_PC_REG               (*((volatile unsigned long *)0x40038FC4))
 #define ADC0_CC_REG               (*((volatile unsigned long *)0x40038FC8))
 
+//*****************************************************************************
+//
+// EEPROM registers (EEPROM)
+//
+//*****************************************************************************
+#define EEPROM_EESIZE_REG         (*((volatile unsigned long *)0x400AF000))
+#define EEPROM_EEBLOCK_REG        (*((volatile unsigned long *)0x400AF004))
+#define EEPROM_EEOFFSET_REG       (*((volatile unsigned long *)0x400AF008))
+#define EEPROM_EERDWR_REG         (*((volatile unsigned long *)0x400AF010))
+#define EEPROM_EERDWRINC_REG      (*((volatile unsigned long *)0x400AF014))
+#define EEPROM_EEDONE_REG         (*((volatile unsigned long *)0x400AF018))
+#define EEPROM_EESUPP_REG         (*((volatile unsigned long *)0x400AF01C))
+#define EEPROM_EEUNLOCK_REG       (*((volatile unsigned long *)0x400AF020))
+#define EEPROM_EEPROT_REG         (*((volatile unsigned long *)0x400AF030))
+#define EEPROM_EEPASS0_REG        (*((volatile unsigned long *)0x400AF034))
+#define EEPROM_EEPASS1_REG        (*((volatile unsigned long *)0x400AF038))
+#define EEPROM_EEPASS2_REG        (*((volatile unsigned long *)0x400AF03C))
+#define EEPROM_EEINT_REG          (*((volatile unsigned long *)0x400AF040))
+#define EEPROM_EEHIDE_REG         (*((volatile unsigned long *)0x400AF050))
+#define EEPROM_EEDBGME_REG        (*((volatile unsigned long *)0x400AF080))
+#define EEPROM_PP_REG             (*((volatile unsigned long *)0x400AFFC0))
+
+#define EEPROM_SREEPROM_R         (*((volatile unsigned long *)0x400FE558))
+
+
+
+
+
 
 #endif
