@@ -5,9 +5,11 @@
  *      Author: Maria George
  */
 
-#include <_2_ECU_Layer/LCD/LCD.h>
+#include "LCD.h"
 
 static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
+static void lcd_send_4bits(uint8 _data_command);
+static void lcd_send_enable_4bits(void);
 /* ====================== LCD =========================== */
 /*
  * Port A Pin 3 for Data Line
@@ -24,7 +26,7 @@ static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
 void LCD_4BITS_INIT(void){
     //Enable clock for PortA and PortE
     SYSCTL_RCGCGPIO_REG |= ((1<<0) | (1<<4));
-    while (!(SYSCTL_PRGPIO_REG & ((1<<0) | (1<<4))));
+    while ((SYSCTL_PRGPIO_REG & ((1<<0) | (1<<4))) == 0);
 
     //Data lines->PA3-PA6
     GPIO_PORTA_AMSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable Analog on PA3, PA4, PA5 and PA6 */
@@ -47,31 +49,35 @@ void LCD_4BITS_INIT(void){
     SysTick_DelayMs(50); // Wait for 50 ms
 
     // Function Set: 4-bit mode
-    LCD_4BITS_send_command(0x33); // Send 0x33 (8-bit mode, prepare for 4-bit)
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    // Send 0x33 (8-bit mode, prepare for 4-bit)
+    SysTick_DelayMs(5); // Wait for more than 37 탎
 
-    LCD_4BITS_send_command(0x33); // Send 0x33 again
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    // Send 0x33 again
+    SysTick_DelayUs(150); // Wait for more than 37 탎
 
-    LCD_4BITS_send_command(0x33); // Send 0x33 again
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT); // Send 0x33 again
+    //SysTick_DelayUs(40); // Wait for more than 37 탎
 
     // Function Set: 4-bit mode, 2 lines, 5x8 dots
-    LCD_4BITS_send_command(0x28); // Send 0x28
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_CLEAR); // Send 0x28
+    //SysTick_DelayUs(40); // Wait for more than 37 탎
 
     // Display Control: Turn on display, cursor off
-    LCD_4BITS_send_command(0x0C); // Display ON, Cursor OFF
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_CURSOR_HOME); // Display ON, Cursor OFF
+    //SysTick_DelayUs(40); // Wait for more than 37 탎
 
     // Clear Display
-    LCD_4BITS_send_command(0x01); // Clear display
-    SysTick_DelayMs(2); // Wait for more than 1.53 ms
+    LCD_4BITS_send_command(LCD_INCREMENT_SHIFT_OFF); // Clear display
+   // SysTick_DelayMs(2); // Wait for more than 1.53 ms
 
     // Entry Mode Set: Increment cursor, no display shift
-    LCD_4BITS_send_command(0x06); // Entry mode set
-    SysTick_DelayUs(40); // Wait for more than 37 탎
+    LCD_4BITS_send_command(LCD_DISPLAY_ON_UNDERLINE_OFF_CURSOR_OFF); // Entry mode set
+  //  SysTick_DelayUs(40); // Wait for more than 37 탎
     //0x80-<row1, col 1
+    LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    //0x80->row 1, column 1
     LCD_4BITS_send_command(LCD_DDRAM_START);
 }
 
@@ -89,20 +95,28 @@ void LCD_4BITS_send_command(uint8 command){
     GPIO_PORTE_DATA_REG &= ~(1<<RW_PIN); //RW = 0 TO WRITE
     GPIO_PORTE_DATA_REG &= ~(1<<RS_PIN); //RS = 0 FOR INSTRUCTION
 
-    //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
-    GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | (command >> 4); //the command must be shifted by 4 to get high nibble 4 bits high into low and make sure to clear lower nibble 4 bit firstly
+    //send higher nibble
+    //GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (command & 0xF0)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
 
+    lcd_send_4bits(command >> 4);
     //we must send enable signal after each send command (Falling Edge)
     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
     SysTick_DelayMs(2);
     GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+    SysTick_DelayMs(2);
 
-    GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (command & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+
+    //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
+    //send lower nibble
+    //GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | ((command << 4) & 0xF0); //the command must be shifted by 4 to get high nibble 4 bits high into low and make sure to clear lower nibble 4 bit firstly
+
+    lcd_send_4bits(command);
 
     //we must send enable signal after each send command (Falling Edge)
      GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
      SysTick_DelayMs(2);
      GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+     SysTick_DelayMs(2);
 }
 
 /**
@@ -120,19 +134,20 @@ void LCD_4BITS_send_char_data(uint8 data){
     GPIO_PORTE_DATA_REG |= (1<<RS_PIN); //RS = 1 FOR INSTRUCTION
 
     //LOW NIBBLE(4-7) and HIGH NIBBLE(0-3)
-    GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | (data >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
 
+    //GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (data & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
+
+    lcd_send_4bits(data >> 4);
+
+    lcd_send_enable_4bits();
+
+    //GPIO_PORTA_DATA_REG = (GPIO_PORTA_DATA_REG & 0x0F) | (data >> 4); //send the 4 bits high into low and make sure to clear lower 4 bit firstly
+
+    lcd_send_4bits(data & 0x0F);
     //we must send enable signal after each send command (Falling Edge)
-    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
-    SysTick_DelayMs( 2);
-    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+    lcd_send_enable_4bits();
 
-    GPIO_PORTA_DATA_REG = ((GPIO_PORTA_DATA_REG & 0x0F) | (data & 0x0F)); //send the 4 bits low and make sure to clear lower 4 bit firstly, (command & 0x0F) to make sure I am sending the lower bits only correctly
 
-    //we must send enable signal after each send command (Falling Edge)
-    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
-    SysTick_DelayMs( 2);
-    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
 }
 
 /**
@@ -154,20 +169,12 @@ void LCD_4BITS_send_data_position(uint8 row, uint8 col, uint8 data){
  *         (E_OK): The function executed successfully
  *          (E_NOT_OK) : Function failed to execute
  */
-Std_ReturnType LCD_4BITS_send_string(uint8 *string){
-    Std_ReturnType ret = E_OK;
-    //check on NULL pointer
-    if(NULL == string){
-        ret = E_NOT_OK;
-    }
-    else{
-        //while there is a value true implement the function until NULL termination (while(False)
-         while (*string){
+void LCD_4BITS_send_string(uint8 *string){
+    //while there is a value true implement the function until NULL termination (while(False)
+     while (*string){
          //string++ to point to second character
          LCD_4BITS_send_char_data(*string++);
-         }
-    }
-    return ret;
+     }
 }
 
 /**
@@ -179,17 +186,9 @@ Std_ReturnType LCD_4BITS_send_string(uint8 *string){
  *         (E_OK): The function executed successfully
  *          (E_NOT_OK) : Function failed to execute
  */
-Std_ReturnType LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 col){
-    Std_ReturnType ret = E_OK;
-    //check on NULL pointer
-        if(NULL == string){
-            ret = E_NOT_OK;
-        }
-        else{
-            LCD_4BITS_SET_CURSOR(row, col);
-            LCD_4BITS_send_string(string);
-        }
-        return ret;
+void LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 col){
+        LCD_4BITS_SET_CURSOR(row, col);
+        LCD_4BITS_send_string(string);
 }
 
 /**
@@ -207,10 +206,28 @@ static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column){
         LCD_4BITS_send_command((LCD_DDRAM_START + ROW2_START_ADD) + column);
         break;
     default:
-        row = 0;
-        column = 0;
+        LCD_4BITS_send_command(LCD_DDRAM_START + ROW1_START_ADD);
         break;
     }
+}
+
+static void lcd_send_4bits(uint8 nibble) {
+    uint8 i;
+    for (i = 0; i < 4; i++) {
+        if ((nibble >> i) & 0x01) {
+            GPIO_PORTA_DATA_REG |= (1 << (Data_PIN0 + i)); // Set pin high
+        } else {
+            GPIO_PORTA_DATA_REG &= ~(1 << (Data_PIN0 + i)); // Set pin low
+        }
+    }
+}
+
+
+static void lcd_send_enable_4bits(void){
+    GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
+    SysTick_DelayMs(2);
+    GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
+    SysTick_DelayMs(2);
 }
 
 /* ================ Sub-program Details Section End ====================== */

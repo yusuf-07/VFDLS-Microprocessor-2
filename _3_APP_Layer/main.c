@@ -52,24 +52,27 @@
 //}
 
 // Function prototypes
-//void test_LCD_with_push_buttons(void);
+void test_LCD_with_push_buttons(void);
 //
-//int main(void)
-//{
+int main(void)
+{
+    DC_MOTORA_INIT();
+    DC_MOTORB_INIT();
+    PUSH_BUTTONS_INIT();
 //    // Initialize LCD and Push Buttons
 //    LCD_4BITS_INIT();
 //    PUSH_BUTTONS_INIT();
 //
 //    // Start testing LCD with push buttons
 //    test_LCD_with_push_buttons();
+
+    while(1)
+    {
+        // Continuous checking in the main loop
+    }
+}
 //
-//    while(1)
-//    {
-//        // Continuous checking in the main loop
-//    }
-//}
-//
-//// Function to test LCD functionality with Push Buttons
+// Function to test LCD functionality with Push Buttons
 //void test_LCD_with_push_buttons(void)
 //{
 //    uint8 pb_status = PB_RELEASED;
@@ -104,45 +107,45 @@
 //}
 
 
-#define DELAY_TIME 1000 // 1-second delay for periodic monitoring
-
-void System_Init(void);
-void Display_Temperature(void);
-
-int main(void) {
-    System_Init();  // Initialize UART, ADC, and GPIO
-
-    UART0_SendString("System Initialized. Monitoring Temperature...\n");
-
-    while (1) {
-        Display_Temperature();  // Read and display the temperature
-        SysTick_DelayMs(DELAY_TIME); // 1-second delay
-    }
-
-}
-
-/**
- * @brief Initializes the required peripherals: UART0, ADC, and PE0 for LM35.
- */
-void System_Init(void) {
-
-    UART0_Init();    // Initialize UART0 for communication
-    ADC0_Init();     // Initialize ADC0 for LM35 on PE0
-    SysTick_Init(15999999);  // Initialize SysTick timer for delays
-}
-
-/**
- * @brief Reads the temperature from the LM35 sensor and displays it over UART.
- */
-void Display_Temperature(void) {
-    uint32 temperature = LM35_GET_TEMP();  // Get the temperature in Celsius
-
-    // Print the temperature to the UART terminal
-    UART0_SendString("Room Temperature: ");
-    UART0_SendByte((temperature / 10) + '0');   // Tens digit
-    UART0_SendByte((temperature % 10) + '0');   // Ones digit
-    UART0_SendString(" C#");
-}
+//#define DELAY_TIME 1000 // 1-second delay for periodic monitoring
+//
+//void System_Init(void);
+//void Display_Temperature(void);
+//
+//int main(void) {
+//    System_Init();  // Initialize UART, ADC, and GPIO
+//
+//    UART0_SendString("System Initialized. Monitoring Temperature...\n");
+//
+//    while (1) {
+//        Display_Temperature();  // Read and display the temperature
+//        SysTick_DelayMs(DELAY_TIME); // 1-second delay
+//    }
+//
+//}
+//
+///**
+// * @brief Initializes the required peripherals: UART0, ADC, and PE0 for LM35.
+// */
+//void System_Init(void) {
+//
+//    UART0_Init();    // Initialize UART0 for communication
+//    ADC0_Init();     // Initialize ADC0 for LM35 on PE0
+//    SysTick_Init(15999999);  // Initialize SysTick timer for delays
+//}
+//
+///**
+// * @brief Reads the temperature from the LM35 sensor and displays it over UART.
+// */
+//void Display_Temperature(void) {
+//    uint32 temperature = LM35_GET_TEMP();  // Get the temperature in Celsius
+//
+//    // Print the temperature to the UART terminal
+//    UART0_SendString("Room Temperature: ");
+//    UART0_SendByte((temperature / 10) + '0');   // Tens digit
+//    UART0_SendByte((temperature % 10) + '0');   // Ones digit
+//    UART0_SendString(" C#");
+//}
 /*** ===================== Public Function Section End ======================= ***/
 
 /***

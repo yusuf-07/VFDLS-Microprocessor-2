@@ -1,17 +1,17 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Wed Dec 18 16:14:10 2024
+>> Linked Fri Dec 20 13:44:00 2024
 
 OUTPUT FILE NAME:   <Vehicle_Fault_Detection_and_Logging_System.out>
-ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 0000092d
+ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000515
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  0000096c  0003f694  R  X
+  FLASH                 00000000   00040000  0000056e  0003fa92  R  X
   SRAM                  20000000   00008000  00000200  00007e00  RW X
 
 
@@ -19,9 +19,9 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    0000096c   0000096c    r-x
+00000000    00000000    0000056e   0000056e    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00000700   00000700    r-x .text
+  0000026c    0000026c    00000302   00000302    r-x .text
 20000000    20000000    00000200   00000000    rw-
   20000000    20000000    00000200   00000000    rw- .stack
 
@@ -34,19 +34,15 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
 
-.text      0    0000026c    00000700     
+.text      0    0000026c    00000302     
                   0000026c    000001cc     DC_MOTOR.obj (.text)
-                  00000438    000001b0     UART.obj (.text)
-                  000005e8    00000134     ADC.obj (.text)
-                  0000071c    000000b4     main.obj (.text)
-                  000007d0    0000007e     LM35.obj (.text)
-                  0000084e    00000002     --HOLE-- [fill = 0]
-                  00000850    00000070     INTERRUPT.obj (.text)
-                  000008c0    0000006c     SYSTICK_TIMER.obj (.text)
-                  0000092c    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
-                  00000958    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
-                  00000964    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  00000968    00000004                                   : exit.c.obj (.text:abort:abort)
+                  00000438    00000070     INTERRUPT.obj (.text)
+                  000004a8    0000006c     SYSTICK_TIMER.obj (.text)
+                  00000514    0000002c     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noinit_noargs:_c_int00_noinit_noargs)
+                  00000540    0000001a     main.obj (.text)
+                  0000055a    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00000566    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  0000056a    00000004                                   : exit.c.obj (.text:abort:abort)
 
 .cinit     0    00000000    00000000     UNINITIALIZED
 
@@ -69,11 +65,6 @@ MODULE SUMMARY
     +--+------------------------------+------+---------+---------+
        Total:                         12     620       0      
                                                               
-    .\_1_MCAL_Layer\ADC\
-       ADC.obj                        308    0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         308    0         0      
-                                                              
     .\_1_MCAL_Layer\INTERRUPT\
        INTERRUPT.obj                  112    0         0      
     +--+------------------------------+------+---------+---------+
@@ -84,25 +75,15 @@ MODULE SUMMARY
     +--+------------------------------+------+---------+---------+
        Total:                         108    0         0      
                                                               
-    .\_1_MCAL_Layer\UART\
-       UART.obj                       432    0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         432    0         0      
-                                                              
     .\_2_ECU_Layer\DC_MOTOR\
        DC_MOTOR.obj                   460    0         0      
     +--+------------------------------+------+---------+---------+
        Total:                         460    0         0      
                                                               
-    .\_2_ECU_Layer\LM35\
-       LM35.obj                       126    0         0      
-    +--+------------------------------+------+---------+---------+
-       Total:                         126    0         0      
-                                                              
     .\_3_APP_Layer\
-       main.obj                       180    0         0      
+       main.obj                       26     0         0      
     +--+------------------------------+------+---------+---------+
-       Total:                         180    0         0      
+       Total:                         26     0         0      
                                                               
     C:\ti\ccs1281\ccs\tools\compiler\ti-cgt-arm_20.2.7.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
        boot_cortex_m.c.obj            44     0         0      
@@ -113,44 +94,30 @@ MODULE SUMMARY
                                                               
        Stack:                         0      0         512    
     +--+------------------------------+------+---------+---------+
-       Grand Total:                   1790   620       512    
+       Grand Total:                   770    620       512    
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
 address   name                   
 -------   ----                   
-00000633  ADC0_Init              
-0000069b  ADC0_ReadSeq3          
-00000969  C$$EXIT                
+0000056b  C$$EXIT                
 0000026d  DC_MOTORA_INIT         
 000002cb  DC_MOTORA_START        
 00000329  DC_MOTORA_STOP         
 0000033f  DC_MOTORB_INIT         
 0000039d  DC_MOTORB_START        
 000003fb  DC_MOTORB_STOP         
-00000749  Display_Temperature    
-00000851  GPIOPortA_Handler      
-00000853  GPIOPortB_Handler      
-00000855  GPIOPortC_Handler      
-00000857  GPIOPortD_Handler      
-00000859  GPIOPortE_Handler      
-0000085b  GPIOPortF_Handler      
-000005e9  GPIO_SetupPE0AnalogPin 
-000007d1  LM35_GET_TEMP          
-000007e9  Monitor_TEMP           
-00000959  ResetISR               
-000008e3  SysTick_DelayMs        
-00000903  SysTick_DelayUs        
-000008c1  SysTick_Init           
-00000737  System_Init            
-0000048f  UART0_Init             
-00000539  UART0_ReceiveByte      
-00000581  UART0_ReceiveData      
-00000549  UART0_ReceiveString    
-000004cf  UART0_SendByte         
-00000511  UART0_SendData         
-000004eb  UART0_SendString       
+00000439  GPIOPortA_Handler      
+0000043b  GPIOPortB_Handler      
+0000043d  GPIOPortC_Handler      
+0000043f  GPIOPortD_Handler      
+00000441  GPIOPortE_Handler      
+00000443  GPIOPortF_Handler      
+0000055b  ResetISR               
+000004cb  SysTick_DelayMs        
+000004eb  SysTick_DelayUs        
+000004a9  SysTick_Init           
 20000200  __STACK_END            
 00000200  __STACK_SIZE           
 20000200  __STACK_TOP            
@@ -164,12 +131,12 @@ UNDEFED   __mpu_init
 20000000  __stack                
 20000000  __start___llvm_prf_cnts
 20000000  __stop___llvm_prf_cnts 
-0000092d  _c_int00_noinit_noargs 
-00000965  _system_pre_init       
-00000969  abort                  
+00000515  _c_int00_noinit_noargs 
+00000567  _system_pre_init       
+0000056b  abort                  
 ffffffff  binit                  
 00000000  g_pfnVectors           
-0000071d  main                   
+00000541  main                   
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -185,35 +152,21 @@ address   name
 0000033f  DC_MOTORB_INIT         
 0000039d  DC_MOTORB_START        
 000003fb  DC_MOTORB_STOP         
-0000048f  UART0_Init             
-000004cf  UART0_SendByte         
-000004eb  UART0_SendString       
-00000511  UART0_SendData         
-00000539  UART0_ReceiveByte      
-00000549  UART0_ReceiveString    
-00000581  UART0_ReceiveData      
-000005e9  GPIO_SetupPE0AnalogPin 
-00000633  ADC0_Init              
-0000069b  ADC0_ReadSeq3          
-0000071d  main                   
-00000737  System_Init            
-00000749  Display_Temperature    
-000007d1  LM35_GET_TEMP          
-000007e9  Monitor_TEMP           
-00000851  GPIOPortA_Handler      
-00000853  GPIOPortB_Handler      
-00000855  GPIOPortC_Handler      
-00000857  GPIOPortD_Handler      
-00000859  GPIOPortE_Handler      
-0000085b  GPIOPortF_Handler      
-000008c1  SysTick_Init           
-000008e3  SysTick_DelayMs        
-00000903  SysTick_DelayUs        
-0000092d  _c_int00_noinit_noargs 
-00000959  ResetISR               
-00000965  _system_pre_init       
-00000969  C$$EXIT                
-00000969  abort                  
+00000439  GPIOPortA_Handler      
+0000043b  GPIOPortB_Handler      
+0000043d  GPIOPortC_Handler      
+0000043f  GPIOPortD_Handler      
+00000441  GPIOPortE_Handler      
+00000443  GPIOPortF_Handler      
+000004a9  SysTick_Init           
+000004cb  SysTick_DelayMs        
+000004eb  SysTick_DelayUs        
+00000515  _c_int00_noinit_noargs 
+00000541  main                   
+0000055b  ResetISR               
+00000567  _system_pre_init       
+0000056b  C$$EXIT                
+0000056b  abort                  
 20000000  __stack                
 20000000  __start___llvm_prf_cnts
 20000000  __stop___llvm_prf_cnts 
@@ -227,4 +180,4 @@ ffffffff  __c_args__
 ffffffff  binit                  
 UNDEFED   __mpu_init             
 
-[50 symbols]
+[36 symbols]

@@ -65,7 +65,13 @@ void DC_MOTORA_START(DC_DIR_T DCdir){
  * @brief Stop MOTOR A
  */
 void DC_MOTORA_STOP(void){
+    //To avoid high voltage resulting in back emf
+    GPIO_PORTB_DATA_REG |= (1<<IN1_PIN);    //IN1 = 1
+    GPIO_PORTB_DATA_REG |= (1<<IN2_PIN);    //IN2 = 1
+    GPIO_PORTB_DATA_REG |= (1<<ENA_PIN);    //ENA = 1
+    SysTick_DelayMs(100);
     //To stop MOTOR A IN1 = 0, IN2 = 0
+    GPIO_PORTB_DATA_REG &= ~ (1<<ENA_PIN);
     GPIO_PORTB_DATA_REG &= ~ (1<<IN1_PIN);    //IN1 = 0 (Forward off)
     GPIO_PORTB_DATA_REG &= ~ (1<<IN2_PIN);    //IN2 = 0 (Reverse off)
 }
@@ -121,7 +127,13 @@ void DC_MOTORB_START(DC_DIR_T DCdir){
  * @brief Stop MOTOR B
  */
 void DC_MOTORB_STOP(void){
+    //To avoid high voltage resulting in back emf
+    GPIO_PORTB_DATA_REG |= (1<<IN3_PIN);    //IN1 = 1
+    GPIO_PORTB_DATA_REG |= (1<<IN4_PIN);    //IN2 = 1
+    GPIO_PORTB_DATA_REG |= (1<<ENB_PIN);    //ENA = 1
+    SysTick_DelayMs(100);
     //To stop MOTOR B IN3 = 0, IN4 = 0
+    GPIO_PORTB_DATA_REG &= ~ (1<<ENB_PIN);
     GPIO_PORTB_DATA_REG &= ~ (1<<IN3_PIN);    //IN3 = 0 (Forward off)
     GPIO_PORTB_DATA_REG &= ~ (1<<IN4_PIN);    //IN4 = 0 (Reverse off)
 }
