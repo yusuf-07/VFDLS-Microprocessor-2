@@ -44,6 +44,7 @@ int main(void) {
     while (1) {
 
         char command = UART0_ReceiveByte();        // Read command from the terminal
+        UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
 
         switch(command){
         case 1:
