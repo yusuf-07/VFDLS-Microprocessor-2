@@ -24,6 +24,7 @@ ORDERED_OBJS += \
 "./_2_ECU_Layer/Ultrasonic/ULTRASONIC.obj" \
 "./_3_APP_Layer/Testcases.obj" \
 "./_3_APP_Layer/main.obj" \
+"./_3_APP_Layer/tests.obj" \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -178,8 +179,8 @@ Vehicle_Fault_Detection_and_Logging_System.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" 
-	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" "_3_APP_Layer\tests.obj" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" "_3_APP_Layer\tests.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

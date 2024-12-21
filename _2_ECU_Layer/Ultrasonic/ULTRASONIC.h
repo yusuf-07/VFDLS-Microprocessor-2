@@ -34,6 +34,12 @@
 #define GPIO_PORTB_PRIORITY_BITS_POS      13
 #define GPIO_PORTB_INTERRUPT_PRIORITY     2
 
+/* Macros used foe error logging */
+#define DISTANCE_THRESHOLD          10                         /* Distance threshold */
+#define DTC_DISTANCE               "P001"                     /* Diagnostic code for ACCIDENT_MIGHT_HAPPEN */
+#define DIST_ERROR                 "ACCIDENT_MIGHT_HAPPEN"   /* Error description that the Distance < 10cm*/
+
+
 /* Enable Exceptions Macro */
 #define Enable_Exceptions()    __asm(" CPSIE I ")
 /*** ====================== Macros Section End ============================= ***/
@@ -41,6 +47,7 @@
 /*** ================= Global Declaration Section Start ==================== ***/
 void Ultrasonic_Init(void);
 uint32 Ultrasonic_GetDistance(void);
+void Monitor_DIST(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 #endif /* ULTRASONIC_H_ */

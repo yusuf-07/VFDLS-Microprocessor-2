@@ -175,6 +175,12 @@ void LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 col){
         LCD_4BITS_send_string(string);
 }
 
+void LCD_RESET(void){
+    SysTick_DelayMs(3000);
+    LCD_4BITS_send_command(LCD_CLEAR);
+
+}
+
 /**
  * @brief: To set cursor on specific position
  * @param col: column to start at

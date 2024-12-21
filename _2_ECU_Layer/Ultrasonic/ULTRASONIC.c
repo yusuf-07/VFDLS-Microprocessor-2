@@ -108,6 +108,20 @@ uint32 Ultrasonic_GetDistance(void)
 
 }
 
+
+
+void Monitor_DIST(void){
+    uint32 measured_Distance = Ultrasonic_GetDistance();
+    if (measured_Distance < DISTANCE_THRESHOLD) {
+        Log_Fault(DTC_DISTANCE );              // Log_Error(DTC_DISTANCE)in the EEPROM
+        UART0_SendString("Error logged: ");
+        UART0_SendString(DTC_DISTANCE);
+        UART0_SendString("  ");
+        UART0_SendString(DIST_ERROR);
+        UART0_SendString("#");
+    }
+}
+
 /*** ===================== Public Function Section End ======================= ***/
 
 /**

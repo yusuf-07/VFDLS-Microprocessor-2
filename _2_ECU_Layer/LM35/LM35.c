@@ -28,11 +28,21 @@ uint32 LM35_GET_TEMP(void){
 void Monitor_TEMP(void){
     uint32 engineTemperature = LM35_GET_TEMP();
     if (engineTemperature > ENGINE_TEMP_THRESHOLD) {
-       /*TO_DO*/  // Log_Error(DTC_ENGINE_TEMP);  //we could just display until implementing the log_error function
+        Log_Fault(DTC_ENGINE_TEMP);              // Log_Error(DTC_ENGINE_TEMP)in the EEPROM
         UART0_SendString("Error logged: ");
         UART0_SendString(DTC_ENGINE_TEMP);
         UART0_SendString("  ");
         UART0_SendString(TEMP_ERROR);
         UART0_SendString("#");
     }
+}
+
+void Display_Temperature(void) {
+    uint32 temperature = LM35_GET_TEMP();  // Get the temperature in Celsius
+
+    // Print the temperature to the UART terminal
+    UART0_SendString("Room Temperature: ");
+    UART0_SendByte((temperature / 10) + '0');   // Tens digit
+    UART0_SendByte((temperature % 10) + '0');   // Ones digit
+    UART0_SendString(" C#");
 }

@@ -75,34 +75,54 @@ void PUSH_BUTTONS_INIT(void)
 * @param    : button - Button identifier (PB_SW0, PB_SW1, PB_SW2, PB_SW3)
 * @return   : PB_PRESSED (0x00) or PB_RELEASED (0x01)
 ***/
-uint8 PUSH_BUTTON_STATUS(uint8 button)
-{
-    switch (button)
-    {
-        case PB_SW0:
-            if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0)   /* PF4 (SW1) is pressed */
-                return PB_PRESSED;
-            break;
+//uint8 PUSH_BUTTON_STATUS(uint8 button)
+//{
+//    switch (button)
+//    {
+//        case PB_SW0:
+//            if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0)   /* PF4 (SW1) is pressed */
+//                return PB_PRESSED;
+//            break;
+//
+//        case PB_SW1:
+//            if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0)   /* PF0 (SW2) is pressed */
+//                return PB_PRESSED;
+//            break;
+//
+//        case PB_SW2:
+//            if (GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0)   /* PB0 is pressed */
+//                return PB_PRESSED;
+//            break;
+//
+//        case PB_SW3:
+//            if (GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0)   /* PB1 is pressed */
+//                return PB_PRESSED;
+//            break;
+//
+//        default:
+//            return PB_RELEASED;  /* In case of invalid button ID */
+//    }
+//    return PB_RELEASED;  /* Default return when no button is pressed */
+//}
 
-        case PB_SW1:
-            if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0)   /* PF0 (SW2) is pressed */
-                return PB_PRESSED;
-            break;
 
-        case PB_SW2:
-            if (GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0)   /* PB0 is pressed */
-                return PB_PRESSED;
-            break;
-
-        case PB_SW3:
-            if (GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0)   /* PB1 is pressed */
-                return PB_PRESSED;
-            break;
-
-        default:
-            return PB_RELEASED;  /* In case of invalid button ID */
+char* Check_MotorB_status(void){
+    if (GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0){   //check if PB0 is pressed then window 2 (Motor B) is counterclockwise (closed)
+             return "W2-Close";
     }
-    return PB_RELEASED;  /* Default return when no button is pressed */
+    else if(GET_BIT(GPIO_PORTB_DATA_REG,1) == 0){  //check if PB1 is pressed then window 2 (Motor B) is clockwise (open)
+            return "W2-Open";
+    }
+}
+
+
+char* Check_MotorA_status(void){
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0){  //check if PF4 is pressed then window 1 (Motor A) is counterclockwise (closed)
+             return "W1-Close";
+    }
+    else if(GET_BIT(GPIO_PORTF_DATA_REG,0) == 0){ //check if PF0 is pressed then window 1 (Motor A) is clockwise (open)
+            return "W1-Open";
+    }
 }
 
 /*** ================ Sub-program Details Section End ====================== ***/

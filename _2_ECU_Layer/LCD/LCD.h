@@ -85,5 +85,5 @@ void LCD_4BITS_send_char_data(uint8 data);
 void LCD_4BITS_send_data_position(uint8 row, uint8 col, uint8 data);
 void LCD_4BITS_send_string(uint8 *string);
 void LCD_4BITS_send_string_position(uint8 *string, uint8 row, uint8 col);
-
+void LCD_RESET(void);
 #endif /* _2_ECU_LAYER_LCD_LCD_H_ */

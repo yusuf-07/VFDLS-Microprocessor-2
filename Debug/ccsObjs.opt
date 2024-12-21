@@ -12,5 +12,6 @@
 "./_2_ECU_Layer/Ultrasonic/ULTRASONIC.obj"
 "./_3_APP_Layer/Testcases.obj"
 "./_3_APP_Layer/main.obj"
+"./_3_APP_Layer/tests.obj"
 "../tm4c123gh6pm.cmd"
 -llibc.a

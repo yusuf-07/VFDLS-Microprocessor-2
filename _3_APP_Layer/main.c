@@ -1,191 +1,164 @@
 /***
 ==================================================================================
 * @file     : main.c
-* @author   : Maria George
+* @author   : Rawan Waleed
 * @version  : v1.0
 * @brief    : Application Main Run File
 * @details  :
 ==================================================================================
 ***/
 
+
 /*** ===================== Include Section Start =========================== ***/
 #include <_1_MCAL_Layer/GPIO/GPIO.h>
 #include <_1_MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.h>
 #include <_1_MCAL_Layer/UART/UART.h>
+#include <_1_MCAL_Layer/INTERRUPT/INTERRUPT.h>
+#include <_1_MCAL_Layer/ADC/ADC.h>
+#include <_1_MCAL_Layer/EEPROM/EEPROM.h>
+#include <_1_MCAL_Layer/MCAL_STD_TYPES.h>
 #include <_2_ECU_Layer/DC_MOTOR/DC_MOTOR.h>
 #include <_2_ECU_Layer/LCD/LCD.h>
 #include <_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.h>
 #include <_2_ECU_Layer/Ultrasonic/ULTRASONIC.h>
-#include <_1_MCAL_Layer/ADC/ADC.h>
 #include <_2_ECU_Layer/LM35/LM35.h>
+
 /*** ===================== Include Section End ============================= ***/
 
-/*** ===================== Public Function Section Start ===================== ***/
-//void main(void) {
-//
-//    // Initialize UART, LCD, and Push Buttons
-//    UART0_Init();
-//    LCD_4BITS_INIT();
-//    PUSH_BUTTONS_INIT();
-//
-//    unsigned char message[] = "Welcome to LCD";  // Message to send via UART
-//    unsigned char receivedMessage[100];         // Buffer to store received UART data
-//
-//    // Display an initial message on the LCD
-//    LCD_4BITS_send_string_position((uint8 *)"Press Button", ROW1, 1);
-//    LCD_4BITS_send_string_position((uint8 *)"to Send Msg", ROW2, 1);
-//
-//    while (1) {
-//        // Check if SW1 (PF4) is pressed
-//        if (PUSH_BUTTON_STATUS(PB_SW0) == PB_PRESSED) {
-//            // Send the message via UART
-//            UART0_SendString(message);
-//
-//            // Receive the message via UART
-//            UART0_ReceiveString(receivedMessage);  // Wait until the '#' symbol is received
-//
-//            // Display the received message on the LCD
-//            LCD_4BITS_send_command(LCD_CLEAR);  // Clear the LCD
-//            LCD_4BITS_send_string_position(receivedMessage, ROW1, 1);
-//        }
-//    }
-//}
 
-// Function prototypes
-//void test_LCD_with_push_buttons(void);
-////
-//int main(void)
-//{
-//    DC_MOTORA_INIT();
-//    DC_MOTORB_INIT();
-//    PUSH_BUTTONS_INIT();
-////    // Initialize LCD and Push Buttons
-////    LCD_4BITS_INIT();
-////    PUSH_BUTTONS_INIT();
-////
-////    // Start testing LCD with push buttons
-////    test_LCD_with_push_buttons();
-//
-//    while(1)
-//    {
-//        // Continuous checking in the main loop
-//    }
-//}
-//
-// Function to test LCD functionality with Push Buttons
-//void test_LCD_with_push_buttons(void)
-//{
-//    uint8 pb_status = PB_RELEASED;
-//
-//    // Display an initial message
-//    LCD_4BITS_send_string("Push Buttons Test");
-//
-//    while(1)
-//    {
-//        // Check if PB_SW0 (PF4) is pressed
-//        pb_status = PUSH_BUTTON_STATUS(PB_SW0);  // PB_SW0 is connected to PF4
-//
-//        if(pb_status == PB_PRESSED)
-//        {
-//            // If PB_SW0 is pressed, clear the LCD screen
-//            LCD_4BITS_send_command(LCD_CLEAR);
-//            LCD_4BITS_send_string("PB_0 Pressed!");
-//            while(PUSH_BUTTON_STATUS(PB_SW0) == PB_PRESSED);  // Wait for button release
-//        }
-//
-//        // Check if PB_SW1 (PF0) is pressed
-//        pb_status = PUSH_BUTTON_STATUS(PB_SW1);  // PB_SW1 is connected to PF0
-//
-//        if(pb_status == PB_PRESSED)
-//        {
-//            // If PB_SW1 is pressed, display a message on the LCD
-//            LCD_4BITS_send_command(LCD_CLEAR);
-//            LCD_4BITS_send_string("PB_1 Pressed!");
-//            while(PUSH_BUTTON_STATUS(PB_SW1) == PB_PRESSED);  // Wait for button release
-//        }
-//    }
-//}
+/*** ================= Global Declaration Section Start ==================== ***/
+void System_Init(void);
+void Monitor_Subsystems(void);
+char* To_String(uint32 number);
+void Update_LCD(void);
+void Start_Operation(void);
+void Stop_System(void);
 
-
-//#define DELAY_TIME 1000 // 1-second delay for periodic monitoring
-//
-//void System_Init(void);
-//void Display_Temperature(void);
-//
-//int main(void) {
-//    System_Init();  // Initialize UART, ADC, and GPIO
-//
-//    UART0_SendString("System Initialized. Monitoring Temperature...\n");
-//
-//    while (1) {
-//        Display_Temperature();  // Read and display the temperature
-//        SysTick_DelayMs(DELAY_TIME); // 1-second delay
-//    }
-//
-//}
-//
-///**
-// * @brief Initializes the required peripherals: UART0, ADC, and PE0 for LM35.
-// */
-//void System_Init(void) {
-//
-//    UART0_Init();    // Initialize UART0 for communication
-//    ADC0_Init();     // Initialize ADC0 for LM35 on PE0
-//    SysTick_Init(15999999);  // Initialize SysTick timer for delays
-//}
-//
-///**
-// * @brief Reads the temperature from the LM35 sensor and displays it over UART.
-// */
-//void Display_Temperature(void) {
-//    uint32 temperature = LM35_GET_TEMP();  // Get the temperature in Celsius
-//
-//    // Print the temperature to the UART terminal
-//    UART0_SendString("Room Temperature: ");
-//    UART0_SendByte((temperature / 10) + '0');   // Tens digit
-//    UART0_SendByte((temperature % 10) + '0');   // Ones digit
-//    UART0_SendString(" C#");
-//}
-
+/*** ================= Global Declaration Section End ====================== ***/
 
 
 int main(void) {
-    // Initialize UART for terminal communication
-    UART0_Init();
 
-    // Initialize EEPROM
-    if (EEPROM_INIT() == E_OK) {
-        UART0_SendString((unsigned char *)"EEPROM Initialized Successfully!\n");
-    } else {
-        UART0_SendString((unsigned char *)"EEPROM Initialization Failed!\n");
-        while (1); // Halt execution if EEPROM initialization fails
-    }
+    System_Init();
 
-    // Log fault codes into EEPROM
-    UART0_SendString((unsigned char *)"Logging Fault Codes...\n");
-
-    Log_Fault("P001"); // Log fault code "P001"
-    Log_Fault("P002"); // Log fault code "P002"
-
-    UART0_SendString((unsigned char *)"Fault Codes Logged!\n");
-
-    // Retrieve fault codes from EEPROM
-    UART0_SendString((unsigned char *)"Retrieving Fault Codes...\n");
-    Retrieve_Faults();
-
-    // Loop indefinitely
     while (1) {
-        // Optionally add a delay or additional functionality here
+
+        char command = UART0_ReceiveByte();        // Read command from the terminal
+
+        switch(command){
+        case 1:
+            Start_Operation();
+            break;
+        case 2:
+            Retrieve_Faults();
+            break;
+        case 3:
+            Stop_System();
+            UART0_SendString("System Terminated.\n");
+            break;
+        default:
+            UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+            break;
+        }
+
     }
-
-    return 0;
 }
-/*** ===================== Public Function Section End ======================= ***/
 
-/***
-*******************************************************
-User        Date        Brief
-*******************************************************
-Maria       15Dec24     Created Main
-Yusuf       16Dec24     Created Test Cases Source File
-**/
+/*** ===================== System Initialization ======================= ***/
+void System_Init(void){
+
+   UART0_Init();
+   SysTick_Init(15999999);
+   ADC0_Init();
+
+   /* initializing the EEPROM */
+     if (EEPROM_INIT() == E_OK) {
+         UART0_SendString((unsigned char *)"EEPROM Initialized Successfully!\n");
+     } else {
+         UART0_SendString((unsigned char *)"EEPROM Initialization Failed!\n");
+         while (1); // Halt execution if EEPROM initialization fails
+     }
+
+   LCD_4BITS_INIT();
+   Ultrasonic_Init();
+   PUSH_BUTTONS_INIT();
+
+   DC_MOTORA_INIT();
+   DC_MOTORB_INIT();
+
+   UART0_SendString("Vehicle Fault Detection System Initialized.\n");
+   LCD_4BITS_send_string("VFDS Initialized");
+}
+
+
+/*** ===================== Starting the operation======================= ***/
+void Start_Operation(void){
+
+    UART0_SendString("Starting the Operation.......\n");
+
+        while (1) {
+            char command = UART0_ReceiveByte();        // Read command from the terminal
+
+            Monitor_Subsystems();
+            Update_LCD();
+
+            if(command==3){
+                Stop_System();
+                UART0_SendString("System Terminated.\n");
+                break;
+            }
+        }
+
+}
+
+
+/*** ===================== Functions related to Starting the operation======================= ***/
+void Monitor_Subsystems(void){
+    Monitor_TEMP();
+    Monitor_DIST();
+}
+
+void Update_LCD(void){
+    uint32 engineTemperature = LM35_GET_TEMP();              /* Taking the temperature readings*/
+    uint32 measured_Distance = Ultrasonic_GetDistance();     /* Taking the distance readings */
+
+    // Convert temperature and distance to strings
+    char* temp = To_String(engineTemperature);  // Ensure To_String returns a pointer to a valid string
+    char* dist = To_String(measured_Distance);
+
+    // Retrieve motor statuses as strings
+    const char* motorA_status = Check_MotorA_status();
+    const char* motorB_status = Check_MotorB_status();
+
+    // Display temperature
+    LCD_4BITS_send_string_position((uint8_t*)"Temp=", 1, 0);
+    LCD_4BITS_send_string_position((uint8_t*)temp, 1, 6);
+
+    // Display distance
+    LCD_4BITS_send_string_position((uint8_t*)"Dist=", 2, 0);
+    LCD_4BITS_send_string_position((uint8_t*)dist, 2, 6);
+
+    // Display motor statuses
+    LCD_4BITS_send_string_position((uint8_t*)motorA_status, 1, 9);
+    LCD_4BITS_send_string_position((uint8_t*)motorB_status, 2, 9);
+}
+
+char* To_String(uint32 number) {
+     static char Str[3];
+
+    // Convert the temperature into a string
+    Str[0] = (number / 10) + '0';   // Tens digit
+    Str[1] = (number % 10) + '0';   // Ones digit
+    Str[2] = '\0';                       // Null-terminate the string
+
+    // Return the formatted string
+    return Str;
+}
+
+
+/*** ===================== Stopping the system ======================= ***/
+void Stop_System(void){
+    LCD_4BITS_send_command(LCD_CLEAR);
+    DC_MOTORA_STOP();
+    DC_MOTORB_STOP();
+}

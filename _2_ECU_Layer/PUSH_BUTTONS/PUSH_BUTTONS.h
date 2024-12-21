@@ -57,6 +57,8 @@
 /*** ================= Global Declaration Section Start ==================== ***/
 void PUSH_BUTTONS_INIT(void);
 uint8 PUSH_BUTTON_STATUS(uint8 button);  // Function to get push button status based on input
+char* Check_MotorB_status(void);
+char* Check_MotorA_status(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 #endif /* PUSH_BUTTONS_H_ */
