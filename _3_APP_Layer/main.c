@@ -43,9 +43,8 @@ int main(void) {
 
     while (1) {
 
+        char command = UART0_ReceiveByte();        // Read command from the terminal
         UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-        unsigned char command = UART0_ReceiveByte();        // Read command from the terminal
-        UART0_SendByte(command);
 
         switch(command){
         case '1':
@@ -53,7 +52,6 @@ int main(void) {
             break;
         case '2':
             Retrieve_Faults();
-            Clear_Logged_Errors();
             break;
         case '3':
             Stop_System();
@@ -61,7 +59,6 @@ int main(void) {
             break;
         default:
             UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-            unsigned char command = UART0_ReceiveByte();        // Read command from the terminal
             break;
         }
 
@@ -70,6 +67,7 @@ int main(void) {
 
 /*** ===================== System Initialization ======================= ***/
 void System_Init(void){
+
 
    UART0_Init();
    SysTick_Init(15999999);
@@ -84,6 +82,9 @@ void System_Init(void){
      }
 
    LCD_4BITS_INIT();
+   LCD_4BITS_send_string("LETS START");
+   SysTick_DelayMs(1000);
+   LCD_4BITS_send_command(LCD_CLEAR);
    Ultrasonic_Init();
    PUSH_BUTTONS_INIT();
 
@@ -98,16 +99,17 @@ void System_Init(void){
 /*** ===================== Starting the operation======================= ***/
 void Start_Operation(void){
 
-    LCD_4BITS_send_command(LCD_CLEAR);
     UART0_SendString("Starting the Operation.......\n");
 
         while (1) {
+            char command = UART0_ReceiveByte();        // Read command from the terminal
 
             Monitor_Subsystems();
             Update_LCD();
 
-            unsigned char command = UART0_ReceiveByte();        // Read command from the terminal
-            if(command =='3'){
+            if(command=='3'){
+                Stop_System();
+                UART0_SendString("System Terminated.\n");
                 break;
             }
         }
@@ -122,6 +124,7 @@ void Monitor_Subsystems(void){
 }
 
 void Update_LCD(void){
+    LCD_4BITS_send_command(LCD_CLEAR);
     uint32 engineTemperature = LM35_GET_TEMP();              /* Taking the temperature readings*/
     //uint32 measured_Distance = Ultrasonic_GetDistance();     /* Taking the distance readings */
 
@@ -134,22 +137,13 @@ void Update_LCD(void){
     const char* motorB_status = Check_MotorB_status();
 
     // Display temperature
-    LCD_4BITS_send_string_position((uint8_t*)"temp=", 1, 0);
+    //LCD_4BITS_send_string_position((uint8_t*)"Temp=", 1, 0);
+    LCD_4BITS_send_string("Temp=");
     LCD_4BITS_send_string_position((uint8_t*)temp, 1, 6);
 
-    //testing................................
-    UART0_SendString("Temp=");
-    UART0_SendString(temp);
-
-//    if(measured_Distance<20){
-//        // Display distance
-//        LCD_4BITS_send_string_position((uint8_t*)"Dist=", 2, 0);
-//        LCD_4BITS_send_string_position((uint8_t*)dist, 2, 6);
-//    }
-//    else{
-//        LCD_4BITS_send_string_position((uint8_t*)"Dist=", 2, 0);
-//        LCD_4BITS_send_string_position((uint8_t*)"OOR", 2, 6);       //  OOR=> out of rnge
-//    }
+    // Display distance
+    LCD_4BITS_send_string_position((uint8_t*)"Dist=", 2, 0);
+    //LCD_4BITS_send_string_position((uint8_t*)dist, 2, 6);
 
     // Display motor statuses
     LCD_4BITS_send_string_position((uint8_t*)motorA_status, 1, 9);
@@ -174,8 +168,4 @@ void Stop_System(void){
     LCD_4BITS_send_command(LCD_CLEAR);
     DC_MOTORA_STOP();
     DC_MOTORB_STOP();
-    Clear_Logged_Errors();
 }
-
-
-

@@ -17,7 +17,6 @@
 
 /*------------------Macros Declarations------------------*/
 #define RS_PIN      1
-#define RW_PIN      2
 #define ENABLE_PIN  3
 #define Data_PIN0   3
 #define Data_PIN1   4

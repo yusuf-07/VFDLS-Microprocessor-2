@@ -6,10 +6,12 @@
  */
 
 #include "LCD.h"
+#define NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND    364
 
 static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
 static void lcd_send_4bits(uint8 _data_command);
 static void lcd_send_enable_4bits(void);
+static void Delay_MS(unsigned long long n);
 /* ====================== LCD =========================== */
 /*
  * Port A Pin 3 for Data Line
@@ -17,16 +19,21 @@ static void lcd_send_enable_4bits(void);
  * Port A Pin 5 for Data Line
  * Port A Pin 6 for Data Line
  * Port E Pin 1 for Rs
- * Port E Pin 2 for R/W
  * Port E Pin 3 for Enable
  */
 /**
  * @brief To initialize the LCD
  */
+
+
 void LCD_4BITS_INIT(void){
     //Enable clock for PortA and PortE
     SYSCTL_RCGCGPIO_REG |= ((1<<0) | (1<<4));
+    //SysTick_DelayMs(10); // Add delay to stabilize the clock
+    Delay_MS(10);
     while ((SYSCTL_PRGPIO_REG & ((1<<0) | (1<<4))) == 0);
+
+    //LCD_RESET();
 
     //Data lines->PA3-PA6
     GPIO_PORTA_AMSEL_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));       /* Disable Analog on PA3, PA4, PA5 and PA6 */
@@ -37,37 +44,53 @@ void LCD_4BITS_INIT(void){
     GPIO_PORTA_DATA_REG  &= ~(((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3)));     /* Clear bit 3, 4, 5 and 6 in Data register */
 
     //RS->PE1, R/W->PE2,ENABLE->PE3,
-    GPIO_PORTE_AMSEL_REG &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Disable Analog on PE1, PE2 and PE3 */
+    GPIO_PORTE_AMSEL_REG &= ~((1<<RS_PIN) | (1<<ENABLE_PIN));         /* Disable Analog on PE1, PE2 and PE3 */
     GPIO_PORTE_PCTL_REG  &= 0xFFFF000F;                                             /* Clear PMCx bits for PE1, PE2 and PE3 to use it as GPIO pin */
-    GPIO_PORTE_DIR_REG   |= ((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));          /* Configure PE1, PE2 and PE3 as output pin */
-    GPIO_PORTE_AFSEL_REG &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Disable alternative function on PE1, PE2 and PE3 */
-    GPIO_PORTE_DEN_REG   |= ((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));          /* Enable Digital I/O on PE1, PE2 and PE3 */
-    GPIO_PORTE_DATA_REG  &= ~((1<<RS_PIN) | (1<<RW_PIN) | (1<<ENABLE_PIN));         /* Clear bit 1, 2 and 3 in Data register */
+    GPIO_PORTE_DIR_REG   |= ((1<<RS_PIN) | (1<<ENABLE_PIN));          /* Configure PE1, PE2 and PE3 as output pin */
+    GPIO_PORTE_AFSEL_REG &= ~((1<<RS_PIN) | (1<<ENABLE_PIN));         /* Disable alternative function on PE1, PE2 and PE3 */
+    GPIO_PORTE_DEN_REG   |= ((1<<RS_PIN) | (1<<ENABLE_PIN));          /* Enable Digital I/O on PE1, PE2 and PE3 */
+    GPIO_PORTE_DATA_REG  &= ~((1<<RS_PIN) | (1<<ENABLE_PIN));         /* Clear bit 1, 2 and 3 in Data register */
+
+    GPIO_PORTA_DATA_REG &= ~((1<<Data_PIN0) | (1<<Data_PIN1) | (1<<Data_PIN2) | (1<<Data_PIN3));
+    GPIO_PORTE_DATA_REG &= ~((1<<RS_PIN) | (1<<ENABLE_PIN));
 
     //LCD 4-bit Initialization sequence
     // Wait for more than 40 ms after VDD rises to 4.5 V
-    SysTick_DelayMs(50);
+    //SysTick_DelayMs(50);
+    Delay_MS(50);
 
     // Function Set: 4-bit mode
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    SysTick_DelayMs(5); // Wait for more than 37 탎
+    //SysTick_DelayMs(5); // Wait for more than 37 탎
+    Delay_MS(5);
 
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
-    SysTick_DelayUs(150); // Wait for more than 37 탎
+    //SysTick_DelayUs(200); // Wait for more than 37 탎
+    Delay_MS(1);
 
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
+    //SysTick_DelayMs(10);
+    Delay_MS(10);
 
     // Clear Display
     LCD_4BITS_send_command(LCD_CLEAR);
+    //SysTick_DelayMs(2);
+    Delay_MS(2);
 
     //Set cursor home
     LCD_4BITS_send_command(LCD_CURSOR_HOME);
+    //SysTick_DelayMs(2);
+    Delay_MS(2);
 
     // Entry Mode Set: Increment cursor, no display shift
     LCD_4BITS_send_command(LCD_INCREMENT_SHIFT_OFF);
+    //SysTick_DelayMs(2);
+    Delay_MS(2);
 
     // Display Control: Turn on display, cursor off
     LCD_4BITS_send_command(LCD_DISPLAY_ON_UNDERLINE_OFF_CURSOR_OFF);
+    //SysTick_DelayMs(2);
+    Delay_MS(2);
 
     // Function Set: 4-bit mode, 2 lines, 5x8 dots
     LCD_4BITS_send_command(LCD_4BIT_2LINE_SMALL_FONT);
@@ -87,7 +110,6 @@ void LCD_4BITS_INIT(void){
  */
 void LCD_4BITS_send_command(uint8 command){
 
-    GPIO_PORTE_DATA_REG &= ~(1<<RW_PIN); //RW = 0 TO WRITE
     GPIO_PORTE_DATA_REG &= ~(1<<RS_PIN); //RS = 0 FOR INSTRUCTION
 
     // The command is sent in two parts: the higher nibble (bits 4-7) and the lower nibble (bits 0-3)
@@ -115,7 +137,6 @@ void LCD_4BITS_send_command(uint8 command){
  */
 void LCD_4BITS_send_char_data(uint8 data){
 
-    GPIO_PORTE_DATA_REG &= ~(1<<RW_PIN); //RW = 0 TO WRITE
     GPIO_PORTE_DATA_REG |= (1<<RS_PIN); //RS = 1 FOR INSTRUCTION
 
     // The data is sent in two parts: the higher nibble (bits 4-7) and the lower nibble (bits 0-3)
@@ -218,11 +239,16 @@ static void lcd_send_4bits(uint8 nibble) {
 
 static void lcd_send_enable_4bits(void){
     GPIO_PORTE_DATA_REG |= (1<<ENABLE_PIN);
-    SysTick_DelayMs(2);
+    //SysTick_DelayUs(500);
+    Delay_MS(1);
     GPIO_PORTE_DATA_REG &= ~ (1<<ENABLE_PIN);
-    SysTick_DelayMs(2);
+    //SysTick_DelayUs(500);
+    Delay_MS(1);
 }
-
+void Delay_MS(unsigned long long n){
+    volatile unsigned long long count = 0;
+    while(count++ < (NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND * n));
+}
 /* ================ Sub-program Details Section End ====================== */
 
 /**

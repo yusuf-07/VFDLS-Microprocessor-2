@@ -26,7 +26,6 @@
  * Port A Pin 5 for Data Line
  * Port A Pin 6 for Data Line
  * Port E Pin 1 for Rs
- * Port E Pin 2 for R/W
  * Port E Pin 3 for Enable
  ***/
 

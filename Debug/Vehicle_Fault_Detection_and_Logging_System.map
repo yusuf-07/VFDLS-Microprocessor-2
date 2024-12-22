@@ -1,17 +1,17 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Sun Dec 22 16:10:34 2024
+>> Linked Sun Dec 22 23:01:35 2024
 
 OUTPUT FILE NAME:   <Vehicle_Fault_Detection_and_Logging_System.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001c11
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001c8d
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  00001d92  0003e26e  R  X
+  FLASH                 00000000   00040000  00001e26  0003e1da  R  X
   SRAM                  20000000   00008000  00000218  00007de8  RW X
 
 
@@ -19,11 +19,11 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00001d98   00001d98    r-x
+00000000    00000000    00001e28   00001e28    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00001a36   00001a36    r-x .text
-  00001ca4    00001ca4    000000c0   000000c0    r-- .const
-  00001d68    00001d68    00000030   00000030    r-- .cinit
+  0000026c    0000026c    00001aca   00001aca    r-x .text
+  00001d38    00001d38    000000c0   000000c0    r-- .const
+  00001df8    00001df8    00000030   00000030    r-- .cinit
 20000000    20000000    00000218   00000000    rw-
   20000000    20000000    00000200   00000000    rw- .stack
   20000200    20000200    00000014   00000000    rw- .data
@@ -38,49 +38,50 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
 
-.text      0    0000026c    00001a36     
-                  0000026c    000002c4     LCD.obj (.text)
-                  00000530    000002a0     GPIO.obj (.text)
-                  000007d0    0000029c     PUSH_BUTTONS.obj (.text)
-                  00000a6c    00000294     main.obj (.text)
-                  00000d00    00000260     EEPROM.obj (.text)
-                  00000f60    0000022c     DC_MOTOR.obj (.text)
-                  0000118c    000001b0     UART.obj (.text)
-                  0000133c    00000174     INTERRUPT.obj (.text)
-                  000014b0    00000136     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_div_t2.asm.obj (.text)
-                  000015e6    00000002     --HOLE-- [fill = 0]
-                  000015e8    00000130     ADC.obj (.text)
-                  00001718    0000012c     ULTRASONIC.obj (.text)
-                  00001844    000000fc     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_mul_t2.asm.obj (.text)
-                  00001940    000000d8     LM35.obj (.text)
-                  00001a18    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
-                  00001ab4    0000006c     SYSTICK_TIMER.obj (.text)
-                  00001b20    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00001b88    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00001bcc    00000044                                   : fd_tou_t2.asm.obj (.text)
-                  00001c10    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
-                  00001c44    00000020                                   : u_tofd_t2.asm.obj (.text)
-                  00001c64    0000001c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00001c80    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00001c8e    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
-                  00001c9a    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  00001c9e    00000004                                   : exit.c.obj (.text:abort:abort)
+.text      0    0000026c    00001aca     
+                  0000026c    00000340     LCD.obj (.text)
+                  000005ac    000002a0     GPIO.obj (.text)
+                  0000084c    0000029c     PUSH_BUTTONS.obj (.text)
+                  00000ae8    00000294     main.obj (.text)
+                  00000d7c    00000260     EEPROM.obj (.text)
+                  00000fdc    0000022c     DC_MOTOR.obj (.text)
+                  00001208    000001b0     UART.obj (.text)
+                  000013b8    00000174     INTERRUPT.obj (.text)
+                  0000152c    00000136     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_div_t2.asm.obj (.text)
+                  00001662    00000002     --HOLE-- [fill = 0]
+                  00001664    00000130     ADC.obj (.text)
+                  00001794    0000012c     ULTRASONIC.obj (.text)
+                  000018c0    000000fc     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_mul_t2.asm.obj (.text)
+                  000019bc    000000d8     LM35.obj (.text)
+                  00001a94    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  00001b30    0000006c     SYSTICK_TIMER.obj (.text)
+                  00001b9c    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00001c04    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  00001c48    00000044                                   : fd_tou_t2.asm.obj (.text)
+                  00001c8c    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  00001cc0    00000020                                   : u_tofd_t2.asm.obj (.text)
+                  00001ce0    0000001c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00001cfc    00000018                                   : ll_mul_t2.asm.obj (.text)
+                  00001d14    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00001d22    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00001d2e    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00001d32    00000004                                   : exit.c.obj (.text:abort:abort)
 
-.const     0    00001ca4    000000c0     
-                  00001ca4    00000018     GPIO.obj (.const:AFSEL)
-                  00001cbc    00000018     GPIO.obj (.const:AMSEL)
-                  00001cd4    00000018     GPIO.obj (.const:DATA)
-                  00001cec    00000018     GPIO.obj (.const:DEN)
-                  00001d04    00000018     GPIO.obj (.const:DIR)
-                  00001d1c    00000018     GPIO.obj (.const:PCTL)
-                  00001d34    00000018     GPIO.obj (.const:PDR)
-                  00001d4c    00000018     GPIO.obj (.const:PUR)
+.const     0    00001d38    000000c0     
+                  00001d38    00000018     GPIO.obj (.const:AFSEL)
+                  00001d50    00000018     GPIO.obj (.const:AMSEL)
+                  00001d68    00000018     GPIO.obj (.const:DATA)
+                  00001d80    00000018     GPIO.obj (.const:DEN)
+                  00001d98    00000018     GPIO.obj (.const:DIR)
+                  00001db0    00000018     GPIO.obj (.const:PCTL)
+                  00001dc8    00000018     GPIO.obj (.const:PDR)
+                  00001de0    00000018     GPIO.obj (.const:PUR)
 
-.cinit     0    00001d68    00000030     
-                  00001d68    0000000c     (.cinit..data.load) [load image, compression = lzss]
-                  00001d74    0000000c     (__TI_handler_table)
-                  00001d80    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00001d88    00000010     (__TI_cinit_table)
+.cinit     0    00001df8    00000030     
+                  00001df8    0000000c     (.cinit..data.load) [load image, compression = lzss]
+                  00001e04    0000000c     (__TI_handler_table)
+                  00001e10    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00001e18    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
@@ -144,9 +145,9 @@ MODULE SUMMARY
        Total:                         556    0         0      
                                                               
     .\_2_ECU_Layer\LCD\
-       LCD.obj                        708    0         0      
+       LCD.obj                        832    0         0      
     +--+------------------------------+------+---------+---------+
-       Total:                         708    0         0      
+       Total:                         832    0         0      
                                                               
     .\_2_ECU_Layer\LM35\
        LM35.obj                       216    0         0      
@@ -178,28 +179,29 @@ MODULE SUMMARY
        boot_cortex_m.c.obj            52     0         0      
        u_tofd_t2.asm.obj              32     0         0      
        copy_zero_init.c.obj           28     0         0      
+       ll_mul_t2.asm.obj              24     0         0      
        copy_decompress_none.c.obj     14     0         0      
        exit.c.obj                     4      0         0      
        pre_init.c.obj                 4      0         0      
     +--+------------------------------+------+---------+---------+
-       Total:                         1092   0         0      
+       Total:                         1116   0         0      
                                                               
        Stack:                         0      0         512    
        Linker Generated:              0      48        0      
     +--+------------------------------+------+---------+---------+
-       Grand Total:                   6708   860       536    
+       Grand Total:                   6856   860       536    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00001d88 records: 2, size/record: 8, table size: 16
-	.data: load addr=00001d68, load size=0000000c bytes, run addr=20000200, run size=00000014 bytes, compression=lzss
-	.bss: load addr=00001d80, load size=00000008 bytes, run addr=20000214, run size=00000004 bytes, compression=zero_init
+__TI_cinit_table @ 00001e18 records: 2, size/record: 8, table size: 16
+	.data: load addr=00001df8, load size=0000000c bytes, run addr=20000200, run size=00000014 bytes, compression=lzss
+	.bss: load addr=00001e10, load size=00000008 bytes, run addr=20000214, run size=00000004 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00001d74 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00001e04 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -209,105 +211,106 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                          
 -------   ----                          
-00001633  ADC0_Init                     
-0000169b  ADC0_ReadSeq3                 
-00001c9f  C$$EXIT                       
-00000999  Check_MotorA_status           
-00000979  Check_MotorB_status           
-00000e7b  Clear_Logged_Errors           
-00000f61  DC_MOTORA_INIT                
-00000fbf  DC_MOTORA_START               
-0000101d  DC_MOTORA_STOP                
-00001063  DC_MOTORB_INIT                
-000010c1  DC_MOTORB_START               
-0000111f  DC_MOTORB_STOP                
-0000198d  Display_Temperature           
-00000d01  EEPROM_INIT                   
-00000db3  EEPROM_Read                   
-00000d73  EEPROM_Write                  
-00000e41  Format_FaultCode              
-0000133d  GPIOPortA_Handler             
-0000133f  GPIOPortB_Handler             
-00001413  GPIOPortC_Handler             
-00001415  GPIOPortD_Handler             
-00001417  GPIOPortE_Handler             
-00001419  GPIOPortF_Handler             
-00000779  GPIO_DigitalRead              
-0000072b  GPIO_DigitalWrite             
-00000531  GPIO_Init                     
-00000673  GPIO_PullConfig               
-000015e9  GPIO_SetupPE0AnalogPin        
+000016af  ADC0_Init                     
+00001717  ADC0_ReadSeq3                 
+00001d33  C$$EXIT                       
+00000a15  Check_MotorA_status           
+000009f5  Check_MotorB_status           
+00000ef7  Clear_Logged_Errors           
+00000fdd  DC_MOTORA_INIT                
+0000103b  DC_MOTORA_START               
+00001099  DC_MOTORA_STOP                
+000010df  DC_MOTORB_INIT                
+0000113d  DC_MOTORB_START               
+0000119b  DC_MOTORB_STOP                
+00001a09  Display_Temperature           
+00000d7d  EEPROM_INIT                   
+00000e2f  EEPROM_Read                   
+00000def  EEPROM_Write                  
+00000ebd  Format_FaultCode              
+000013b9  GPIOPortA_Handler             
+000013bb  GPIOPortB_Handler             
+0000148f  GPIOPortC_Handler             
+00001491  GPIOPortD_Handler             
+00001493  GPIOPortE_Handler             
+00001495  GPIOPortF_Handler             
+000007f5  GPIO_DigitalRead              
+000007a7  GPIO_DigitalWrite             
+000005ad  GPIO_Init                     
+000006ef  GPIO_PullConfig               
+00001665  GPIO_SetupPE0AnalogPin        
 0000026d  LCD_4BITS_INIT                
-0000037f  LCD_4BITS_send_char_data      
-00000345  LCD_4BITS_send_command        
-000003b9  LCD_4BITS_send_data_position  
-000003dd  LCD_4BITS_send_string         
-000003f9  LCD_4BITS_send_string_position
-00000419  LCD_RESET                     
-00001941  LM35_GET_TEMP                 
-00000ddb  Log_Fault                     
-000017bf  Monitor_DIST                  
-00000b47  Monitor_Subsystems            
-00001959  Monitor_TEMP                  
-000007d1  PUSH_BUTTONS_INIT             
-00000917  PUSH_BUTTON_STATUS            
-00001c8f  ResetISR                      
-00000df9  Retrieve_Faults               
-00000b13  Start_Operation               
-00000bdd  Stop_System                   
-00001ad7  SysTick_DelayMs               
-00001af7  SysTick_DelayUs               
-00001ab5  SysTick_Init                  
-00000ac9  System_Init                   
-00000bab  To_String                     
-000011e3  UART0_Init                    
-0000128d  UART0_ReceiveByte             
-000012d5  UART0_ReceiveData             
-0000129d  UART0_ReceiveString           
-00001223  UART0_SendByte                
-00001265  UART0_SendData                
-0000123f  UART0_SendString              
-00001745  Ultrasonic_GetDistance        
-0000173d  Ultrasonic_Init               
-00000b53  Update_LCD                    
+000003bf  LCD_4BITS_send_char_data      
+0000038f  LCD_4BITS_send_command        
+000003ef  LCD_4BITS_send_data_position  
+00000413  LCD_4BITS_send_string         
+0000042f  LCD_4BITS_send_string_position
+0000044f  LCD_RESET                     
+000019bd  LM35_GET_TEMP                 
+00000e57  Log_Fault                     
+0000183b  Monitor_DIST                  
+00000bbd  Monitor_Subsystems            
+000019d5  Monitor_TEMP                  
+0000084d  PUSH_BUTTONS_INIT             
+00000993  PUSH_BUTTON_STATUS            
+00001d23  ResetISR                      
+00000e75  Retrieve_Faults               
+00000b8f  Start_Operation               
+00000c53  Stop_System                   
+00001b53  SysTick_DelayMs               
+00001b73  SysTick_DelayUs               
+00001b31  SysTick_Init                  
+00000b31  System_Init                   
+00000c21  To_String                     
+0000125f  UART0_Init                    
+00001309  UART0_ReceiveByte             
+00001351  UART0_ReceiveData             
+00001319  UART0_ReceiveString           
+0000129f  UART0_SendByte                
+000012e1  UART0_SendData                
+000012bb  UART0_SendString              
+000017c1  Ultrasonic_GetDistance        
+000017b9  Ultrasonic_Init               
+00000bc9  Update_LCD                    
 20000200  __STACK_END                   
 00000200  __STACK_SIZE                  
 20000200  __STACK_TOP                   
-00001d88  __TI_CINIT_Base               
-00001d98  __TI_CINIT_Limit              
-00001d74  __TI_Handler_Table_Base       
-00001d80  __TI_Handler_Table_Limit      
-00001b89  __TI_auto_init_nobinit_nopinit
-00001b21  __TI_decompress_lzss          
-00001c81  __TI_decompress_none          
+00001e18  __TI_CINIT_Base               
+00001e28  __TI_CINIT_Limit              
+00001e04  __TI_Handler_Table_Base       
+00001e10  __TI_Handler_Table_Limit      
+00001c05  __TI_auto_init_nobinit_nopinit
+00001b9d  __TI_decompress_lzss          
+00001d15  __TI_decompress_none          
 ffffffff  __TI_pprof_out_hndl           
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
 00000000  __TI_static_base__            
-00001c65  __TI_zero_init_nomemset       
-00001bcd  __aeabi_d2uiz                 
-000014b1  __aeabi_ddiv                  
-00001845  __aeabi_dmul                  
-00001a19  __aeabi_memcpy                
-00001a19  __aeabi_memcpy4               
-00001a19  __aeabi_memcpy8               
-00001c45  __aeabi_ui2d                  
+00001ce1  __TI_zero_init_nomemset       
+00001c49  __aeabi_d2uiz                 
+0000152d  __aeabi_ddiv                  
+000018c1  __aeabi_dmul                  
+00001cfd  __aeabi_lmul                  
+00001a95  __aeabi_memcpy                
+00001a95  __aeabi_memcpy4               
+00001a95  __aeabi_memcpy8               
+00001cc1  __aeabi_ui2d                  
 ffffffff  __binit__                     
 ffffffff  __c_args__                    
 UNDEFED   __mpu_init                    
 20000000  __stack                       
 20000000  __start___llvm_prf_cnts       
 20000000  __stop___llvm_prf_cnts        
-00001c11  _c_int00_noargs               
+00001c8d  _c_int00_noargs               
 UNDEFED   _system_post_cinit            
-00001c9b  _system_pre_init              
-00001c9f  abort                         
+00001d2f  _system_pre_init              
+00001d33  abort                         
 ffffffff  binit                         
 20000208  edge_detected                 
 00000000  g_pfnVectors                  
-00000a6d  main                          
+00000ae9  main                          
 2000020c  measured_distance             
-00001a19  memcpy                        
+00001a95  memcpy                        
 20000204  pulse_end                     
 20000200  pulse_start                   
 
@@ -320,86 +323,87 @@ address   name
 00000000  g_pfnVectors                  
 00000200  __STACK_SIZE                  
 0000026d  LCD_4BITS_INIT                
-00000345  LCD_4BITS_send_command        
-0000037f  LCD_4BITS_send_char_data      
-000003b9  LCD_4BITS_send_data_position  
-000003dd  LCD_4BITS_send_string         
-000003f9  LCD_4BITS_send_string_position
-00000419  LCD_RESET                     
-00000531  GPIO_Init                     
-00000673  GPIO_PullConfig               
-0000072b  GPIO_DigitalWrite             
-00000779  GPIO_DigitalRead              
-000007d1  PUSH_BUTTONS_INIT             
-00000917  PUSH_BUTTON_STATUS            
-00000979  Check_MotorB_status           
-00000999  Check_MotorA_status           
-00000a6d  main                          
-00000ac9  System_Init                   
-00000b13  Start_Operation               
-00000b47  Monitor_Subsystems            
-00000b53  Update_LCD                    
-00000bab  To_String                     
-00000bdd  Stop_System                   
-00000d01  EEPROM_INIT                   
-00000d73  EEPROM_Write                  
-00000db3  EEPROM_Read                   
-00000ddb  Log_Fault                     
-00000df9  Retrieve_Faults               
-00000e41  Format_FaultCode              
-00000e7b  Clear_Logged_Errors           
-00000f61  DC_MOTORA_INIT                
-00000fbf  DC_MOTORA_START               
-0000101d  DC_MOTORA_STOP                
-00001063  DC_MOTORB_INIT                
-000010c1  DC_MOTORB_START               
-0000111f  DC_MOTORB_STOP                
-000011e3  UART0_Init                    
-00001223  UART0_SendByte                
-0000123f  UART0_SendString              
-00001265  UART0_SendData                
-0000128d  UART0_ReceiveByte             
-0000129d  UART0_ReceiveString           
-000012d5  UART0_ReceiveData             
-0000133d  GPIOPortA_Handler             
-0000133f  GPIOPortB_Handler             
-00001413  GPIOPortC_Handler             
-00001415  GPIOPortD_Handler             
-00001417  GPIOPortE_Handler             
-00001419  GPIOPortF_Handler             
-000014b1  __aeabi_ddiv                  
-000015e9  GPIO_SetupPE0AnalogPin        
-00001633  ADC0_Init                     
-0000169b  ADC0_ReadSeq3                 
-0000173d  Ultrasonic_Init               
-00001745  Ultrasonic_GetDistance        
-000017bf  Monitor_DIST                  
-00001845  __aeabi_dmul                  
-00001941  LM35_GET_TEMP                 
-00001959  Monitor_TEMP                  
-0000198d  Display_Temperature           
-00001a19  __aeabi_memcpy                
-00001a19  __aeabi_memcpy4               
-00001a19  __aeabi_memcpy8               
-00001a19  memcpy                        
-00001ab5  SysTick_Init                  
-00001ad7  SysTick_DelayMs               
-00001af7  SysTick_DelayUs               
-00001b21  __TI_decompress_lzss          
-00001b89  __TI_auto_init_nobinit_nopinit
-00001bcd  __aeabi_d2uiz                 
-00001c11  _c_int00_noargs               
-00001c45  __aeabi_ui2d                  
-00001c65  __TI_zero_init_nomemset       
-00001c81  __TI_decompress_none          
-00001c8f  ResetISR                      
-00001c9b  _system_pre_init              
-00001c9f  C$$EXIT                       
-00001c9f  abort                         
-00001d74  __TI_Handler_Table_Base       
-00001d80  __TI_Handler_Table_Limit      
-00001d88  __TI_CINIT_Base               
-00001d98  __TI_CINIT_Limit              
+0000038f  LCD_4BITS_send_command        
+000003bf  LCD_4BITS_send_char_data      
+000003ef  LCD_4BITS_send_data_position  
+00000413  LCD_4BITS_send_string         
+0000042f  LCD_4BITS_send_string_position
+0000044f  LCD_RESET                     
+000005ad  GPIO_Init                     
+000006ef  GPIO_PullConfig               
+000007a7  GPIO_DigitalWrite             
+000007f5  GPIO_DigitalRead              
+0000084d  PUSH_BUTTONS_INIT             
+00000993  PUSH_BUTTON_STATUS            
+000009f5  Check_MotorB_status           
+00000a15  Check_MotorA_status           
+00000ae9  main                          
+00000b31  System_Init                   
+00000b8f  Start_Operation               
+00000bbd  Monitor_Subsystems            
+00000bc9  Update_LCD                    
+00000c21  To_String                     
+00000c53  Stop_System                   
+00000d7d  EEPROM_INIT                   
+00000def  EEPROM_Write                  
+00000e2f  EEPROM_Read                   
+00000e57  Log_Fault                     
+00000e75  Retrieve_Faults               
+00000ebd  Format_FaultCode              
+00000ef7  Clear_Logged_Errors           
+00000fdd  DC_MOTORA_INIT                
+0000103b  DC_MOTORA_START               
+00001099  DC_MOTORA_STOP                
+000010df  DC_MOTORB_INIT                
+0000113d  DC_MOTORB_START               
+0000119b  DC_MOTORB_STOP                
+0000125f  UART0_Init                    
+0000129f  UART0_SendByte                
+000012bb  UART0_SendString              
+000012e1  UART0_SendData                
+00001309  UART0_ReceiveByte             
+00001319  UART0_ReceiveString           
+00001351  UART0_ReceiveData             
+000013b9  GPIOPortA_Handler             
+000013bb  GPIOPortB_Handler             
+0000148f  GPIOPortC_Handler             
+00001491  GPIOPortD_Handler             
+00001493  GPIOPortE_Handler             
+00001495  GPIOPortF_Handler             
+0000152d  __aeabi_ddiv                  
+00001665  GPIO_SetupPE0AnalogPin        
+000016af  ADC0_Init                     
+00001717  ADC0_ReadSeq3                 
+000017b9  Ultrasonic_Init               
+000017c1  Ultrasonic_GetDistance        
+0000183b  Monitor_DIST                  
+000018c1  __aeabi_dmul                  
+000019bd  LM35_GET_TEMP                 
+000019d5  Monitor_TEMP                  
+00001a09  Display_Temperature           
+00001a95  __aeabi_memcpy                
+00001a95  __aeabi_memcpy4               
+00001a95  __aeabi_memcpy8               
+00001a95  memcpy                        
+00001b31  SysTick_Init                  
+00001b53  SysTick_DelayMs               
+00001b73  SysTick_DelayUs               
+00001b9d  __TI_decompress_lzss          
+00001c05  __TI_auto_init_nobinit_nopinit
+00001c49  __aeabi_d2uiz                 
+00001c8d  _c_int00_noargs               
+00001cc1  __aeabi_ui2d                  
+00001ce1  __TI_zero_init_nomemset       
+00001cfd  __aeabi_lmul                  
+00001d15  __TI_decompress_none          
+00001d23  ResetISR                      
+00001d2f  _system_pre_init              
+00001d33  C$$EXIT                       
+00001d33  abort                         
+00001e04  __TI_Handler_Table_Base       
+00001e10  __TI_Handler_Table_Limit      
+00001e18  __TI_CINIT_Base               
+00001e28  __TI_CINIT_Limit              
 20000000  __stack                       
 20000000  __start___llvm_prf_cnts       
 20000000  __stop___llvm_prf_cnts        
@@ -418,4 +422,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                    
 UNDEFED   _system_post_cinit            
 
-[101 symbols]
+[102 symbols]
