@@ -180,6 +180,37 @@
 //
 //    return 0;
 //}
+
+
+
+
+
+
+//uint8_t Read_PushButton(uint8_t pin);
+//
+//int main(void) {
+//    UART0_Init();          // Initialize UART0 for communication
+//    PUSH_BUTTONS_INIT();    // Initialize push buttons on PB0 and PB1
+//
+//    UART0_SendString("Push Button Test Program\n");
+//
+//    while (1) {
+//        if (Read_PushButton(0)) { // Check if PB0 is pressed
+//            UART0_SendString("PB0 is pressed.\n");
+//            while (Read_PushButton(0)); // Wait until the button is released
+//        }
+//
+//        if (Read_PushButton(1)) { // Check if PB1 is pressed
+//            UART0_SendString("PB1 is pressed.\n");
+//            while (Read_PushButton(1)); // Wait until the button is released
+//        }
+//    }
+//}
+//
+//uint8_t Read_PushButton(uint8_t pin) {
+//    return ((GPIO_PORTB_DATA_REG & (1 << pin)) == 0) ? 1 : 0; // Active LOW logic
+//}
+
 /*** ===================== Public Function Section End ======================= ***/
 
 /***

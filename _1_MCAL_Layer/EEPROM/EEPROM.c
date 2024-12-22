@@ -139,6 +139,7 @@ void Retrieve_Faults(void){
         /* Stop if the slot is empty (default EEPROM value is 0xFFFFFFFF) */
         /* EEPROM memory is typically erased (or initialized) to all 1s before any data is written */
         if (faultValue == 0xFFFFFFFF) {
+            UART0_SendString((unsigned char *)"There are no logged errors\n");
             break;
         }
 
@@ -162,6 +163,28 @@ void Format_FaultCode(uint32_t faultValue, char *faultCode) {
         faultCode[2] = (char)((faultValue >> 16) & 0xFF); // Third byte
         faultCode[3] = (char)((faultValue >> 24) & 0xFF); // Fourth byte (MSB)
         faultCode[4] = '\0';
+}
+
+void Clear_Logged_Errors(void) {
+    UART0_SendString((unsigned char *)"Clearing all logged errors...\n");
+
+    uint32_t address = EEPROM_BASE_ADDRESS;
+
+    while (1) {
+        uint32_t faultValue = EEPROM_Read(address);
+
+        // Stop if the slot is empty (default EEPROM value is 0xFFFFFFFF)
+        if (faultValue == 0xFFFFFFFF) {
+            break;
+        }
+
+        // Overwrite the slot with the default erased value
+        EEPROM_Write(address, 0xFFFFFFFF);
+
+        address += 4; // Move to the next EEPROM address
+    }
+
+    UART0_SendString((unsigned char *)"All logged errors cleared.\n");
 }
 
 

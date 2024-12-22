@@ -48,7 +48,7 @@ uint32_t EEPROM_Read(uint32_t address);
 void Log_Fault(char* faultCode);
 void Format_FaultCode(uint32_t faultValue, char *faultCode);
 void Retrieve_Faults(void);
-
+void Clear_Logged_Errors(void);
 
 
 

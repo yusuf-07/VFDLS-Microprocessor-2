@@ -51,7 +51,7 @@ void ADC0_Init(void)
 
 uint32 ADC0_ReadSeq3(void)
 {
-    uint32 result = 0;
+    uint32 result;
     ADC0_PSSI_REG |= (1<<3);                  /* Initiate SS3 to start the conversion by Sequencer 3 */
     while(GET_BIT(ADC0_RIS_REG,3) == 0){};    /* Wait for conversion in Sequencer 3 to be completed by polling the INR3 bit */
     result = ADC0_SSFIFO3_REG & 0xFFF;        /* Read result from Sequencer 3 FIFO register  */
