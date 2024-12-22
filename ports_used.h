@@ -54,7 +54,7 @@
 
 /*** ========================== ADC ============================== ***/
 /***
- * Port E Pin 0 for connection to AIN3 (ADC Channel 3)
+ * Port E Pin 2 for connection to AIN1 (ADC Channel 1)
 
  ***/
 

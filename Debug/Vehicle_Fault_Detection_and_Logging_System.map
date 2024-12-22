@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Sun Dec 22 23:01:35 2024
+>> Linked Sun Dec 22 23:59:16 2024
 
 OUTPUT FILE NAME:   <Vehicle_Fault_Detection_and_Logging_System.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001c8d
@@ -238,7 +238,7 @@ address   name
 000007a7  GPIO_DigitalWrite             
 000005ad  GPIO_Init                     
 000006ef  GPIO_PullConfig               
-00001665  GPIO_SetupPE0AnalogPin        
+00001665  GPIO_SetupPE2AnalogPin        
 0000026d  LCD_4BITS_INIT                
 000003bf  LCD_4BITS_send_char_data      
 0000038f  LCD_4BITS_send_command        
@@ -371,7 +371,7 @@ address   name
 00001493  GPIOPortE_Handler             
 00001495  GPIOPortF_Handler             
 0000152d  __aeabi_ddiv                  
-00001665  GPIO_SetupPE0AnalogPin        
+00001665  GPIO_SetupPE2AnalogPin        
 000016af  ADC0_Init                     
 00001717  ADC0_ReadSeq3                 
 000017b9  Ultrasonic_Init               

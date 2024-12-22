@@ -9,16 +9,16 @@
 
 /*** ===================== Local Function Section Start ===================== ***/
 
-void GPIO_SetupPE0AnalogPin(void)
+void GPIO_SetupPE2AnalogPin(void)
 {
     SYSCTL_RCGCGPIO_REG  |= (1<<4);               /* Enable clock for GPIO PORTE */
     while(GET_BIT(SYSCTL_PRGPIO_REG,4) == 0);     /* Wait until GPIO PORTE clock is activated and it is ready for access*/
 
-    GPIO_PORTE_DIR_REG   &= ~(1<<0);              /* Configure PE0 as input pin */
-    GPIO_PORTE_AMSEL_REG |= (1<<0);               /* Enable Analog at PE0 */
-    GPIO_PORTE_AFSEL_REG |= (1<<0);               /* Enable alternative function at PE0 */
-    GPIO_PORTE_PCTL_REG  &= 0xFFFFFFF0;           /* Set PMCx bits for PE0 with value 0 to use as analog pin */
-    GPIO_PORTE_DEN_REG   &= ~(1<<0);              /* Disable Digital at PE0 */
+    GPIO_PORTE_DIR_REG   &= ~(1<<2);              /* Configure PE2 as input pin */
+    GPIO_PORTE_AMSEL_REG |= (1<<2);               /* Enable Analog at PE2 */
+    GPIO_PORTE_AFSEL_REG |= (1<<2);               /* Enable alternative function at PE2 */
+    GPIO_PORTE_PCTL_REG  &= 0xFFFFF0FF;           /* Set PMCx bits for PE2 with value 0 to use as analog pin */
+    GPIO_PORTE_DEN_REG   &= ~(1<<2);              /* Disable Digital at PE2 */
 }
 /*** ===================== Local Function Section End ======================= ***/
 
@@ -30,7 +30,7 @@ void GPIO_SetupPE0AnalogPin(void)
 
 void ADC0_Init(void)
 {
-    GPIO_SetupPE0AnalogPin();                      /* Initialize PE0 as Ain3 */
+    GPIO_SetupPE2AnalogPin();                      /* Initialize PE0 as Ain3 */
 
     SYSCTL_RCGCADC_REG |= (1<<0);                  /* Enable clock for ADC0 */
     while(GET_BIT(SYSCTL_PRADC_REG,0) == 0);       /* Wait until ADC0 clock is activated and it is ready for access*/
@@ -40,7 +40,7 @@ void ADC0_Init(void)
     ADC0_ACTSS_REG  &= ~(1<<3);                    /* Disable Sample Sequencer 3 */
     ADC0_EMUX_REG   &= ~0xF000;                    /* Sequencer 3 is triggered by software */
     ADC0_SSMUX3_REG &= ~0x000F;                    /* Clear MUX0 field */
-    ADC0_SSMUX3_REG |= 3;                          /* Set channel number read by Sequencer 3 to Ain3 (PE0) */
+    ADC0_SSMUX3_REG |= 1;                          /* Set channel number read by Sequencer 3 to Ain1 (PE2) */
     ADC0_SSCTL3_REG |= (1<<1) | (1<<2);            /* Set IE0 and END0 bits */
     ADC0_ACTSS_REG  |= (1<<3);                     /* Enable Sample Sequencer 3 */
 }
