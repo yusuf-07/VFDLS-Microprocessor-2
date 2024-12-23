@@ -12,6 +12,7 @@
 #include <_1_MCAL_Layer/ADC/ADC.h>
 #include <_1_MCAL_Layer/MCAL_STD_TYPES.h>
 #include <_1_MCAL_Layer/UART/UART.h>
+#include <_1_MCAL_Layer/EEPROM/EEPROM.h>
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
 

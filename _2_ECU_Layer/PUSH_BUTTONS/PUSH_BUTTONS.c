@@ -120,7 +120,8 @@ char* Check_MotorB_status(void){
 }
 
 
-char* Check_MotorA_status(void){
+char* Check_MotorA_status(void)
+{
     if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0){  //check if PF4 is pressed then window 1 (Motor A) is counterclockwise (closed)
              return "W1-Close";
     }
@@ -128,10 +129,45 @@ char* Check_MotorA_status(void){
             return "W1-Open";
     }
     else{
-        return "NOchange";
+        return "NoChange";
     }
 }
 
+void checkPF4(void) {
+    // Check if PF4 is pressed (active low)
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0) {
+        DC_MOTORA_START(DIR_CCW);  // Start Motor A counterclockwise
+    } else {
+        DC_MOTORA_STOP();          // Stop Motor A
+    }
+}
+
+void checkPF0(void) {
+    // Check if PF0 is pressed (active low)
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0) {
+        DC_MOTORA_START(DIR_CW);   // Start Motor A clockwise
+    } else {
+        DC_MOTORA_STOP();          // Stop Motor A
+    }
+}
+
+void checkPB0(void) {
+    // Check if PF4 is pressed (active low)
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0) {
+        DC_MOTORB_START(DIR_CCW);  // Start Motor A counterclockwise
+    } else {
+        DC_MOTORB_STOP();          // Stop Motor A
+    }
+}
+
+void checkPB1(void) {
+    // Check if PF0 is pressed (active low)
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0) {
+        DC_MOTORB_START(DIR_CW);   // Start Motor A clockwise
+    } else {
+        DC_MOTORB_STOP();          // Stop Motor A
+    }
+}
 /*** ================ Sub-program Details Section End ====================== ***/
 
 /**

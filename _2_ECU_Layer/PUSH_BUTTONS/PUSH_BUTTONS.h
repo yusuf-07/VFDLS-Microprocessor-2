@@ -13,6 +13,7 @@
 
 /*** ===================== Include Section Start =========================== ***/
 #include <_1_MCAL_Layer/MCAL_STD_TYPES.h>
+#include <_2_ECU_Layer/DC_MOTOR/DC_MOTOR.h>
 #include "tm4c123gh6pm_registers.h"
 #include "common_macros.h"
 
@@ -59,6 +60,10 @@ void PUSH_BUTTONS_INIT(void);
 uint8 PUSH_BUTTON_STATUS(uint8 button);  // Function to get push button status based on input
 char* Check_MotorB_status(void);
 char* Check_MotorA_status(void);
+void checkPF4(void);
+void checkPF0(void);
+void checkPB0(void);
+void checkPB1(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 #endif /* PUSH_BUTTONS_H_ */

@@ -29,7 +29,8 @@
 /*** ================= Global Declaration Section Start ==================== ***/
 void System_Init(void);
 void Monitor_Subsystems(void);
-char* To_String(uint32 number);
+char* To_String_Temp(uint32 number);
+char* To_String_Dist(uint32 number);
 void Update_LCD(void);
 void Start_Operation(void);
 void Stop_System(void);
@@ -37,31 +38,72 @@ void Stop_System(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 
-int main(void) {
-
+//int main(void)
+//{
+//
+//    System_Init();
+//    UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+//    while (1)
+//    {
+//
+//
+//        char command = UART0_ReceiveByte();        // Read command from the terminal
+//        UART0_SendByte(command);
+//        switch(command){
+//        case '1':
+//            Start_Operation();
+//            break;
+//        case '2':
+//            Retrieve_Faults();
+//            break;
+//        case '3':
+//            Stop_System();
+//            //UART0_SendString("System Terminated.\n");
+//            break;
+//        default:
+//            //UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+//            break;
+//        }
+//
+//    }
+//}
+int main(void)
+{
+    char last_command = '\0'; // Variable to track the last command
     System_Init();
 
-    while (1) {
+    UART0_SendString("Please Enter one of these values (1, 2, 3):\n");
 
+    while (1)
+    {
         char command = UART0_ReceiveByte();        // Read command from the terminal
-        UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+        //UART0_SendByte(command);
 
-        switch(command){
-        case '1':
-            Start_Operation();
-            break;
-        case '2':
-            Retrieve_Faults();
-            break;
-        case '3':
-            Stop_System();
-            UART0_SendString("System Terminated.\n");
-            break;
-        default:
-            UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-            break;
+        // Process the command only if it's different from the last command
+        if (command != last_command)
+        {
+            last_command = command; // Update the last command
+
+            switch (command)
+            {
+                case '1':
+                    Start_Operation();
+                    break;
+
+                case '2':
+                    Retrieve_Faults();
+                    break;
+
+                case '3':
+                    Stop_System();
+                    // UART0_SendString("System Terminated.\n");
+                    break;
+
+                default:
+                    UART0_SendString("Invalid command. Please enter 1, 2, or 3:\n");
+                    break;
+            }
         }
-
     }
 }
 
@@ -70,7 +112,7 @@ void System_Init(void){
 
 
    UART0_Init();
-   SysTick_Init(15999999);
+   SysTick_Init();
    ADC0_Init();
 
    /* initializing the EEPROM */
@@ -86,10 +128,13 @@ void System_Init(void){
    SysTick_DelayMs(1000);
    LCD_4BITS_send_command(LCD_CLEAR);
    Ultrasonic_Init();
+   UART0_SendString("Ultra\n");
    PUSH_BUTTONS_INIT();
 
    DC_MOTORA_INIT();
-   DC_MOTORB_INIT();
+   UART0_SendString("Motors A\n");
+   DC_MOTORB_INIT();\
+   UART0_SendString("Motor B\n");
 
    UART0_SendString("Vehicle Fault Detection System Initialized.\n");
    LCD_4BITS_send_string("VFDS Initialized");
@@ -97,7 +142,8 @@ void System_Init(void){
 
 
 /*** ===================== Starting the operation======================= ***/
-void Start_Operation(void){
+void Start_Operation(void)
+{
 
     UART0_SendString("Starting the Operation.......\n");
 
@@ -105,6 +151,7 @@ void Start_Operation(void){
             char command = UART0_ReceiveByte();        // Read command from the terminal
 
             Monitor_Subsystems();
+            SysTick_DelayMs(500);
             Update_LCD();
 
             if(command=='3'){
@@ -125,12 +172,12 @@ void Monitor_Subsystems(void){
 
 void Update_LCD(void){
     LCD_4BITS_send_command(LCD_CLEAR);
-    uint32 engineTemperature = LM35_GET_TEMP();              /* Taking the temperature readings*/
-    //uint32 measured_Distance = Ultrasonic_GetDistance();     /* Taking the distance readings */
+    uint64 engineTemperature = (LM35_GET_TEMP()+17);              /* Taking the temperature readings*/
+    uint64 measured_Distance = Ultrasonic_GetDistance();     /* Taking the distance readings */
 
     // Convert temperature and distance to strings
-    char* temp = To_String(engineTemperature);  // Ensure To_String returns a pointer to a valid string
-    //char* dist = To_String(measured_Distance);
+    char* temp = To_String_Temp(engineTemperature);  // Ensure To_String returns a pointer to a valid string
+    char* dist = To_String_Dist(measured_Distance);
 
     // Retrieve motor statuses as strings
     const char* motorA_status = Check_MotorA_status();
@@ -139,19 +186,19 @@ void Update_LCD(void){
     // Display temperature
     //LCD_4BITS_send_string_position((uint8_t*)"Temp=", 1, 0);
     LCD_4BITS_send_string("Temp=");
-    LCD_4BITS_send_string_position((uint8_t*)temp, 1, 6);
+    LCD_4BITS_send_string_position((uint8*)temp, 1, 6);
 
     // Display distance
-    LCD_4BITS_send_string_position((uint8_t*)"Dist=", 2, 0);
-    //LCD_4BITS_send_string_position((uint8_t*)dist, 2, 6);
+    LCD_4BITS_send_string_position((uint8*)"Dist=", 2, 0);
+    LCD_4BITS_send_string_position((uint8*)dist, 2, 6);
 
     // Display motor statuses
-    LCD_4BITS_send_string_position((uint8_t*)motorA_status, 1, 9);
-    LCD_4BITS_send_string_position((uint8_t*)motorB_status, 2, 9);
+    LCD_4BITS_send_string_position((uint8*)motorA_status, 1, 9);
+    LCD_4BITS_send_string_position((uint8*)motorB_status, 2, 9);
 }
 
-char* To_String(uint32 number) {
-     static char Str[3];
+char* To_String_Temp(uint32 number) {
+    static char Str[3];
 
     // Convert the temperature into a string
     Str[0] = (number / 10) + '0';   // Tens digit
@@ -161,7 +208,17 @@ char* To_String(uint32 number) {
     // Return the formatted string
     return Str;
 }
+char* To_String_Dist(uint32 number) {
+    static char Str[3];
 
+    // Convert the temperature into a string
+    Str[0] = (number / 10) + '0';   // Tens digit
+    Str[1] = (number % 10) + '0';   // Ones digit
+    Str[2] = '\0';                       // Null-terminate the string
+
+    // Return the formatted string
+    return Str;
+}
 
 /*** ===================== Stopping the system ======================= ***/
 void Stop_System(void){

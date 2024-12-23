@@ -25,6 +25,7 @@ ORDERED_OBJS += \
 "./_3_APP_Layer/Testcases.obj" \
 "./_3_APP_Layer/main.obj" \
 "./_3_APP_Layer/tests.obj" \
+"./_3_APP_Layer/x.obj" \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -158,29 +159,29 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-Vehicle_Fault_Detection_and_Logging_System.out 
+VFDLS\ -\ Micro\ Project.out 
 
 EXE_OUTPUTS__QUOTED += \
-"Vehicle_Fault_Detection_and_Logging_System.out" 
+"VFDLS - Micro Project.out" 
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "Vehicle_Fault_Detection_and_Logging_System.out"
+	@$(MAKE) --no-print-directory -Onone "VFDLS - Micro Project.out"
 
 # Tool invocations
-Vehicle_Fault_Detection_and_Logging_System.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+VFDLS\ -\ Micro\ Project.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Vehicle_Fault_Detection_and_Logging_System.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Vehicle_Fault_Detection_and_Logging_System_linkInfo.xml" --rom_model -o "Vehicle_Fault_Detection_and_Logging_System.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"VFDLS - Micro Project.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="VFDLS - Micro Project_linkInfo.xml" --rom_model -o "VFDLS - Micro Project.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" "_3_APP_Layer\tests.obj" 
-	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" "_3_APP_Layer\tests.d" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" "_3_APP_Layer\tests.obj" "_3_APP_Layer\x.obj" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" "_3_APP_Layer\tests.d" "_3_APP_Layer\x.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

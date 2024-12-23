@@ -13,5 +13,6 @@
 "./_3_APP_Layer/Testcases.obj"
 "./_3_APP_Layer/main.obj"
 "./_3_APP_Layer/tests.obj"
+"./_3_APP_Layer/x.obj"
 "../tm4c123gh6pm.cmd"
 -llibc.a

@@ -127,7 +127,7 @@ void UART0_SendData(unsigned char *pData, unsigned long uSize)
 ***/
 unsigned char UART0_ReceiveByte(void)
 {
-    while(UART0_FR_REG & UART_FR_RXFE_MASK); /* Wait until the receive FIFO is not empty */
+    if(UART0_FR_REG & UART_FR_RXFE_MASK); /* Wait until the receive FIFO is not empty */
     return UART0_DR_REG; /* Read the byte */
 }
 

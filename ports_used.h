@@ -47,8 +47,8 @@
 
 /*** ====================== Ultrasonic ========================== ***/
 /***
- * Port B Pin 5 for Trigger
- * Port B Pin 6 for Echo
+ * Port E Pin 4 for Trigger
+ * Port E Pin 5 for Echo
 
  ***/
 

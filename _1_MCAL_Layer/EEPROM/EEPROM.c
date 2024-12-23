@@ -139,7 +139,7 @@ void Retrieve_Faults(void){
         /* Stop if the slot is empty (default EEPROM value is 0xFFFFFFFF) */
         /* EEPROM memory is typically erased (or initialized) to all 1s before any data is written */
         if (faultValue == 0xFFFFFFFF) {
-            UART0_SendString((unsigned char *)"There are no logged errors\n");
+            //UART0_SendString((unsigned char *)"There are no logged errors\n");
             break;
         }
 

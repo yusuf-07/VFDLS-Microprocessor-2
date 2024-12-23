@@ -14,7 +14,7 @@
 /*** ===================== Global Variables Section Start ====================== ***/
 volatile uint32 pulse_start = 0;
 volatile uint32 pulse_end = 0;
-volatile uint8 edge_detected = 0;
+volatile uint8 measured_time = 0;
 volatile uint32 measured_distance = 0;
 /*** ===================== Global Variables Section End ======================== ***/
 
@@ -27,39 +27,9 @@ volatile uint32 measured_distance = 0;
 ***/
 //static void GPIO_SetupUltrasonicPins(void)
 //{
-//    /* Enable clock for Port B */
-//    GPIO_Init(GPIO_PORTB, ULTRASONIC_TRIGGER_PIN, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF); /* Trigger: Digital, Output */
-//    GPIO_Init(GPIO_PORTB, ULTRASONIC_ECHO_PIN, GPIO_DIGITAL, GPIO_INPUT, GPIO_AF_DEF);     /* Echo: Digital, Input */
 //
-//    /* Configure PB6 (Echo) for Edge-Triggered Interrupt */
-//    GPIO_PORTB_IS_REG  &= ~(1 << ULTRASONIC_ECHO_PIN);  /* Edge-sensitive */
-//    GPIO_PORTB_IBE_REG &= ~(1 << ULTRASONIC_ECHO_PIN);  /* Single edge */
-//    GPIO_PORTB_IEV_REG |= (1 << ULTRASONIC_ECHO_PIN);   /* Rising edge initially */
-//    GPIO_PORTB_IM_REG  |= (1 << ULTRASONIC_ECHO_PIN);   /* Unmask interrupt */
-//    GPIO_PORTB_ICR_REG |= (1 << ULTRASONIC_ECHO_PIN);   /* Clear interrupt flag */
 //}
-static void GPIO_SetupUltrasonicPins(void)
-{
-    GPIO_Init(GPIO_PORTC, ULTRASONIC_TRIGGER_PIN, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF);
-    GPIO_Init(GPIO_PORTC, ULTRASONIC_ECHO_PIN, GPIO_DIGITAL, GPIO_INPUT, GPIO_AF_DEF);
-}
 
-/***
-* @brief    : Configures interrupts for the Echo pin.
-* @param    : None
-* @return   : None
-***/
-//static void Ultrasonic_EnableInterrupts(void)
-//{
-//    /* 1. Global Interrupt Enable (I-bit) */
-//    Enable_Exceptions();
-//
-//    /* 2. NVIC Priority Configuration */
-//    NVIC_PRI0_REG = (NVIC_PRI0_REG & ~GPIO_PORTB_PRIORITY_MASK) | (GPIO_PORTB_INTERRUPT_PRIORITY << GPIO_PORTB_PRIORITY_BITS_POS);
-//
-//    /* 3. NVIC Interrupt Enable for GPIO Port B */
-//    NVIC_EN0_REG |= (1 << 1); /* Interrupt number 1 for Port B */
-//}
 /*** ===================== Private Function Section End ======================= ***/
 
 /*** ===================== Public Function Section Start ===================== ***/
@@ -70,11 +40,36 @@ static void GPIO_SetupUltrasonicPins(void)
 ***/
 void Ultrasonic_Init(void)
 {
-    GPIO_SetupUltrasonicPins();
-//    Ultrasonic_EnableInterrupts();
-//
-//    /* Configure SysTick Timer */
-//    SysTick_Init(SYSTICK_MAX_RELOAD_VALUE);
+    // Enable the clock for Port D
+    SYSCTL_RCGCGPIO_REG |= (1 << 4); // Set bit 4 of SYSCTL_RCGCGPIO_REG to enable GPIO Port D clock
+    while ((SYSCTL_PRGPIO_REG & 0x05) == 0); // Wait for GPIO Port D to be ready
+
+    // Disable analog functionality on Port D pins
+    GPIO_PORTE_AMSEL_REG = 0x00; // Disable analog mode on all pins of Port D
+
+    // Set Port D pin control register to 0 for default function
+    GPIO_PORTE_PCTL_REG = 0xFF00FFFF; // Set PCTL to 0 for default GPIO functionality on all pins
+
+    // Configure Ultrasonic Trigger pin as digital output
+    GPIO_Init(ULTRASONIC_TRIGGER_PORT, ULTRASONIC_TRIGGER_PIN, GPIO_DIGITAL, GPIO_OUTPUT, GPIO_AF_DEF);
+
+    // Configure Ultrasonic Echo pin as digital input
+    GPIO_Init(ULTRASONIC_ECHO_PORT, ULTRASONIC_ECHO_PIN, GPIO_DIGITAL, GPIO_INPUT, GPIO_AF_DEF);
+}
+
+
+/***
+* @brief    : Sends a trigger pulse to the Ultrasonic Sensor.
+* @param    : None
+* @return   : None
+***/
+void Ultrasonic_Trigger(void)
+{
+    GPIO_DigitalWrite(ULTRASONIC_TRIGGER_PORT, ULTRASONIC_TRIGGER_PIN, LOW);
+    SysTick_DelayUs(10);
+    GPIO_DigitalWrite(ULTRASONIC_TRIGGER_PORT, ULTRASONIC_TRIGGER_PIN, HIGH);
+    SysTick_DelayUs(10);
+    GPIO_DigitalWrite(ULTRASONIC_TRIGGER_PORT, ULTRASONIC_TRIGGER_PIN, LOW);
 }
 
 /***
@@ -84,33 +79,29 @@ void Ultrasonic_Init(void)
 ***/
 uint32 Ultrasonic_GetDistance(void)
 {
-    /* Send Trigger Pulse */
-    //GPIO_PORTB_DATA_REG |= (1 << ULTRASONIC_TRIGGER_PIN);
-    GPIO_DigitalWrite(GPIO_PORTC, ULTRASONIC_TRIGGER_PIN, 0);
-    SysTick_DelayUs(10); /* Delay 10us Pulse */
-    //GPIO_PORTB_DATA_REG &= ~(1 << ULTRASONIC_TRIGGER_PIN);
-    GPIO_DigitalWrite(GPIO_PORTC, ULTRASONIC_TRIGGER_PIN, 1);
-    SysTick_DelayUs(10);
-    GPIO_DigitalWrite(GPIO_PORTC, ULTRASONIC_TRIGGER_PIN, 0);
+    unsigned long measured_distance = 0;
+    unsigned long measured_time = 0;
+    Ultrasonic_Trigger();
 
     /* Wait for distance calculation to complete */
     //while (edge_detected);
 
     //return measured_distance;
-    while (GPIO_DigitalRead(GPIO_PORTC, ULTRASONIC_ECHO_PIN) == 0);
-    while (GPIO_DigitalRead(GPIO_PORTC, ULTRASONIC_ECHO_PIN) == 0)
+    while (GPIO_DigitalRead(ULTRASONIC_ECHO_PORT, ULTRASONIC_ECHO_PIN) == 0);
+    while (GPIO_DigitalRead(ULTRASONIC_ECHO_PORT, ULTRASONIC_ECHO_PIN) != 0)
     {
-        edge_detected++;
-        SysTick_DelayUs(1);
+        measured_time++;
+        SysTick_DelayUs(10);
     }
-    measured_distance = (edge_detected*340.0)/(2*1000); //to convert to cm
+    measured_distance = (measured_time * 340.0)/(2*1000); //to convert to cm
     return measured_distance;
 
 }
 
 
 
-void Monitor_DIST(void){
+void Monitor_DIST(void)
+{
     uint32 measured_Distance = Ultrasonic_GetDistance();
     if (measured_Distance < DISTANCE_THRESHOLD) {
         Log_Fault(DTC_DISTANCE );              // Log_Error(DTC_DISTANCE)in the EEPROM
