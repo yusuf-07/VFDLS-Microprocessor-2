@@ -115,7 +115,7 @@ char* Check_MotorB_status(void){
             return "W2-Open";
     }
     else{
-        return "NOchange";
+        return "W2-Close";
     }
 
 }
@@ -130,7 +130,7 @@ char* Check_MotorA_status(void)
             return "W1-Open";
     }
     else{
-        return "NOchange";
+        return "W1-Close";
 }
 }
 

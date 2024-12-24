@@ -18,6 +18,7 @@
 #include <_1_MCAL_Layer/EEPROM/EEPROM.h>
 #include <_1_MCAL_Layer/MCAL_STD_TYPES.h>
 #include <_2_ECU_Layer/DC_MOTOR/DC_MOTOR.h>
+#include <_2_ECU_Layer/Flex_Sensor/Flex_Sensor.h>
 #include <_2_ECU_Layer/LCD/LCD.h>
 #include <_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.h>
 #include <_2_ECU_Layer/Ultrasonic/ULTRASONIC.h>
@@ -30,7 +31,8 @@ static volatile uint8 motorB_state = 0;  // 0: Stop, 1: Start CCW, 2: Start CW
 
 static volatile uint8 MotorA_Status = 0;
 static volatile uint8 MotorB_Status = 0;
-
+#define NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND    364
+static void Delay_MS(unsigned long long n);
 /*** ================= Global Declaration Section Start ==================== ***/
 void System_Init(void);
 void Monitor_Subsystems(void);
@@ -43,74 +45,81 @@ void Stop_System(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 
-int main(void)
-{
-
-    System_Init();
-    UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-    while (1)
-    {
-
-
-        char command = UART0_ReceiveByte();        // Read command from the terminal
-        UART0_SendByte(command);
-        switch(command){
-        case '1':
-            Start_Operation();
-            break;
-        case '2':
-            Retrieve_Faults();
-            break;
-        case '3':
-            Stop_System();
-            //UART0_SendString("System Terminated.\n");
-            break;
-        default:
-            //UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-            break;
-        }
-
-    }
-}
 //int main(void)
 //{
-//    char last_command = '\0'; // Variable to track the last command
+//
+//
 //    System_Init();
-//
-//    UART0_SendString("Please Enter one of these values (1, 2, 3):\n");
-//
+//    //Clear_Logged_Errors();
+//    UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
 //    while (1)
 //    {
+//
+//
 //        char command = UART0_ReceiveByte();        // Read command from the terminal
-//        //UART0_SendByte(command);
-//
-//        // Process the command only if it's different from the last command
-//        if (command != last_command)
-//        {
-//            last_command = command; // Update the last command
-//
-//            switch (command)
-//            {
-//                case '1':
-//                    Start_Operation();
-//                    break;
-//
-//                case '2':
-//                    Retrieve_Faults();
-//                    break;
-//
-//                case '3':
-//                    Stop_System();
-//                    UART0_SendString("System Terminated.\n");
-//                    break;
-//
-//                default:
-//                    UART0_SendString("Invalid command. Please enter 1, 2, or 3:\n");
-//                    break;
-//            }
+//        UART0_SendByte(command);
+//        switch(command){
+//        case '1':
+//            Start_Operation();
+//            break;
+//        case '2':
+//            Retrieve_Faults();
+//            break;
+//        case '3':
+//            Stop_System();
+//            UART0_SendString("System Terminated.\n");
+//            break;
+//        default:
+//            //UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+//            break;
 //        }
+//
 //    }
 //}
+int main(void)
+{
+    char last_command = '\0'; // Variable to track the last command
+    System_Init();
+    //Clear_Logged_Errors();
+
+    UART0_SendString("Please Enter one of these values (1, 2, 3):\n");
+
+    while (last_command != 1)
+    {
+        char command = UART0_ReceiveByte();        // Read command from the terminal
+        //UART0_SendByte(command);
+        if (command != 0xFF)
+        {
+
+            switch (command)
+                        {
+                            case '1':
+                                Start_Operation();
+                                break;
+
+                            case '2':
+                                Retrieve_Faults();
+                                break;
+
+                            case '3':
+                                Stop_System();
+                                UART0_SendString("System Terminated.\n");
+                                last_command = 1; //termination flag
+                                break;
+                            case '4':  // Display flex sensor readings
+                                UART0_SendString("Fetching Flex Sensor Pressure...\n");
+                                Display_Pressure(); // Call function to display pressure
+                                break;
+
+                            default:
+                                UART0_SendString("Invalid command. Please enter 1, 2, or 3:\n");
+                                break;
+                        }
+        }
+
+
+        }
+}
 
 /*** ===================== System Initialization ======================= ***/
 void System_Init(void){
@@ -119,6 +128,7 @@ void System_Init(void){
    UART0_Init();
    SysTick_Init();
    ADC0_Init();
+   ADC1_Init(ADC_CHANNEL5);
 
    /* initializing the EEPROM */
      if (EEPROM_INIT() == E_OK) {
@@ -130,7 +140,7 @@ void System_Init(void){
 
    LCD_4BITS_INIT();
    LCD_4BITS_send_string("LETS START");
-   SysTick_DelayMs(1000);
+   Delay_MS(1000);
    LCD_4BITS_send_command(LCD_CLEAR);
    Ultrasonic_Init();
    UART0_SendString("Ultra\n");
@@ -156,10 +166,15 @@ void Start_Operation(void)
             char command = UART0_ReceiveByte();        // Read command from the terminal
 
             Monitor_Subsystems();
-            SysTick_DelayMs(500);
+            Delay_MS(500);
             Update_LCD();
+            if(command == '2')
+            {
+                UART0_SendString("Exiting System Operations\n");
+                break;
+            }
 
-            if(command=='3'){
+            else if(command=='3'){
                 Stop_System();
                 UART0_SendString("System Terminated.\n");
                 break;
@@ -242,5 +257,11 @@ char* To_String_Dist(uint32 number) {
 void Stop_System(void){
     LCD_4BITS_send_command(LCD_CLEAR);
     DC_MOTORA_STOP();
+    GPIO_PORTB_DATA_REG &= ~ (1<<ENA_PIN);
     DC_MOTORB_STOP();
+    GPIO_PORTB_DATA_REG &= ~ (1<<ENB_PIN);
+}
+void Delay_MS(unsigned long long n){
+    volatile unsigned long long count = 0;
+    while(count++ < (NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND * n));
 }

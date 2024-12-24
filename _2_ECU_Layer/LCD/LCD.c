@@ -7,11 +7,11 @@
 
 #include "LCD.h"
 #define NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND    364
-
+static void Delay_MS(unsigned long long n);
 static void LCD_4BITS_SET_CURSOR(uint8 row, uint8 column);
 static void lcd_send_4bits(uint8 _data_command);
 static void lcd_send_enable_4bits(void);
-static void Delay_MS(unsigned long long n);
+
 /* ====================== LCD =========================== */
 /*
  * Port A Pin 3 for Data Line

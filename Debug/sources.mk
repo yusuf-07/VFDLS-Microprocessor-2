@@ -119,6 +119,7 @@ _1_MCAL_Layer/INTERRUPT \
 _1_MCAL_Layer/SYSTICK_TIMER \
 _1_MCAL_Layer/UART \
 _2_ECU_Layer/DC_MOTOR \
+_2_ECU_Layer/Flex_Sensor \
 _2_ECU_Layer/LCD \
 _2_ECU_Layer/LM35 \
 _2_ECU_Layer/PUSH_BUTTONS \

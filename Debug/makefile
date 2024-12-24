@@ -18,6 +18,7 @@ ORDERED_OBJS += \
 "./_1_MCAL_Layer/SYSTICK_TIMER/SYSTICK_TIMER.obj" \
 "./_1_MCAL_Layer/UART/UART.obj" \
 "./_2_ECU_Layer/DC_MOTOR/DC_MOTOR.obj" \
+"./_2_ECU_Layer/Flex_Sensor/Flex_Sensor.obj" \
 "./_2_ECU_Layer/LCD/LCD.obj" \
 "./_2_ECU_Layer/LM35/LM35.obj" \
 "./_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.obj" \
@@ -45,6 +46,7 @@ RMDIR := RMDIR /S/Q
 -include _1_MCAL_Layer/SYSTICK_TIMER/subdir_vars.mk
 -include _1_MCAL_Layer/UART/subdir_vars.mk
 -include _2_ECU_Layer/DC_MOTOR/subdir_vars.mk
+-include _2_ECU_Layer/Flex_Sensor/subdir_vars.mk
 -include _2_ECU_Layer/LCD/subdir_vars.mk
 -include _2_ECU_Layer/LM35/subdir_vars.mk
 -include _2_ECU_Layer/PUSH_BUTTONS/subdir_vars.mk
@@ -58,6 +60,7 @@ RMDIR := RMDIR /S/Q
 -include _1_MCAL_Layer/SYSTICK_TIMER/subdir_rules.mk
 -include _1_MCAL_Layer/UART/subdir_rules.mk
 -include _2_ECU_Layer/DC_MOTOR/subdir_rules.mk
+-include _2_ECU_Layer/Flex_Sensor/subdir_rules.mk
 -include _2_ECU_Layer/LCD/subdir_rules.mk
 -include _2_ECU_Layer/LM35/subdir_rules.mk
 -include _2_ECU_Layer/PUSH_BUTTONS/subdir_rules.mk
@@ -180,8 +183,8 @@ VFDLS\ -\ Micro\ Project.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" "_3_APP_Layer\tests.obj" "_3_APP_Layer\x.obj" 
-	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" "_3_APP_Layer\tests.d" "_3_APP_Layer\x.d" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.obj" "_1_MCAL_Layer\ADC\ADC.obj" "_1_MCAL_Layer\EEPROM\EEPROM.obj" "_1_MCAL_Layer\GPIO\GPIO.obj" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.obj" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.obj" "_1_MCAL_Layer\UART\UART.obj" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.obj" "_2_ECU_Layer\Flex_Sensor\Flex_Sensor.obj" "_2_ECU_Layer\LCD\LCD.obj" "_2_ECU_Layer\LM35\LM35.obj" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.obj" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.obj" "_3_APP_Layer\Testcases.obj" "_3_APP_Layer\main.obj" "_3_APP_Layer\tests.obj" "_3_APP_Layer\x.obj" 
+	-$(RM) "tm4c123gh6pm_startup_ccs.d" "_1_MCAL_Layer\ADC\ADC.d" "_1_MCAL_Layer\EEPROM\EEPROM.d" "_1_MCAL_Layer\GPIO\GPIO.d" "_1_MCAL_Layer\INTERRUPT\INTERRUPT.d" "_1_MCAL_Layer\SYSTICK_TIMER\SYSTICK_TIMER.d" "_1_MCAL_Layer\UART\UART.d" "_2_ECU_Layer\DC_MOTOR\DC_MOTOR.d" "_2_ECU_Layer\Flex_Sensor\Flex_Sensor.d" "_2_ECU_Layer\LCD\LCD.d" "_2_ECU_Layer\LM35\LM35.d" "_2_ECU_Layer\PUSH_BUTTONS\PUSH_BUTTONS.d" "_2_ECU_Layer\Ultrasonic\ULTRASONIC.d" "_3_APP_Layer\Testcases.d" "_3_APP_Layer\main.d" "_3_APP_Layer\tests.d" "_3_APP_Layer\x.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

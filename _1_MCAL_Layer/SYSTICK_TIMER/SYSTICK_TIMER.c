@@ -57,7 +57,7 @@ void SysTick_DelayMs(uint32 delay_in_ms)
     uint32 i; // Loop variable
     for (i = 0; i < delay_in_ms; i++)
     {
-        SysTick_Delay(8000); // Delay 1 ms by calling SysTick_Delay(1000) for 1 µs delay
+        SysTick_Delay(1000); // Delay 1 ms by calling SysTick_Delay(1000) for 1 µs delay
     }
 }
 
