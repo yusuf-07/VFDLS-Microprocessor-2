@@ -64,14 +64,21 @@ void DC_MOTORA_START(DC_DIR_T DCdir){
 /**
  * @brief Stop MOTOR A
  */
+#define NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND    364
+static void Delay_MS(unsigned long long n);
+
+void Delay_MS(unsigned long long n){
+    volatile unsigned long long count = 0;
+    while(count++ < (NUMBER_OF_ITERATIONS_PER_ONE_MILI_SECOND * n));
+}
 void DC_MOTORA_STOP(void){
     //To avoid high voltage resulting in back emf
     GPIO_PORTB_DATA_REG |= (1<<IN1_PIN);    //IN1 = 1
     GPIO_PORTB_DATA_REG |= (1<<IN2_PIN);    //IN2 = 1
     GPIO_PORTB_DATA_REG |= (1<<ENA_PIN);    //ENA = 1
-    SysTick_DelayMs(100);
+    Delay_MS(100);
     //To stop MOTOR A IN1 = 0, IN2 = 0
-    GPIO_PORTB_DATA_REG &= ~ (1<<ENA_PIN);
+    //GPIO_PORTB_DATA_REG &= ~ (1<<ENA_PIN);
     GPIO_PORTB_DATA_REG &= ~ (1<<IN1_PIN);    //IN1 = 0 (Forward off)
     GPIO_PORTB_DATA_REG &= ~ (1<<IN2_PIN);    //IN2 = 0 (Reverse off)
 }
@@ -131,9 +138,9 @@ void DC_MOTORB_STOP(void){
     GPIO_PORTB_DATA_REG |= (1<<IN3_PIN);    //IN1 = 1
     GPIO_PORTB_DATA_REG |= (1<<IN4_PIN);    //IN2 = 1
     GPIO_PORTB_DATA_REG |= (1<<ENB_PIN);    //ENA = 1
-    SysTick_DelayMs(100);
+    Delay_MS(100);
     //To stop MOTOR B IN3 = 0, IN4 = 0
-    GPIO_PORTB_DATA_REG &= ~ (1<<ENB_PIN);
+    //GPIO_PORTB_DATA_REG &= ~ (1<<ENB_PIN);
     GPIO_PORTB_DATA_REG &= ~ (1<<IN3_PIN);    //IN3 = 0 (Forward off)
     GPIO_PORTB_DATA_REG &= ~ (1<<IN4_PIN);    //IN4 = 0 (Reverse off)
 }

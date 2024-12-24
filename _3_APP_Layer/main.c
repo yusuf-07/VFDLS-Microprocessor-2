@@ -25,6 +25,11 @@
 
 /*** ===================== Include Section End ============================= ***/
 
+static volatile uint8 motorA_state = 0;  // 0: Stop, 1: Start CCW, 2: Start CW
+static volatile uint8 motorB_state = 0;  // 0: Stop, 1: Start CCW, 2: Start CW
+
+static volatile uint8 MotorA_Status = 0;
+static volatile uint8 MotorB_Status = 0;
 
 /*** ================= Global Declaration Section Start ==================== ***/
 void System_Init(void);
@@ -38,74 +43,74 @@ void Stop_System(void);
 /*** ================= Global Declaration Section End ====================== ***/
 
 
-//int main(void)
-//{
-//
-//    System_Init();
-//    UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-//    while (1)
-//    {
-//
-//
-//        char command = UART0_ReceiveByte();        // Read command from the terminal
-//        UART0_SendByte(command);
-//        switch(command){
-//        case '1':
-//            Start_Operation();
-//            break;
-//        case '2':
-//            Retrieve_Faults();
-//            break;
-//        case '3':
-//            Stop_System();
-//            //UART0_SendString("System Terminated.\n");
-//            break;
-//        default:
-//            //UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
-//            break;
-//        }
-//
-//    }
-//}
 int main(void)
 {
-    char last_command = '\0'; // Variable to track the last command
+
     System_Init();
-
-    UART0_SendString("Please Enter one of these values (1, 2, 3):\n");
-
+    UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
     while (1)
     {
+
+
         char command = UART0_ReceiveByte();        // Read command from the terminal
-        //UART0_SendByte(command);
-
-        // Process the command only if it's different from the last command
-        if (command != last_command)
-        {
-            last_command = command; // Update the last command
-
-            switch (command)
-            {
-                case '1':
-                    Start_Operation();
-                    break;
-
-                case '2':
-                    Retrieve_Faults();
-                    break;
-
-                case '3':
-                    Stop_System();
-                    // UART0_SendString("System Terminated.\n");
-                    break;
-
-                default:
-                    UART0_SendString("Invalid command. Please enter 1, 2, or 3:\n");
-                    break;
-            }
+        UART0_SendByte(command);
+        switch(command){
+        case '1':
+            Start_Operation();
+            break;
+        case '2':
+            Retrieve_Faults();
+            break;
+        case '3':
+            Stop_System();
+            //UART0_SendString("System Terminated.\n");
+            break;
+        default:
+            //UART0_SendString("Please Enter one of these values (1, 2, 3) .\n");
+            break;
         }
+
     }
 }
+//int main(void)
+//{
+//    char last_command = '\0'; // Variable to track the last command
+//    System_Init();
+//
+//    UART0_SendString("Please Enter one of these values (1, 2, 3):\n");
+//
+//    while (1)
+//    {
+//        char command = UART0_ReceiveByte();        // Read command from the terminal
+//        //UART0_SendByte(command);
+//
+//        // Process the command only if it's different from the last command
+//        if (command != last_command)
+//        {
+//            last_command = command; // Update the last command
+//
+//            switch (command)
+//            {
+//                case '1':
+//                    Start_Operation();
+//                    break;
+//
+//                case '2':
+//                    Retrieve_Faults();
+//                    break;
+//
+//                case '3':
+//                    Stop_System();
+//                    UART0_SendString("System Terminated.\n");
+//                    break;
+//
+//                default:
+//                    UART0_SendString("Invalid command. Please enter 1, 2, or 3:\n");
+//                    break;
+//            }
+//        }
+//    }
+//}
 
 /*** ===================== System Initialization ======================= ***/
 void System_Init(void){
@@ -170,7 +175,8 @@ void Monitor_Subsystems(void){
     Monitor_DIST();
 }
 
-void Update_LCD(void){
+void Update_LCD(void)
+{
     LCD_4BITS_send_command(LCD_CLEAR);
     uint64 engineTemperature = (LM35_GET_TEMP()+17);              /* Taking the temperature readings*/
     uint64 measured_Distance = Ultrasonic_GetDistance();     /* Taking the distance readings */
@@ -179,22 +185,34 @@ void Update_LCD(void){
     char* temp = To_String_Temp(engineTemperature);  // Ensure To_String returns a pointer to a valid string
     char* dist = To_String_Dist(measured_Distance);
 
-    // Retrieve motor statuses as strings
-    const char* motorA_status = Check_MotorA_status();
-    const char* motorB_status = Check_MotorB_status();
 
     // Display temperature
     //LCD_4BITS_send_string_position((uint8_t*)"Temp=", 1, 0);
     LCD_4BITS_send_string("Temp=");
     LCD_4BITS_send_string_position((uint8*)temp, 1, 6);
+    if (measured_Distance < 20)
+    {
+        // Display distance
+        LCD_4BITS_send_string_position((uint8*)"Dist=", 2, 0);
+        LCD_4BITS_send_string_position((uint8*)dist, 2, 6);
+    }
+    else
+    {
+        LCD_4BITS_send_string_position("OutofRange",2,0);
+    }
 
-    // Display distance
-    LCD_4BITS_send_string_position((uint8*)"Dist=", 2, 0);
-    LCD_4BITS_send_string_position((uint8*)dist, 2, 6);
 
+
+    // Retrieve motor statuses as strings
+    const char* motorA_status = Check_MotorA_status();
     // Display motor statuses
     LCD_4BITS_send_string_position((uint8*)motorA_status, 1, 9);
+
+    // Retrieve motor statuses as strings
+    const char* motorB_status = Check_MotorB_status();
+    // Display motor statuses
     LCD_4BITS_send_string_position((uint8*)motorB_status, 2, 9);
+
 }
 
 char* To_String_Temp(uint32 number) {

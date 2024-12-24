@@ -11,7 +11,8 @@
 /*** ===================== Include Section Start =========================== ***/
 #include <_2_ECU_Layer/PUSH_BUTTONS/PUSH_BUTTONS.h>
 /*** ===================== Include Section End ============================= ***/
-
+static volatile uint8 MotorA_Status;
+static volatile uint8 MotorB_Status;
 /*** ================ Sub-program Details Section Start ==================== ***/
 
 /***
@@ -122,32 +123,35 @@ char* Check_MotorB_status(void){
 
 char* Check_MotorA_status(void)
 {
-    if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0){  //check if PF4 is pressed then window 1 (Motor A) is counterclockwise (closed)
+    if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0){   //check if PB0 is pressed then window 2 (Motor B) is counterclockwise (closed)
              return "W1-Close";
     }
-    else if(GET_BIT(GPIO_PORTF_DATA_REG,0) == 0){ //check if PF0 is pressed then window 1 (Motor A) is clockwise (open)
+    else if(GET_BIT(GPIO_PORTF_DATA_REG,4) == 0){  //check if PB1 is pressed then window 2 (Motor B) is clockwise (open)
             return "W1-Open";
     }
     else{
-        return "NoChange";
-    }
+        return "NOchange";
+}
 }
 
 void checkPF4(void) {
     // Check if PF4 is pressed (active low)
     if (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0) {
-        DC_MOTORA_START(DIR_CCW);  // Start Motor A counterclockwise
+        MotorA_Status = 1;// Start Motor A counterclockwise
     } else {
-        DC_MOTORA_STOP();          // Stop Motor A
+        DC_MOTORA_STOP();
+        MotorA_Status = 0;// Stop Motor A
     }
 }
 
 void checkPF0(void) {
     // Check if PF0 is pressed (active low)
     if (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0) {
-        DC_MOTORA_START(DIR_CW);   // Start Motor A clockwise
+        //DC_MOTORA_START(DIR_CW);   // Start Motor A clockwise
+        MotorA_Status = 2;
     } else {
-        DC_MOTORA_STOP();          // Stop Motor A
+        //DC_MOTORA_STOP();          // Stop Motor A
+        MotorA_Status = 0;
     }
 }
 

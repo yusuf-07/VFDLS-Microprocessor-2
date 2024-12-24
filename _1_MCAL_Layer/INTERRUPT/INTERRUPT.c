@@ -9,9 +9,12 @@
 ***/
 
 #include <_1_MCAL_Layer/INTERRUPT/INTERRUPT.h>
+#include <_2_ECU_Layer/LCD/LCD.h>
 static volatile uint8 motorA_state;  // 0: Stop, 1: Start CCW, 2: Start CW
 static volatile uint8 motorB_state;  // 0: Stop, 1: Start CCW, 2: Start CW
 static volatile uint8 motor_active;
+static volatile uint8 motorA_flag;
+static volatile uint8 motorB_flag;
 /*** ===================== Public Function Section Start ===================== ***/
 /***
 * @brief    : GPIO Interrupt Handler for Port A
@@ -31,27 +34,33 @@ void GPIOPortA_Handler(void)
 * @param    : None
 * @return   : None
 ***/
+
 void GPIOPortB_Handler(void)
 {
+    if (GET_BIT(GPIO_PORTB_RIS_REG, 0) == 1) { /* Check if SW2 on PB0 is pressed */
+        DC_MOTORB_START(DIR_CCW);             /* Start Motor B counterclockwise */
+        //motorA_state = 1;
+        LCD_4BITS_send_string_position("W2-Close", 2, 9);
+        /* Wait for button release */
+        while (GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0);
 
-   if(GET_BIT(GPIO_PORTB_RIS_REG,0) == 1){             /* check if SW2 on PB0  is pressed*/
+        DC_MOTORB_STOP();                     /* Stop Motor B */
 
-        DC_MOTORB_START(DIR_CCW);                            /* Start Motor B counterclockwise*/
-
-        while(GET_BIT(GPIO_PORTB_DATA_REG, 0) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORB_STOP();                                    /* Stop Motor B */
-        GPIO_PORTB_ICR_REG |= (1 << 0);                      /* Clear interrupt flag */
+        GPIO_PORTB_ICR_REG |= (1 << 0);       /* Clear interrupt flag */
     }
-    else if(GET_BIT(GPIO_PORTB_RIS_REG,1) == 1){             /* check if SW3 on PB1  is pressed*/
 
-        DC_MOTORB_START(DIR_CW);                            /* Start Motor B clockwise*/
+    if (GET_BIT(GPIO_PORTB_RIS_REG, 1) == 1) { /* Check if SW3 on PB1 is pressed */
+        DC_MOTORB_START(DIR_CW);              /* Start Motor B clockwise */
+        //motorA_state = 2;
+        LCD_4BITS_send_string_position("W2-Open", 2, 9);
 
-        while(GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORB_STOP();                                    /* Stop Motor B */
-        GPIO_PORTB_ICR_REG |= (1 << 1);                      /* Clear interrupt flag */
+        /* Wait for button release */
+        while (GET_BIT(GPIO_PORTB_DATA_REG, 1) == 0);
+
+        DC_MOTORB_STOP();                     /* Stop Motor B */
+        GPIO_PORTB_ICR_REG |= (1 << 1);       /* Clear interrupt flag */
     }
 }
-
 
 /***
 * @brief    : GPIO Interrupt Handler for Port C
@@ -99,24 +108,29 @@ void GPIOPortE_Handler(void)
 ***/
 void GPIOPortF_Handler(void)
 {
-    if(GET_BIT(GPIO_PORTF_RIS_REG,4) == 1){                  /* check if SW0 on PF4  is pressed*/
+    if (GET_BIT(GPIO_PORTF_RIS_REG, 4) == 1) { /* Check if SW0 on PF4 is pressed */
+        DC_MOTORA_START(DIR_CCW);             /* Start Motor A counterclockwise */
+        // Display motor statuses
+        LCD_4BITS_send_string_position("W1-Close", 1, 9);
 
-        DC_MOTORA_START(DIR_CCW);                            /* Start Motor A counterclockwise*/
+        /* Wait for button release */
+        while (GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0);
 
-        while(GET_BIT(GPIO_PORTF_DATA_REG, 4) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORA_STOP();                                    /* Stop Motor A */
-        GPIO_PORTF_ICR_REG |= (1 << 4);                      /* Clear interrupt flag */
+        DC_MOTORA_STOP();                     /* Stop Motor A */
+        GPIO_PORTF_ICR_REG |= (1 << 4);       /* Clear interrupt flag */
     }
-    else if(GET_BIT(GPIO_PORTF_RIS_REG,0) == 1){             /* check if SW1 on PF0 is pressed*/
 
-        DC_MOTORA_START(DIR_CW);                            /* Start Motor A clockwise*/
+    if (GET_BIT(GPIO_PORTF_RIS_REG, 0) == 1) { /* Check if SW1 on PF0 is pressed */
+        DC_MOTORA_START(DIR_CW);              /* Start Motor A clockwise */
+        LCD_4BITS_send_string_position("W1-Open", 1, 9);
 
-        while(GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0);         /* Busy-waiting until the switch is released */
-        DC_MOTORA_STOP();                                    /* Stop Motor A */
-        GPIO_PORTF_ICR_REG |= (1 << 0);                      /* Clear interrupt flag */
+        /* Wait for button release */
+        while (GET_BIT(GPIO_PORTF_DATA_REG, 0) == 0);
+
+        DC_MOTORA_STOP();                     /* Stop Motor A */
+        GPIO_PORTF_ICR_REG |= (1 << 0);       /* Clear interrupt flag */
     }
 }
-
 
 /**
 *******************************************************

@@ -37,7 +37,7 @@
 #define GPIO_PORTC_INTERRUPT_PRIORITY     2
 
 /* Macros used foe error logging */
-#define DISTANCE_THRESHOLD          10                         /* Distance threshold */
+#define DISTANCE_THRESHOLD          1                         /* Distance threshold */
 #define DTC_DISTANCE               "P001"                     /* Diagnostic code for ACCIDENT_MIGHT_HAPPEN */
 #define DIST_ERROR                 "ACCIDENT_MIGHT_HAPPEN"   /* Error description that the Distance < 10cm*/
 
